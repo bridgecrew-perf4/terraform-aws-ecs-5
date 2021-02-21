@@ -1,19 +1,11 @@
 # Terraform module for ECS
 
 Note: This module is to create one ECS cluster with one task and container
-
-## Requirements
-
-| Name | Version |
-|------|---------|
-| terraform | >= 0.12 |
-| aws | ~> 2.61 |
-
 ## Providers
 
 | Name | Version |
 |------|---------|
-| aws | ~> 2.61 |
+| aws | n/a |
 | template | n/a |
 
 ## Inputs
@@ -49,6 +41,7 @@ Note: This module is to create one ECS cluster with one task and container
 | enable\_monitoring | enable monitoring of launch configuration | `string` | `"false"` | no |
 | entrypoint | The entry point that is passed to the container | `list` | `[]` | no |
 | environment | The environment variables to pass to the container. This is a list of maps | `list(map(string))` | `[]` | no |
+| environment\_files | One or more files containing the environment variables to pass to the container. This maps to the --env-file option to docker run. The file must be hosted in Amazon S3. This option is only available to tasks using the EC2 launch type. This is a list of maps | <pre>list(object({<br>    value = string<br>    type  = string<br>  }))</pre> | `null` | no |
 | essential | n/a | `string` | `"true"` | no |
 | evaluate\_target\_health | evaluate route53 health | `bool` | `true` | no |
 | execution\_role\_arn | The Amazon Resource Name (ARN) of the task execution role that the Amazon ECS container agent and the Docker daemon can assume. | `string` | `""` | no |
@@ -66,7 +59,8 @@ Note: This module is to create one ECS cluster with one task and container
 | key\_name | The SSH key name (NOTE: key should pre-exist) | `any` | n/a | yes |
 | launch\_type | (Optional) The launch type on which to run your service. The valid values are EC2 and FARGATE. Defaults to EC2 | `string` | `"EC2"` | no |
 | lb\_action\_type | load balancer action type | `string` | `"forward"` | no |
-| lb\_protocol | type of load balancer (e.g. HTTP, TCP, etc | `string` | `""` | no |
+| lb\_port | n/a | `list` | <pre>[<br>  80<br>]</pre> | no |
+| lb\_protocol | type of load balancer (e.g. HTTP, TCP, etc) | `string` | `""` | no |
 | lb\_type | load balancer type (network or application | `string` | `""` | no |
 | log\_configuration | ecs log group configuration | `any` | `{}` | no |
 | memory\_reservation | The soft limit (in MiB) of memory to reserve for the container. When system memory is under contention, Docker attempts to keep the container memory to this soft limit | `string` | `""` | no |
@@ -87,14 +81,15 @@ Note: This module is to create one ECS cluster with one task and container
 | secrets | The secrets to pass to the container | `list(map(string))` | `[]` | no |
 | security\_groups\_to\_use | existing security groups to use | `any` | `null` | no |
 | spot-instance-price | Set to blank to use on-demand pricing | `string` | `""` | no |
-| task\_cpu | Fargate instance CPU units to provision (1 vCPU = 1024 CPU units) | `string` | `256` | no |
+| task\_cpu | Fargate instance CPU units to provision (1 vCPU = 1024 CPU units) | `string` | `null` | no |
 | task\_instance\_count | number of instances of the task definition to place and keep running. | `number` | `1` | no |
-| task\_memory | Fargate instance memory to provision (in MiB) | `number` | `3096` | no |
+| task\_memory | Instance memory to provision (in MiB) | `number` | `512` | no |
 | task\_role\_arn | The short name or full Amazon Resource Name (ARN) of the IAM role that containers in this task can assume | `string` | `""` | no |
 | teamid | (Required) Name of the team/group e.g. devops, dataengineering. Should not be changed after running 'tf apply' | `any` | n/a | yes |
 | ttl | (Optional) DNS timeout | `string` | `"300"` | no |
 | type\_of\_record | (Optional) type of DNS record | `string` | `"A"` | no |
 | unhealthy\_threshold | target group unheathy healthcheck threshold | `string` | `""` | no |
+| user\_data\_file\_path | ec2 user data location | `string` | `"scripts/userdata.sh"` | no |
 | volumes | volume to mount to ecs container | <pre>list(object({<br>    name        = string<br>    host_path   = string<br>  }))</pre> | n/a | yes |
 
 ## Outputs
@@ -112,4 +107,3 @@ Note: This module is to create one ECS cluster with one task and container
 | security\_group\_id | The ID of the default security group associated with the ECS container instances. |
 | target\_group\_arn | n/a |
 | task\_definition\_arn | The full Amazon Resource Name (ARN) of the task definition |
-

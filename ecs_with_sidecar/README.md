@@ -1,19 +1,11 @@
 # Terraform module for ECS
 
-Note: This module is to create one ECS cluster with one task and container
-
-## Requirements
-
-| Name | Version |
-|------|---------|
-| terraform | >= 0.12 |
-| aws | ~> 2.61 |
-
+Note: This module is to create one ECS cluster with sidecar
 ## Providers
 
 | Name | Version |
 |------|---------|
-| aws | ~> 2.61 |
+| aws | n/a |
 | template | n/a |
 
 ## Inputs
@@ -23,8 +15,10 @@ Note: This module is to create one ECS cluster with one task and container
 | account\_id | (Required) AWS account id (used to pull values from shared base module like vpc info, subnet ids) | `any` | n/a | yes |
 | alb\_action\_type | n/a | `string` | `"forward"` | no |
 | alb\_cert\_arn | alb cert arn | `string` | `""` | no |
+| alb\_cert\_arn\_sidecar | n/a | `string` | `""` | no |
 | alb\_protocol | n/a | `string` | `"HTTP"` | no |
 | alb\_ssl\_policy | alb ssl policy | `string` | `""` | no |
+| alb\_ssl\_policy\_sidecar | n/a | `string` | `""` | no |
 | alb\_type | n/a | `string` | `"application"` | no |
 | asg\_cooldown | time between a scaling activity and the succeeding scaling activity | `string` | `"300"` | no |
 | asg\_desired | The desired number of instances for the autoscaling group | `number` | `1` | no |
@@ -56,6 +50,8 @@ Note: This module is to create one ECS cluster with one task and container
 | entrypoint | The entry point that is passed to the container | `list` | `[]` | no |
 | entrypoint\_sidecar | The entry point that is passed to the container | `list` | `[]` | no |
 | environment | The environment variables to pass to the container. This is a list of maps | `list(map(string))` | `[]` | no |
+| environment\_files | One or more files containing the environment variables to pass to the container. This maps to the --env-file option to docker run. The file must be hosted in Amazon S3. This option is only available to tasks using the EC2 launch type. This is a list of maps | <pre>list(object({<br>    value = string<br>    type  = string<br>  }))</pre> | `null` | no |
+| environment\_files\_sidecar | One or more files containing the environment variables to pass to the container. This maps to the --env-file option to docker run. The file must be hosted in Amazon S3. This option is only available to tasks using the EC2 launch type. This is a list of maps | <pre>list(object({<br>    value = string<br>    type  = string<br>  }))</pre> | `null` | no |
 | environment\_sidecar | The environment variables to pass to the container. This is a list of maps | `list(map(string))` | `[]` | no |
 | essential | n/a | `string` | `"true"` | no |
 | essential\_sidecar | n/a | `string` | `"true"` | no |
@@ -65,18 +61,26 @@ Note: This module is to create one ECS cluster with one task and container
 | force\_delete | forcefully delete asg | `string` | `"true"` | no |
 | healthcheck | The health check command and associated configuration parameters for the container | `any` | `{}` | no |
 | healthcheck\_interval | target group healthcheck interval | `string` | `""` | no |
+| healthcheck\_interval\_sidecar | n/a | `any` | n/a | yes |
 | healthcheck\_matcher | healthcheck matcher (e.g. 200) | `string` | `""` | no |
+| healthcheck\_matcher\_sidecar | n/a | `any` | n/a | yes |
 | healthcheck\_path | target group healthcheck path | `string` | `""` | no |
+| healthcheck\_path\_sidecar | n/a | `any` | n/a | yes |
 | healthcheck\_sidecar | The health check command and associated configuration parameters for the container | `any` | `{}` | no |
 | healthcheck\_timeout | target group healthcheck timeout | `string` | `""` | no |
+| healthcheck\_timeout\_sidecar | n/a | `any` | n/a | yes |
 | healthy\_threshold | target group healthcheck threshold | `string` | `""` | no |
+| healthy\_threshold\_sidecar | target group healthcheck threshold | `any` | n/a | yes |
 | iam\_instance\_profile\_to\_use | IAM instance profile | `any` | n/a | yes |
 | inst\_type | aws instance type | `string` | `"t2.medium"` | no |
 | is\_public | is the resource public | `string` | `"false"` | no |
 | key\_name | The SSH key name (NOTE: key should pre-exist) | `any` | n/a | yes |
 | launch\_type | (Optional) The launch type on which to run your service. The valid values are EC2 and FARGATE. Defaults to EC2 | `string` | `"EC2"` | no |
 | lb\_action\_type | load balancer action type | `string` | `"forward"` | no |
+| lb\_port | n/a | `list` | <pre>[<br>  80<br>]</pre> | no |
+| lb\_port\_sidecar | n/a | `any` | n/a | yes |
 | lb\_protocol | type of load balancer (e.g. HTTP, TCP, etc | `string` | `""` | no |
+| lb\_protocol\_sidecar | n/a | `string` | `"HTTP"` | no |
 | lb\_type | load balancer type (network or application | `string` | `""` | no |
 | log\_configuration | ecs log group configuration | `any` | `{}` | no |
 | log\_configuration\_sidecar | n/a | `any` | `{}` | no |
@@ -106,16 +110,18 @@ Note: This module is to create one ECS cluster with one task and container
 | secrets\_sidecar | The secrets to pass to the container | `list(map(string))` | `[]` | no |
 | security\_groups\_to\_use | Existing Security groups to use | `any` | `null` | no |
 | spot-instance-price | Set to blank to use on-demand pricing | `string` | `""` | no |
-| task\_cpu | Fargate instance CPU units to provision (1 vCPU = 1024 CPU units) | `string` | `256` | no |
+| task\_cpu | Fargate instance CPU units to provision (1 vCPU = 1024 CPU units) | `string` | `null` | no |
 | task\_cpu\_sidecar | Fargate instance CPU units to provision (1 vCPU = 1024 CPU units) | `string` | `256` | no |
 | task\_instance\_count | The number of instances of the task definition to place and keep running. | `number` | `1` | no |
-| task\_memory | Fargate instance memory to provision (in MiB) | `number` | `3096` | no |
+| task\_memory | Instance memory to provision (in MiB) | `number` | `512` | no |
 | task\_memory\_sidecar | n/a | `number` | `0` | no |
 | task\_role\_arn | The short name or full Amazon Resource Name (ARN) of the IAM role that containers in this task can assume | `string` | `""` | no |
 | teamid | (Required) Name of the team/group e.g. devops, dataengineering. Should not be changed after running 'tf apply' | `any` | n/a | yes |
 | ttl | (Optional) DNS timeout | `string` | `"300"` | no |
 | type\_of\_record | (Optional) type of DNS record | `string` | `"A"` | no |
 | unhealthy\_threshold | target group unheathy healthcheck threshold | `string` | `""` | no |
+| unhealthy\_threshold\_sidecar | target group unheathy healthcheck threshold | `any` | n/a | yes |
+| user\_data\_file\_path | ec2 user data location | `string` | `"scripts/userdata.sh"` | no |
 | volumes | volume to mount to ecs container | <pre>list(object({<br>    name        = string<br>    host_path   = string<br>  }))</pre> | n/a | yes |
 
 ## Outputs
@@ -129,7 +135,9 @@ Note: This module is to create one ECS cluster with one task and container
 | ecs\_service\_name | The name of the created ECS service. |
 | key\_used | The key used to create the resources |
 | launch\_configuration\_name | The name of the launch configuration for the ECS container instances. |
+| lb\_sidecar | n/a |
 | log\_group | The name of the default log group for the cluster. |
 | security\_group\_id | The ID of the default security group associated with the ECS container instances. |
 | target\_group\_arn | n/a |
 | task\_definition\_arn | The full Amazon Resource Name (ARN) of the task definition |
+
