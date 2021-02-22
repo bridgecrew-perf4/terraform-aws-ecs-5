@@ -20,9 +20,9 @@ Terraform module for [AWS ECS](https://www.terraform.io/docs/providers/aws/r/ecs
 
 ## For usage 
 
-- ECS: Please refer to example directory [link](example/ecs/base/README.md)
+- **ECS:** Please refer to example directory [link](example/ecs/base/README.md)
 
-- ECS with Sidecar: Please refer to example directory [link](example/ecs_with_sidecar/base/README.md)
+- **ECS with Sidecar:** Please refer to example directory [link](example/ecs_with_sidecar/base/README.md)
 
 ## How to use?
 
@@ -176,6 +176,3 @@ use the latest tag versions which have versions pinned for stability.
 | log\_group | The name of the default log group for the cluster. |
 | security\_group\_id | The ID of the default security group associated with the ECS container instances. |
 
-
-## Multiple Container Definitions
-By default, this module creates a task definition with a single container definition. To create a task definition with multiple container definitions, refer to the documentation of the merge module.
