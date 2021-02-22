@@ -18,6 +18,17 @@ Terraform module for [AWS ECS](https://www.terraform.io/docs/providers/aws/r/ecs
 - Supports running ECS tasks on EC2 instances or Fargate.
 - Container deploys nginx container on port 80
 
+## Versions
+
+- Module tested for Terraform 0.14.
+- AWS provider version [3.29.0](https://registry.terraform.io/providers/hashicorp/aws/latest)
+- `main` branch: Provider versions not pinned to keep up with Terraform releases
+- `tags` releases: Tags are pinned with versions (use tag latest tag in your releases)
+
+**NOTE:** 
+
+- Read more on [tfremote](https://github.com/tomarv2/tfremote)
+
 ## Usage 
 
 - **ECS:** Please refer to example directory [link](example/ecs/base/README.md)
@@ -82,12 +93,6 @@ tf -cloud aws apply -var-file <path to .tfvars file>
 ```
 tf -cloud aws destroy -var-file <path to .tfvars file>
 ```
-
-**NOTE:** 
-
-- Read more on [tfremote](https://github.com/tomarv2/tfremote) 
-- I will not be pinning the main branch to keep up with Terraform releases, for deployments please
-use the latest tag versions which have versions pinned for stability.
 
 ## Inputs
 
