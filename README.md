@@ -4,13 +4,13 @@
 # terraform-aws-ecs
 Terraform module for [AWS ECS](https://www.terraform.io/docs/providers/aws/r/ecs_cluster.html)
 
-## ECS cluster requires:
+## ECS cluster requires
 
 - An existing VPC (getting information from [terraform-global](https://github.com/tomarv2/terraform-global) module)
 - Existing subnets (getting information from [terraform-global](https://github.com/tomarv2/terraform-global) module)
 - Existing IAM role
 
-## Module deploys below:
+## Module deploys below
 
 - Creates an ECS service with AWS load balancer.
 - Stream logs to a CloudWatch log group.
@@ -18,7 +18,7 @@ Terraform module for [AWS ECS](https://www.terraform.io/docs/providers/aws/r/ecs
 - Supports running ECS tasks on EC2 instances or Fargate.
 - Container deploys nginx container on port 80
 
-## For usage 
+## Usage 
 
 - **ECS:** Please refer to example directory [link](example/ecs/base/README.md)
 
