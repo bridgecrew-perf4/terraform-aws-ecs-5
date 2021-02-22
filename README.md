@@ -23,7 +23,7 @@ Terraform module for [AWS ECS](https://www.terraform.io/docs/providers/aws/r/ecs
 - Module tested for Terraform 0.14.
 - AWS provider version [3.29.0](https://registry.terraform.io/providers/hashicorp/aws/latest)
 - `main` branch: Provider versions not pinned to keep up with Terraform releases
-- `tags` releases: Tags are pinned with versions (use tag latest tag in your releases)
+- `tags` releases: Tags are pinned with versions (use latest tag in your releases)
 
 **NOTE:** 
 
