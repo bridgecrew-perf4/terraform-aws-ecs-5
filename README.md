@@ -18,7 +18,11 @@ Terraform module for [AWS ECS](https://www.terraform.io/docs/providers/aws/r/ecs
 - Supports running ECS tasks on EC2 instances or Fargate.
 - Container deploys nginx container on port 80
 
-## For usage please refer to example directory
+## For usage 
+
+- ECS: Please refer to example directory [link](example/ecs/base/README.md)
+
+- ECS with Sidecar: Please refer to example directory [link](example/ecs_with_sidecar/base/README.md)
 
 ## How to use?
 
