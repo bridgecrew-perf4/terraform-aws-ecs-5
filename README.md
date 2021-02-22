@@ -2,7 +2,7 @@
 [![](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
 # terraform-aws-ecs
-Terraform module for AWS ECS
+Terraform module for [AWS ECS](https://www.terraform.io/docs/providers/aws/r/ecs_cluster.html)
 
 ## How to use?
 
