@@ -10,7 +10,7 @@ Terraform module for [AWS ECS](https://www.terraform.io/docs/providers/aws/r/ecs
 - Existing subnets (getting information from [terraform-global](https://github.com/tomarv2/terraform-global) module)
 - Existing IAM role
 
-## Module deploys below
+## The module does the following
 
 - Creates an ECS service with AWS load balancer.
 - Stream logs to a CloudWatch log group.
@@ -30,12 +30,6 @@ Terraform module for [AWS ECS](https://www.terraform.io/docs/providers/aws/r/ecs
 - Read more on [tfremote](https://github.com/tomarv2/tfremote)
 
 ## Usage 
-
-- **ECS:** Please refer to example directory [link](example/ecs/base/README.md)
-
-- **ECS with Sidecar:** Please refer to example directory [link](example/ecs_with_sidecar/base/README.md)
-
-## How to use?
 
 Recommended method:
 
@@ -93,6 +87,11 @@ tf -cloud aws apply -var-file <path to .tfvars file>
 ```
 tf -cloud aws destroy -var-file <path to .tfvars file>
 ```
+
+- **ECS:** Please refer to example directory [link](example/ecs/base/README.md)
+
+- **ECS with Sidecar:** Please refer to example directory [link](example/ecs_with_sidecar/base/README.md)
+
 
 ## Inputs
 
