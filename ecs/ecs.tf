@@ -1,6 +1,7 @@
 resource "aws_ecs_cluster" "ecs_cluster" {
   name                                = "${var.teamid}-${var.prjid}"
   tags                                = merge(local.shared_tags)
+  #checkov:skip=CKV_AWS_20:The bucket is a public static content host
 //  setting {
 //    name                = "containerInsights"
 //    value               = "enabled"

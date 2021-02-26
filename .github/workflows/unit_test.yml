@@ -32,11 +32,11 @@ jobs:
           echo "${{ secrets.SSH_GITHUB }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
 
-#      - name: Security Scan
-#        id: Bridgecrew
-#        uses: bridgecrewio/bridgecrew-action@master
-#        with:
-#          api-key: ${{ secrets.BRIDGECREW_API_KEY }}
+      - name: Security Scan
+        id: Bridgecrew
+        uses: bridgecrewio/bridgecrew-action@master
+        with:
+          api-key: ${{ secrets.BRIDGECREW_API_KEY }}
 
 #      - name: Run Go Tests
 #        working-directory: tests
