@@ -6,10 +6,10 @@ on:
       - main
       - develop
    paths:
-    - '!tests/**'
-    - '!README.md'
-    - '!LICENSE'
-    - '!.gitignore'
+     - '!tests/**'
+     - '!README.md'
+     - '!LICENSE'
+     - '!.gitignore'
 jobs:
   go-tests:
     name: Security Scans
