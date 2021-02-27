@@ -1,4 +1,4 @@
-name: Unit Tests & Security Scans
+name: Security Scans
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   go-tests:
-    name: Run Tests & Security Scans
+    name: Security Scans
     runs-on: ubuntu-latest
 
     steps:
@@ -32,18 +32,6 @@ jobs:
           mkdir ~/.ssh
           echo "${{ secrets.SSH_GITHUB }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          pwd
-          ls -l
-
-      - name: Security Scan
-        id: Bridgecrew
-        uses: bridgecrewio/bridgecrew-action@master
-        with:
-          api-key: ${{ secrets.BRIDGECREW_API_KEY }}
-          directory: "."
-          soft_fail: false
-#          skip_check: CKV_AWS_65
-          output_format: json
 
 #      - name: Run Go Tests
 #        working-directory: tests

@@ -1,0 +1,25 @@
+name: Security Scans
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+
+jobs:
+  go-tests:
+    name: Security Scans
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Security Scan
+        id: Bridgecrew
+        uses: bridgecrewio/bridgecrew-action@master
+        with:
+          api-key: ${{ secrets.BRIDGECREW_API_KEY }}
+          directory: "."
+          soft_fail: false
+#          skip_check: CKV_AWS_65
+          output_format: json
