@@ -1,17 +1,16 @@
 [![Unit Tests](https://github.com/tomarv2/terraform-aws-ecs/actions/workflows/unit_test.yml/badge.svg?branch=main)](https://github.com/tomarv2/terraform-aws-ecs/actions/workflows/unit_test.yml)
+[![SecurityScans](https://github.com/tomarv2/terraform-aws-ecs/actions/workflows/security_scans.yml/badge.svg?branch=main)](https://github.com/tomarv2/terraform-aws-ecs/actions/workflows/security_scans.yml)
 [![](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
 # terraform-aws-ecs
 Terraform module for [AWS ECS](https://www.terraform.io/docs/providers/aws/r/ecs_cluster.html)
 
 ## ECS cluster requires
-
 - An existing VPC (getting information from [terraform-global](https://github.com/tomarv2/terraform-global) module)
 - Existing subnets (getting information from [terraform-global](https://github.com/tomarv2/terraform-global) module)
 - Existing IAM role
 
 ## The module does the following
-
 - Creates an ECS service with AWS load balancer.
 - Stream logs to a CloudWatch log group.
 - Associate multiple target groups with Network Load Balancers (NLB) and Application Load Balancers (ALB).
