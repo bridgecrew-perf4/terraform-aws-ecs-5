@@ -68,13 +68,13 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git commit -m "Add changes"
 
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          force: true
-          branch: feature/github-actions
-#          branch: ${{ github.ref }}
+#      - name: Push changes
+#        uses: ad-m/github-push-action@master
+#        with:
+#          github_token: ${{ secrets.GITHUB_TOKEN }}
+#          force: true
+#          branch: feature/github-actions
+##          branch: ${{ github.ref }}
 
       - name: Pull requests
         uses: vsoch/pull-request-action@master
