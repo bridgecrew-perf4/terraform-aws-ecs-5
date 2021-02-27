@@ -1,0 +1,50 @@
+name: Terraform checks
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+    paths-ignore:
+      - 'README.md'
+      - 'LICENSE'
+      - '.gitignore'
+      - '**.md'
+  pull_request:
+    paths-ignore:
+      - '**.md'
+
+jobs:
+  check-terraform:
+    name: Terraform checks
+    runs-on: ubuntu-latest
+    env:
+      SERVER: production
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - uses: actions/setup-go@v1
+        with:
+          go-version: 1.14
+
+      - uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 0.14.7
+
+      - name: Terraform fmt
+        id: fmt
+        continue-on-error: true
+        run: |
+          cd .
+          terraform fmt -recursive -check # -recursive
+#          cd ../ecs_with_sidecar
+#          terraform fmt -check
+
+      - name: Create Pull Request
+        id: cpr
+        uses: peter-evans/create-pull-request@v3
+      - name: Check outputs
+        run: |
+          echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
+          echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
