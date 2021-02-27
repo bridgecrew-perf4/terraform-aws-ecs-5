@@ -13,6 +13,10 @@ jobs:
     strategy:
       matrix:
         python-version: [ 3.8 ]
+    defaults:
+      run:
+        working-directory: scripts
+        
     steps:
       - uses: actions/checkout@v1
 
@@ -25,7 +29,7 @@ jobs:
           terraform_version: 0.14.7
 
       - name: Download Go Modules
-        working-directory: tests
+        working-directory: .
         run: go mod download
 
       - name: Set ssh keys for github remote download
@@ -40,6 +44,10 @@ jobs:
         uses: bridgecrewio/bridgecrew-action@master
         with:
           api-key: ${{ secrets.BRIDGECREW_API_KEY }}
+          directory: "."
+          soft_fail: false
+          skip_check: CKV_GCP_23
+          output_format: json
 
 #      - name: Run Go Tests
 #        working-directory: tests
