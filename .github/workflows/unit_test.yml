@@ -9,12 +9,6 @@ jobs:
   go-tests:
     name: Run Go Unit Tests
     runs-on: ubuntu-latest
-#     strategy:
-#       matrix:
-#         python-version: [ 3.8 ]
-#     defaults:
-#       run:
-#         working-directory: .
         
     steps:
       - uses: actions/checkout@v1
@@ -27,9 +21,9 @@ jobs:
         with:
           terraform_version: 0.14.7
 
-#       - name: Download Go Modules
-#         working-directory: .
-#         run: go mod download
+      - name: Download Go Modules
+        working-directory: .
+        run: go mod download
 
       - name: Set ssh keys for github remote download
         working-directory: tests
@@ -47,7 +41,7 @@ jobs:
           api-key: ${{ secrets.BRIDGECREW_API_KEY }}
           directory: "."
           soft_fail: false
-          skip_check: CKV_GCP_23
+          skip_check: CKV_AWS_65
           output_format: json
 
 #      - name: Run Go Tests
