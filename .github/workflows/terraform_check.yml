@@ -52,6 +52,7 @@ jobs:
           commit-message: Update report
           signoff: false
           branch: example-patches
+          base: develop
           delete-branch: false
           title: '[Example] Update report'
           body: |
