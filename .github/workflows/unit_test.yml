@@ -58,6 +58,13 @@ jobs:
         with:
           path: ecs
 
+      - name: Terraform fmt
+        id: fmt
+        run: terraform fmt -check
+        continue-on-error: false
+        with:
+          path: ecs
+
 #      - name: Run Go Tests
 #        working-directory: tests
 #        run: |
