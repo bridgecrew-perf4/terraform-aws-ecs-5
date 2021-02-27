@@ -1,4 +1,4 @@
-name: Unit Tests & Security Scans
+name: Unit Tests
 
 on:
   push:

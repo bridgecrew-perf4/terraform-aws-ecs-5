@@ -1,6 +1,7 @@
 resource "aws_ecs_cluster" "ecs_cluster" {
   name                                = "${var.teamid}-${var.prjid}"
   tags                                = merge(local.shared_tags)
+  #checkov:skip=CKV_AWS_65:"Ensure container insights are enabled on ECS cluster"
 }
 
 resource "aws_ecs_task_definition" "ecs_task"{
