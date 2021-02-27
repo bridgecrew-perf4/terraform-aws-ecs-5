@@ -41,10 +41,6 @@ jobs:
           echo "${{ secrets.SSH_GITHUB }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
 
-      # Checks that all Terraform configuration files adhere to a canonical format
-#      - name: Terraform Format
-#        run: terraform fmt -check
-
       - name: terraform fmt
         uses: dflook/terraform-fmt@v1
         with:
@@ -54,6 +50,13 @@ jobs:
         uses: dflook/terraform-fmt@v1
         with:
           path: ecs_with_sidecar
+
+      - name: Terraform fmt
+        id: fmt
+        run: terraform fmt -check
+        continue-on-error: true
+        with:
+          path: ecs
 
 #      - name: Run Go Tests
 #        working-directory: tests
