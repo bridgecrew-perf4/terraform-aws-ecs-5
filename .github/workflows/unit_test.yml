@@ -53,17 +53,17 @@ jobs:
 
       - name: Terraform fmt
         id: fmt
-        run: terraform fmt -check
-        continue-on-error: true
-        with:
-          path: ecs
-
-      - name: Terraform fmt
-        id: fmt
-        run: terraform fmt -check
+#        run: terraform fmt -check
         continue-on-error: false
-        with:
-          path: ecs
+        run: |
+          working-directory: ecs
+          pwd
+          ls -l
+          terraform fmt -check
+          working-directory: ../ecs_with_sidecar
+          pwd
+          ls -l
+          terraform fmt -check
 
 #      - name: Run Go Tests
 #        working-directory: tests
