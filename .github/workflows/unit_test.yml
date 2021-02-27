@@ -56,11 +56,11 @@ jobs:
 #        run: terraform fmt -check
         continue-on-error: false
         run: |
-          working-directory: ecs
+          cd ecs
           pwd
           ls -l
           terraform fmt -check
-          working-directory: ../ecs_with_sidecar
+          cd ../ecs_with_sidecar
           pwd
           ls -l
           terraform fmt -check
