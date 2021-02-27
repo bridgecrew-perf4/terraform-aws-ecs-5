@@ -15,7 +15,7 @@ variable "account_id" {
 
 variable "profile_to_use" {
   description = "Getting values from ~/.aws/credentials"
-  default = "default"
+  default     = "default"
 }
 
 variable "key_name" {
@@ -28,7 +28,7 @@ variable "iam_instance_profile_to_use" {
 
 variable "security_groups_to_use" {
   description = "existing security groups to use"
-  default = null
+  default     = null
 }
 
 variable "aws_region" {
@@ -47,12 +47,12 @@ variable "container_image" {
 
 variable "container_port" {
   description = "port exposed by the docker image to redirect traffic to"
-  default = [80]
+  default     = [80]
 }
 
 variable "task_instance_count" {
   description = "number of instances of the task definition to place and keep running."
-  default = 1
+  default     = 1
 }
 
 variable "task_cpu" {
@@ -124,17 +124,17 @@ variable "launch_type" {
 
 variable "efs_to_mount" {
   description = "(Optional) EFS to mount for persistent storage"
-  default = ""
+  default     = ""
 }
 
 variable "dns_name" {
   description = "(Optional) DNS name"
-  default = ""
+  default     = ""
 }
 
 variable "type_of_record" {
   description = "(Optional) type of DNS record"
-  default = "A"
+  default     = "A"
 }
 
 variable "ttl" {
@@ -165,11 +165,11 @@ variable "create_before_destroy" {
 }
 
 variable "deployment_maximum_percent" {
-  default     = "100"
+  default = "100"
 }
 
 variable "deployment_minimum_healthy_percent" {
-  default     = "0"
+  default = "0"
 }
 
 variable "evaluate_target_health" {
@@ -192,7 +192,7 @@ variable "cloudwatch_path" {
 variable "entrypoint" {
   default     = []
   description = "The entry point that is passed to the container"
-  type        = list
+  type        = list(any)
 }
 
 variable "command" {
@@ -223,16 +223,16 @@ variable "log_configuration" {
 variable "volumes" {
   description = "volume to mount to ecs container"
   type = list(object({
-    name        = string
-    host_path   = string
+    name      = string
+    host_path = string
   }))
 }
 
 variable "placement_constraints" {
   description = "(Optional) A set of placement constraints rules that are taken into consideration during task placement. Maximum number of placement_constraints is 10."
   type = list(object({
-    type        = string
-    expression   = string
+    type       = string
+    expression = string
   }))
 }
 
@@ -252,7 +252,7 @@ variable "environment_files" {
 }
 
 variable "mount_points" {
-  type = list
+  type        = list(any)
   description = "Container mount points. This is a list of maps, where each map should contain a `containerPath` and `sourceVolume`. The `readOnly` key is optional."
   default     = []
 }
@@ -269,17 +269,17 @@ variable "readonly_root_filesystem" {
 
 variable "memory_reservation" {
   description = "The soft limit (in MiB) of memory to reserve for the container. When system memory is under contention, Docker attempts to keep the container memory to this soft limit"
-  default = ""
+  default     = ""
 }
 
 variable "container_memory" {
   description = "Fargate instance memory to provision (in MiB)"
-  default = ""
+  default     = ""
 }
 
 variable "container_cpu" {
   description = "Fargate instance CPU units to provision (1 vCPU = 1024 CPU units)"
-  default = ""
+  default     = ""
 }
 
 variable "repository_credentials" {
@@ -296,22 +296,22 @@ variable "secrets" {
 
 variable "alb_ssl_policy" {
   description = "alb ssl policy"
-  default = ""
+  default     = ""
 }
 
 variable "alb_cert_arn" {
   description = "alb cert arn"
-  default = ""
+  default     = ""
 }
 
 variable "family" {
   description = "(Required) A unique name for your task definition"
-  default = ""
+  default     = ""
 }
 
 variable "execution_role_arn" {
   description = "The Amazon Resource Name (ARN) of the task execution role that the Amazon ECS container agent and the Docker daemon can assume."
-  default = ""
+  default     = ""
 }
 
 variable "task_role_arn" {
@@ -321,37 +321,37 @@ variable "task_role_arn" {
 
 variable "network_mode" {
   description = "The Docker networking mode to use for the containers in the task. The valid values are none, bridge, awsvpc, and host."
-  default = ""
+  default     = ""
 }
 
 variable "pid_mode" {
   description = "The process namespace to use for the containers in the task. The valid values are host and task"
-  default = ""
+  default     = ""
 }
 
 variable "healthcheck_path" {
   description = "target group healthcheck path"
-  default = ""
+  default     = ""
 }
 
 variable "healthy_threshold" {
   description = "target group healthcheck threshold"
-  default = ""
+  default     = ""
 }
 
 variable "healthcheck_matcher" {
   description = "healthcheck matcher (e.g. 200)"
-  default = ""
+  default     = ""
 }
 
 variable "healthcheck_timeout" {
   description = "target group healthcheck timeout"
-  default = ""
+  default     = ""
 }
 
 variable "healthcheck_interval" {
   description = "target group healthcheck interval"
-  default = ""
+  default     = ""
 }
 
 variable "unhealthy_threshold" {
@@ -381,13 +381,13 @@ variable "lb_action_type" {
 
 variable "port_mappings" {
   description = "host to container port mapping"
-  type        = list
+  type        = list(any)
   default     = []
 }
 
 variable "container_networking_mode" {
   description = "The Docker networking mode to use for the containers in the task. The valid values are none, bridge, awsvpc, and host"
-  default = "awsvpc"
+  default     = "awsvpc"
 }
 
 variable "essential" {
@@ -395,13 +395,13 @@ variable "essential" {
 }
 
 variable "propagate_tags" {
-  default = "SERVICE"
+  default     = "SERVICE"
   description = " (Optional) Specifies whether to propagate the tags from the task definition or the service to the tasks. The valid values are SERVICE and TASK_DEFINITION."
 }
 
 variable "user_data_file_path" {
   description = "ec2 user data location"
-  default = "scripts/userdata.sh"
+  default     = "scripts/userdata.sh"
 }
 
 variable "lb_port" {
