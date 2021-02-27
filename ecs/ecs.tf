@@ -9,7 +9,7 @@ resource "aws_ecs_cluster" "ecs_cluster" {
 }
 
 resource "aws_ecs_task_definition" "ecs_task" {
-  count = var.register_task_definition ? 1 : 0
+  count                         = var.register_task_definition ? 1 : 0
 
   memory                = var.task_memory
   cpu                   = var.task_cpu
