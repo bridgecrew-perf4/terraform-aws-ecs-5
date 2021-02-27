@@ -5,11 +5,11 @@ on:
     branches:
       - main
       - develop
-    #paths:
-    #  - '!tests/**'
-    #  - '!README.md'
-    #  - '!LICENSE'
-    #  - '!.gitignore'
+    paths:
+      - '!tests/**'
+      - '!README.md'
+      - '!LICENSE'
+      - '!.gitignore'
 jobs:
   go-tests:
     name: Security Scans
@@ -25,5 +25,5 @@ jobs:
           api-key: ${{ secrets.BRIDGECREW_API_KEY }}
           directory: "."
           soft_fail: false
-#          skip_check: CKV_AWS_65
+          skip_check: CKV_AWS_65
           output_format: json
