@@ -5,10 +5,14 @@ on:
     branches:
       - main
       - develop
-    paths:
-      - '!README.md'
-      - '!LICENSE'
-      - '!.gitignore'
+    paths-ignore:
+      - 'README.md'
+      - 'LICENSE'
+      - '.gitignore'
+      - '**.md'
+  pull_request:
+    paths-ignore:
+      - '**.md'
 
 jobs:
   go-tests:
