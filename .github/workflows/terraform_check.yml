@@ -1,10 +1,12 @@
+
 name: Terraform checks
 
 on:
   push:
     branches:
-      - main
-      - develop
+      - "feature/*"  # Support wildcard matching
+      - "github-actions"
+      - "develop"
     paths-ignore:
       - 'README.md'
       - 'LICENSE'
@@ -18,15 +20,9 @@ jobs:
   check-terraform:
     name: Terraform checks
     runs-on: ubuntu-latest
-    env:
-      SERVER: production
 
     steps:
-      - uses: actions/checkout@v1
-
-      - uses: actions/setup-go@v1
-        with:
-          go-version: 1.14
+      - uses: actions/checkout@v2
 
       - uses: hashicorp/setup-terraform@v1
         with:
@@ -38,21 +34,47 @@ jobs:
         run: |
           cd .
           terraform fmt -recursive
-          pwd
-          ls -l
-
 #          cd ../ecs_with_sidecar
 #          terraform fmt -check
 
-      - name: Add & Commit files
+#      - name: pull-request
+#        uses: repo-sync/pull-request@v2
+#        with:
+#          source_branch: ""                                 # If blank, default: triggered branch
+#          destination_branch: "main"                        # If blank, default: master
+#          pr_title: "Pulling ${{ github.ref }} into develop"# Title of pull request
+#          pr_body: ":crown: *An automated PR*"              # Full markdown support, requires pr_title to be set
+#          pr_template: ".github/scripts/PULL_REQUEST_TEMPLATE.md"   # Path to pull request template, requires pr_title to be set, excludes pr_body
+#          pr_reviewer: "tomarv2"                            # Comma-separated list (no spaces)
+#          pr_assignee: "tomarv2"                            # Comma-separated list (no spaces)
+#          pr_label: "auto-pr,test"                               # Comma-separated list (no spaces)
+#          pr_draft: true                                    # Creates pull request as draft
+#          pr_allow_empty: true                              # Creates pull request even if there are no changes
+#          github_token: ${{ secrets.GITHUB_TOKEN }}
+#      - name: output-url
+#        run: echo ${{steps.open-pr.outputs.pr_url}}
+#      - name: output-number
+#        run: echo ${{steps.open-pr.outputs.pr_number}}
+#      - name: output-has-changed-files
+#        run: echo ${{steps.open-pr.outputs.has_changed_files}}
+
+      - name: Commit files
         run: |
-          pwd
-          echo "starting push..."
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git commit -m "Add changes" -a
+
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ github.ref }}
+          force: true
+          branch: feature/github-actions
+#          branch: ${{ github.ref }}
+
+      - name: Pull requests
+        uses: vsoch/pull-request-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH_PREFIX: "feature/"
+          PULL_REQUEST_BRANCH: "main"
