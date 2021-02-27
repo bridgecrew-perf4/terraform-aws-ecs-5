@@ -13,9 +13,9 @@ jobs:
     strategy:
       matrix:
         python-version: [ 3.8 ]
-    defaults:
-      run:
-        working-directory: .
+#     defaults:
+#       run:
+#         working-directory: .
         
     steps:
       - uses: actions/checkout@v1
@@ -38,6 +38,8 @@ jobs:
           mkdir ~/.ssh
           echo "${{ secrets.SSH_GITHUB }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
+          pwd
+          ls -l
 
       - name: Security Scan
         id: Bridgecrew
