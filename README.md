@@ -6,13 +6,11 @@
 Terraform module for [AWS ECS](https://www.terraform.io/docs/providers/aws/r/ecs_cluster.html)
 
 ## ECS cluster requires
-
 - An existing VPC (getting information from [terraform-global](https://github.com/tomarv2/terraform-global) module)
 - Existing subnets (getting information from [terraform-global](https://github.com/tomarv2/terraform-global) module)
 - Existing IAM role
 
 ## The module does the following
-
 - Creates an ECS service with AWS load balancer.
 - Stream logs to a CloudWatch log group.
 - Associate multiple target groups with Network Load Balancers (NLB) and Application Load Balancers (ALB).
