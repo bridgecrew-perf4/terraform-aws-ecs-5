@@ -30,9 +30,9 @@ jobs:
         with:
           terraform_version: 0.14.7
 
-      - name: Download Go Modules
-        working-directory: tests
-        run: go mod download
+#      - name: Download Go Modules
+#        working-directory: tests
+#        run: go mod download
 
       - name: Set ssh keys for github remote download
         working-directory: tests
@@ -49,10 +49,10 @@ jobs:
           pwd
           ls -l
           terraform fmt -check
-          cd ../ecs_with_sidecar
-          pwd
-          ls -l
-          terraform fmt -check
+#          cd ../ecs_with_sidecar
+#          pwd
+#          ls -l
+#          terraform fmt -check
 
       - name: Terraform Plan
         id: plan
