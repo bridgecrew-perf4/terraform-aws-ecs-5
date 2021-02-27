@@ -6,9 +6,9 @@ on:
       - main
       - develop
     paths:
-     - '!README.md'
-     - '!LICENSE'
-     - '!.gitignore'
+      - '!README.md'
+      - '!LICENSE'
+      - '!.gitignore'
 
 jobs:
   go-tests:
