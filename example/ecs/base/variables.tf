@@ -24,7 +24,7 @@ variable "iam_instance_profile_to_use" {
 
 variable "security_groups_to_use" {
   description = "Security groups to use"
-  default = null
+  default     = null
 }
 
 variable "aws_region" {
@@ -43,12 +43,12 @@ variable "container_image" {
 
 variable "container_port" {
   description = "Port exposed by the docker image to redirect traffic to"
-  default = [80]
+  default     = [80]
 }
 
 variable "task_instance_count" {
   description = "The number of instances of the task definition to place and keep running."
-  default = 1
+  default     = 1
 }
 
 variable "dns_name" {
@@ -81,7 +81,7 @@ variable "privileged" {
 variable "entrypoint" {
   default     = []
   description = "The entry point that is passed to the container"
-  type        = list
+  type        = list(any)
 }
 
 variable "command" {
@@ -97,8 +97,8 @@ variable "healthcheck" {
 }
 
 variable "log_configuration" {
-  default     = {}
-  type        = any
+  default = {}
+  type    = any
 }
 
 variable "deploy_route53" {
@@ -108,13 +108,13 @@ variable "deploy_route53" {
 variable "volumes" {
   default     = []
   description = "A list of volume definitions in JSON format that containers in your task may use"
-  type        = list
+  type        = list(any)
 }
 
 variable "placement_constraints" {
   default     = []
   description = "An array of placement constraint objects to use for the task"
-  type        = list
+  type        = list(any)
 }
 
 variable "inst_type" {
@@ -137,18 +137,18 @@ variable "environment_files" {
   default     = null
 }
 variable "mount_points" {
-  type        = list
+  type        = list(any)
   description = "Container mount points. This is a list of maps, where each map should contain a `containerPath` and `sourceVolume`. The `readOnly` key is optional."
   default     = []
 }
 
 variable "port_mappings" {
-  type        = list
-  default     = []
+  type    = list(any)
+  default = []
 }
 
 variable "readonly_root_filesystem" {
-  default     = true
+  default = true
 }
 
 variable "family" {
@@ -156,11 +156,11 @@ variable "family" {
 }
 
 variable "alb_ssl_policy" {
-  default     = ""
+  default = ""
 }
 
 variable "alb_cert_arn" {
-  default     = ""
+  default = ""
 }
 
 variable "memory_reservation" {
@@ -169,12 +169,12 @@ variable "memory_reservation" {
 
 variable "container_memory" {
   description = "Fargate instance memory to provision (in MiB)"
-  default = ""
+  default     = ""
 }
 
 variable "container_cpu" {
   description = "Fargate instance CPU units to provision (1 vCPU = 1024 CPU units)"
-  default = ""
+  default     = ""
 }
 
 variable "task_cpu" {
@@ -226,19 +226,19 @@ variable "stickiness" {
 
 variable "lb_type" {
   description = "load balancer type (network or application"
-  default = "network"
+  default     = "network"
 }
 
 variable "healthcheck_path" {
-    default = ""
+  default = ""
 }
 
 variable "healthcheck_matcher" {
-    default = ""
+  default = ""
 }
 
 variable "healthcheck_timeout" {
-    default = ""
+  default = ""
 }
 
 variable "healthcheck_interval" {
@@ -247,17 +247,17 @@ variable "healthcheck_interval" {
 
 variable "healthy_threshold" {
   description = "target group healthcheck threshold"
-  default = ""
+  default     = ""
 }
 
 variable "unhealthy_threshold" {
   description = "target group unheathy healthcheck threshold"
-  default = ""
+  default     = ""
 }
 
 variable "user_data_file_path" {
   description = "ec2 user data location"
-  default = "scripts/userdata.sh"
+  default     = "scripts/userdata.sh"
 }
 
 variable "lb_port" {

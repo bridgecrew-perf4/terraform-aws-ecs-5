@@ -2,7 +2,7 @@
 # do not edit or delete!
 
 terraform {
-	backend "s3" {
-		 bucket         = "my-terraform-state"
-	}
+  backend "s3" {
+    bucket = "my-terraform-state"
+  }
 }

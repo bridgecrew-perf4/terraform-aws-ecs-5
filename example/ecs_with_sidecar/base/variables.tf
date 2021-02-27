@@ -24,7 +24,7 @@ variable "iam_instance_profile_to_use" {
 
 variable "security_groups_to_use" {
   description = "Existing Security groups to use"
-  default = null
+  default     = null
 }
 
 variable "aws_region" {
@@ -43,12 +43,12 @@ variable "container_image" {
 
 variable "container_port" {
   description = "List of container port exposed by the docker image to redirect traffic to"
-  default = [80]
+  default     = [80]
 }
 
 variable "task_instance_count" {
   description = "The number of instances of the task definition to place and keep running."
-  default = 1
+  default     = 1
 }
 
 variable "dns_name" {
@@ -85,7 +85,7 @@ variable "privileged" {
 variable "entrypoint" {
   default     = []
   description = "The entry point that is passed to the container"
-  type        = list
+  type        = list(any)
 }
 
 variable "command" {
@@ -101,8 +101,8 @@ variable "healthcheck" {
 }
 
 variable "log_configuration" {
-  default     = {}
-  type        = any
+  default = {}
+  type    = any
 }
 
 variable "deploy_route53" {
@@ -112,13 +112,13 @@ variable "deploy_route53" {
 variable "volumes" {
   default     = []
   description = "A list of volume definitions in JSON format that containers in your task may use"
-  type        = list
+  type        = list(any)
 }
 
 variable "placement_constraints" {
   default     = []
   description = "An array of placement constraint objects to use for the task"
-  type        = list
+  type        = list(any)
 }
 
 variable "inst_type" {
@@ -142,18 +142,18 @@ variable "environment_files" {
 }
 
 variable "mount_points" {
-  type        = list
+  type        = list(any)
   description = "Container mount points. This is a list of maps, where each map should contain a `containerPath` and `sourceVolume`. The `readOnly` key is optional."
   default     = []
 }
 
 variable "port_mappings" {
-  type        = list
-  default     = []
+  type    = list(any)
+  default = []
 }
 
 variable "readonly_root_filesystem" {
-  default     = true
+  default = true
 }
 
 variable "family" {
@@ -161,11 +161,11 @@ variable "family" {
 }
 
 variable "alb_ssl_policy" {
-  default     = ""
+  default = ""
 }
 
 variable "alb_cert_arn" {
-  default     = ""
+  default = ""
 }
 
 variable "memory_reservation" {
@@ -174,12 +174,12 @@ variable "memory_reservation" {
 
 variable "container_memory" {
   description = "Fargate instance memory to provision (in MiB)"
-  default = ""
+  default     = ""
 }
 
 variable "container_cpu" {
   description = "Fargate instance CPU units to provision (1 vCPU = 1024 CPU units)"
-  default = ""
+  default     = ""
 }
 
 variable "task_cpu" {
@@ -220,7 +220,7 @@ variable "essential" {
 variable "entrypoint_sidecar" {
   default     = []
   description = "The entry point that is passed to the container"
-  type        = list
+  type        = list(any)
 }
 
 variable "command_sidecar" {
@@ -260,20 +260,20 @@ variable "environment_sidecar" {
   type        = list(map(string))
 }
 variable "port_mappings_sidecar" {
-  type        = list
-  default     = []
+  type    = list(any)
+  default = []
 }
 
 variable "container_port_sidecar" {
 }
 
 variable "log_configuration_sidecar" {
-  default     = {}
-  type        = any
+  default = {}
+  type    = any
 }
 
 variable "mount_points_sidecar" {
-  type = list
+  type        = list(any)
   description = "Container mount points. This is a list of maps, where each map should contain a `containerPath` and `sourceVolume`. The `readOnly` key is optional."
   default     = []
 }
@@ -283,7 +283,7 @@ variable "memory_reservation_sidecar" {
 }
 
 variable "readonly_root_filesystem_sidecar" {
-  default     = true
+  default = true
 }
 
 variable "container_image_sidecar" {
@@ -296,12 +296,12 @@ variable "network_mode_sidecar" {
 
 variable "container_memory_sidecar" {
   description = "Fargate instance memory to provision (in MiB)"
-  default = ""
+  default     = ""
 }
 
 variable "container_cpu_sidecar" {
   description = "Fargate instance CPU units to provision (1 vCPU = 1024 CPU units)"
-  default = ""
+  default     = ""
 }
 
 variable "task_memory_sidecar" {
@@ -333,7 +333,7 @@ variable "stickiness" {
 
 variable "lb_type" {
   description = "load balancer type (network or application"
-  default = "network"
+  default     = "network"
 }
 
 variable "healthcheck_path" {}
@@ -369,11 +369,11 @@ variable "unhealthy_threshold_sidecar" {
 }
 
 variable "alb_ssl_policy_sidecar" {
-  default     = ""
+  default = ""
 }
 
 variable "alb_cert_arn_sidecar" {
-  default     = ""
+  default = ""
 }
 
 variable "lb_protocol_sidecar" {
