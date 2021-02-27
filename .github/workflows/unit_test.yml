@@ -48,9 +48,12 @@ jobs:
       - name: terraform fmt
         uses: dflook/terraform-fmt@v1
         with:
-          path:
-          - ecs
-          - ecs_with_sidecar
+          path: ecs
+
+      - name: terraform fmt
+        uses: dflook/terraform-fmt@v1
+        with:
+          path: ecs_with_sidecar
 
 #      - name: Run Go Tests
 #        working-directory: tests
