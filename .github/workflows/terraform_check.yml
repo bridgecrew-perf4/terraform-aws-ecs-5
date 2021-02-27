@@ -1,10 +1,9 @@
-
 name: Terraform checks
 
 on:
   push:
     branches:
-      - "feature/*"  # Support wildcard matching
+      - "feature/*"
       - "github-actions"
       - "develop"
     paths-ignore:
@@ -14,6 +13,9 @@ on:
       - '**.md'
   pull_request:
     paths-ignore:
+      - 'README.md'
+      - 'LICENSE'
+      - '.gitignore'
       - '**.md'
 
 jobs:

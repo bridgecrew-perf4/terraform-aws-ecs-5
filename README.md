@@ -1,4 +1,5 @@
 [![Unit Tests](https://github.com/tomarv2/terraform-aws-ecs/actions/workflows/unit_test.yml/badge.svg?branch=main)](https://github.com/tomarv2/terraform-aws-ecs/actions/workflows/unit_test.yml)
+[![SecurityScans](https://github.com/tomarv2/terraform-aws-ecs/actions/workflows/security_scans.yml/badge.svg?branch=main)](https://github.com/tomarv2/terraform-aws-ecs/actions/workflows/security_scans.yml)
 [![](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
 # terraform-aws-ecs
