@@ -3,7 +3,6 @@ name: Terraform checks
 on:
   push:
     branches:
-      - "main"
       - "qa"
       - "develop"
       - "feature/*"
