@@ -1,0 +1,36 @@
+name: Terraform checks
+
+on:
+  push:
+    branches:
+      - "main"
+    paths-ignore:
+      - 'README.md'
+      - 'LICENSE'
+      - '.gitignore'
+      - '**.md'
+  pull_request:
+    paths-ignore:
+      - 'README.md'
+      - 'LICENSE'
+      - '.gitignore'
+      - '**.md'
+
+jobs:
+  check-terraform:
+    name: Terraform checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 0.14.7
+
+      - name: Terraform fmt
+        id: fmt
+        continue-on-error: true
+        run: |
+          cd .
+          terraform fmt -recursive
