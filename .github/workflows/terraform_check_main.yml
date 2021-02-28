@@ -1,4 +1,4 @@
-name: Terraform checks
+name: Terraform checks main
 
 on:
   push:
