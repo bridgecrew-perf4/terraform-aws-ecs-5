@@ -30,14 +30,16 @@ jobs:
         with:
           terraform_version: 0.14.7
 
+      - name: Terraform Validate
+        id: validate
+        run: terraform validate -no-color
+
       - name: Terraform fmt
         id: fmt
         continue-on-error: true
         run: |
           cd .
           terraform fmt -recursive
-#          cd ../ecs_with_sidecar
-#          terraform fmt -check
 
 #      - name: pull-request
 #        uses: repo-sync/pull-request@v2
