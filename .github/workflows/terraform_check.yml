@@ -3,9 +3,10 @@ name: Terraform checks
 on:
   push:
     branches:
-      - "feature/*"
-      - "github-actions"
+      - "main"
+      - "qa"
       - "develop"
+      - "feature/*"
     paths-ignore:
       - 'README.md'
       - 'LICENSE'
