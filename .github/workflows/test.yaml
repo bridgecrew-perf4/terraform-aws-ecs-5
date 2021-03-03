@@ -37,7 +37,7 @@ jobs:
           terraform_version: 0.14.7
 
       - name: Terraform fmt
-        working-directory: ops/aws-iam-test
+        working-directory: ops/aws-iam
         id: fmt
         continue-on-error: true
         run: |
