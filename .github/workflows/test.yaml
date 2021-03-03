@@ -47,12 +47,12 @@ jobs:
         id: init
         run: terraform init
 
-     - name: Terraform Plan
-       id: plan
-       run: terraform plan -no-color
-       continue-on-error: true
-       working-directory: ops/aws-iam
-       env:
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan -no-color
+        continue-on-error: true
+        working-directory: ops/aws-iam
+        env:
          # AWS CREDENTIALS
          AWS_ACCESS_KEY_ID: "${{ secrets.DEV_AWS_ACCESS_KEY_ID }}"
          AWS_SECRET_ACCESS_KEY: "${{ secrets.DEV_AWS_SECRET_ACCESS_KEY }}"
@@ -60,6 +60,7 @@ jobs:
          AWS_SECURITY_TOKEN: "${{ secrets.AWS_SECURITY_TOKEN }}"
 
       - name: Commit files
+        working-directory: ops/aws-iam
         run: |
           git add -A .
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
