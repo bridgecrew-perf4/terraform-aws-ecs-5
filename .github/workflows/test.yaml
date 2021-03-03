@@ -44,6 +44,7 @@ jobs:
           terraform fmt -recursive
 
       - name: Terraform Init
+        working-directory: ecs
         id: init
         run: terraform init
 
