@@ -25,7 +25,7 @@ healthcheck_timeout  = "30"
 healthcheck_interval = "120"
 healthy_threshold    = "2"
 unhealthy_threshold  = "2"
-user_data_file_path  = "scripts/userdata.sh"
+user_data_file_path  = "../custom/userdata.sh"
 # ------------------------------------------------------------------
 # Do not change the teamid, prjid once set.
 teamid = "rumse"
