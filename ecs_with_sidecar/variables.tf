@@ -562,3 +562,7 @@ variable "environment_files_sidecar" {
   description = "One or more files containing the environment variables to pass to the container. This maps to the --env-file option to docker run. The file must be hosted in Amazon S3. This option is only available to tasks using the EC2 launch type. This is a list of maps"
   default     = null
 }
+
+variable "security_group_ports" {
+  default = [80]
+}

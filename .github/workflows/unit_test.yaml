@@ -46,15 +46,15 @@ jobs:
           echo "${{ secrets.SSH_GITHUB }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
 
-#      - name: Run Go Tests
-#        working-directory: tests
-#        run: |
-#          go test -v
-#        env:
-#          # TF ENVIRONMENT
-#          TF_AWS_BUCKET: "${{ secrets.TF_NONPROD_AWS_BUCKET }}"
-#          TF_AWS_PROFILE: "${{ secrets.TF_AWS_PROFILE }}"
-#          TF_AWS_BUCKET_REGION: "${{ secrets.TF_AWS_BUCKET_REGION }}"
-#          # AWS CREDENTIALS
-#          AWS_ACCESS_KEY_ID: "${{ secrets.DEV_AWS_ACCESS_KEY_ID }}"
-#          AWS_SECRET_ACCESS_KEY: "${{ secrets.DEV_AWS_SECRET_ACCESS_KEY }}"
+      - name: Run Go Tests
+        working-directory: tests
+        run: |
+          go test -v
+        env:
+          # TF ENVIRONMENT
+          TF_AWS_BUCKET: "${{ secrets.TF_NONPROD_AWS_BUCKET }}"
+          TF_AWS_PROFILE: "${{ secrets.TF_AWS_PROFILE }}"
+          TF_AWS_BUCKET_REGION: "${{ secrets.TF_AWS_BUCKET_REGION }}"
+          # AWS CREDENTIALS
+          AWS_ACCESS_KEY_ID: "${{ secrets.DEV_AWS_ACCESS_KEY_ID }}"
+          AWS_SECRET_ACCESS_KEY: "${{ secrets.DEV_AWS_SECRET_ACCESS_KEY }}"

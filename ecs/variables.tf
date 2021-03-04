@@ -31,6 +31,11 @@ variable "security_groups_to_use" {
   default     = null
 }
 
+variable "security_group_ports" {
+  default     = [80]
+}
+
+
 variable "aws_region" {
   description = "aws region to create resources"
   default     = "us-west-2"

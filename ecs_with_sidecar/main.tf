@@ -92,6 +92,7 @@ module "securitygroup" {
   prjid          = var.prjid
   profile_to_use = var.profile_to_use
   aws_region     = var.aws_region
+  service_ports  = var.security_group_ports
 }
 
 
