@@ -9,7 +9,7 @@ package test
 import (
 	"fmt"
 	"testing"
-	"os"
+// 	"os"
 
 	"github.com/gruntwork-io/terratest/modules/aws"
 // 	"github.com/gruntwork-io/terratest/modules/random"
@@ -31,8 +31,8 @@ func TestTerraformAwsEcs(t *testing.T) {
     // ----------------------------------------------------------
 	// remote state variables
 	// ----------------------------------------------------------
-    remoteStateBucketName   := os.Getenv("TF_NONPROD_AWS_BUCKET")
-    remoteStateBucketKey    := "test"
+    remoteStateBucketName   := "terraform-remotestate-security" //os.Getenv("TF_NONPROD_AWS_BUCKET")
+    remoteStateBucketKey    := "delme"
     awsBucketRegion         := "us-west-2"
     // ----------------------------------------------------------
     // expected results

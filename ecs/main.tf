@@ -3,7 +3,7 @@ module "global" {
 }
 
 module "route53" {
-  source = "git::git@github.com:tomarv2/terraform-aws-route53.git?ref=0.0.1"
+  source = "git::git@github.com:tomarv2/terraform-aws-route53.git?ref=v0.0.1"
 
   deploy_route53 = var.deploy_route53 # FEATURE FLAG
 
@@ -20,7 +20,7 @@ module "route53" {
 }
 
 module "cloudwatch" {
-  source = "git::git@github.com:tomarv2/terraform-aws-cloudwatch.git"
+  source = "git::git@github.com:tomarv2/terraform-aws-cloudwatch.git?ref=v0.0.1"
 
   cloudwatch_path = var.cloudwatch_path
   email           = var.email
@@ -31,7 +31,7 @@ module "cloudwatch" {
 }
 
 module "ec2" {
-  source = "git::git@github.com:tomarv2/terraform-aws-ec2.git?ref=0.0.1"
+  source = "git::git@github.com:tomarv2/terraform-aws-ec2.git?ref=v0.0.1"
 
   email                       = var.email
   teamid                      = var.teamid
@@ -48,7 +48,7 @@ module "ec2" {
 }
 
 module "target_group" {
-  source = "git::git@github.com:tomarv2/terraform-aws-target-group.git?ref=0.0.1"
+  source = "git::git@github.com:tomarv2/terraform-aws-target-group.git?ref=v0.0.1"
 
   email                = var.email
   teamid               = var.teamid
@@ -85,7 +85,7 @@ module "lb" {
 }
 
 module "securitygroup" {
-  source = "git::git@github.com:tomarv2/terraform-aws-securitygroup.git?ref=0.0.1"
+  source = "git::git@github.com:tomarv2/terraform-aws-securitygroup.git?ref=v0.0.1"
 
   email          = var.email
   teamid         = var.teamid

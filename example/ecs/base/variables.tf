@@ -263,3 +263,5 @@ variable "user_data_file_path" {
 variable "lb_port" {
   default = [80]
 }
+
+variable "sercurity_group_ports" {}

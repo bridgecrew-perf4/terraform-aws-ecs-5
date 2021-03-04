@@ -397,3 +397,5 @@ variable "environment_files_sidecar" {
 }
 
 variable "user_data_file_path" {}
+
+variable "sercurity_group_ports" {}
