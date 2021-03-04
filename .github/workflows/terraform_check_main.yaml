@@ -1,14 +1,14 @@
 name: Terraform checks main
 
 on:
-  push:
-    branches:
-      - "main"
-    paths-ignore:
-      - 'README.md'
-      - 'LICENSE'
-      - '.gitignore'
-      - '**.md'
+#  push:
+#    branches:
+#      - "main"
+#    paths-ignore:
+#      - 'README.md'
+#      - 'LICENSE'
+#      - '.gitignore'
+#      - '**.md'
   pull_request:
     paths-ignore:
       - 'README.md'

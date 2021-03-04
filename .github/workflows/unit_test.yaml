@@ -1,17 +1,17 @@
 name: Unit Tests
 
 on:
-  push:
-    branches:
-      - "main"
-      - "qa"
-      - "develop"
-      - "feature/*"
-    paths-ignore:
-      - 'README.md'
-      - 'LICENSE'
-      - '.gitignore'
-      - '**.md'
+#  push:
+#    branches:
+#      - "main"
+#      - "qa"
+#      - "develop"
+#      - "feature/*"
+#    paths-ignore:
+#      - 'README.md'
+#      - 'LICENSE'
+#      - '.gitignore'
+#      - '**.md'
   pull_request:
     paths-ignore:
       - 'README.md'
@@ -58,3 +58,5 @@ jobs:
           # AWS CREDENTIALS
           AWS_ACCESS_KEY_ID: "${{ secrets.DEV_AWS_ACCESS_KEY_ID }}"
           AWS_SECRET_ACCESS_KEY: "${{ secrets.DEV_AWS_SECRET_ACCESS_KEY }}"
+          AWS_SECURITY_TOKEN: "${{ secrets.AWS_SECURITY_TOKEN }}"
+          AWS_SESSION_TOKEN: "${{ secrets.AWS_SESSION_TOKEN }}"

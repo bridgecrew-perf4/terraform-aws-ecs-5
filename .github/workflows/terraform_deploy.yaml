@@ -1,16 +1,16 @@
 name: Terraform checks
 
 on:
-  push:
-    branches:
-      - "qa"
-      - "develop"
-      - "feature/*"
-    paths-ignore:
-      - 'README.md'
-      - 'LICENSE'
-      - '.gitignore'
-      - '**.md'
+#  push:
+#    branches:
+#      - "qa"
+#      - "develop"
+#      - "feature/*"
+#    paths-ignore:
+#      - 'README.md'
+#      - 'LICENSE'
+#      - '.gitignore'
+#      - '**.md'
   pull_request:
     paths-ignore:
       - 'README.md'
