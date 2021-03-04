@@ -10,6 +10,7 @@ port_mappings = [{ hostPort = 0,
   protocol = "tcp",
 containerPort = 80 }]
 container_port           = [80]
+sercurity_group_ports     = [22,80]
 execution_role_arn       = "arn:aws:iam::123456789012:role/rumse-ecs-mgmt-role"
 task_role_arn            = "arn:aws:iam::123456789012:role/rumse-ecs-mgmt-role"
 log_configuration        = { logDriver = "awslogs", options = { awslogs-group = "/ecs/rumse-demo-ecs", awslogs-region = "us-west-2", awslogs-stream-prefix = "ecs" } }

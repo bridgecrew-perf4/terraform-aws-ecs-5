@@ -20,7 +20,7 @@ module "route53" {
 }
 
 module "cloudwatch" {
-  source = "git::git@github.com:tomarv2/terraform-aws-cloudwatch.git?ref=0.0.1"
+  source = "git::git@github.com:tomarv2/terraform-aws-cloudwatch.git"
 
   cloudwatch_path = var.cloudwatch_path
   email           = var.email
@@ -92,7 +92,7 @@ module "securitygroup" {
   prjid          = var.prjid
   profile_to_use = var.profile_to_use
   aws_region     = var.aws_region
-  service_ports  = var.lb_port
+  service_ports  = var.security_group_ports
 }
 
 locals {
