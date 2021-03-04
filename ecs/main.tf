@@ -67,7 +67,7 @@ module "target_group" {
 }
 
 module "lb" {
-  source = "git::git@github.com:tomarv2/terraform-aws-lb.git?ref=0.0.1"
+  source = "git::git@github.com:tomarv2/terraform-aws-lb.git?ref=v0.0.1"
 
   email                  = var.email
   teamid                 = var.teamid
