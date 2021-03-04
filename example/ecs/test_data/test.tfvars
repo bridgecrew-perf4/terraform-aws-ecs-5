@@ -13,7 +13,7 @@ container_port              = [80]
 sercurity_group_ports     = [22,80]
 execution_role_arn          = "arn:aws:iam::755921336062:role/security-dispatch-ecs-mgmt-role"
 task_role_arn               = "arn:aws:iam::755921336062:role/security-dispatch-ecs-mgmt-role"
-log_configuration             = {logDriver = "awslogs",options = {awslogs-group = "/ecs/security-demo-ecs",awslogs-region = "us-west-2", awslogs-stream-prefix = "ecs"}}
+log_configuration             = {logDriver = "awslogs",options = {awslogs-group = "/ecs/rumse-demo-ecs-test",awslogs-region = "us-west-2", awslogs-stream-prefix = "ecs"}}
 readonly_root_filesystem      = false
 lb_protocol                   = "HTTP"
 lb_type                       = "application"
@@ -25,9 +25,9 @@ healthcheck_timeout           = "30"
 healthcheck_interval          = "120"
 healthy_threshold             = "2"
 unhealthy_threshold           = "2"
-user_data_file_path           = "scripts/userdata.sh"
+user_data_file_path           = "rumse/userdata.sh"
 # ------------------------------------------------------------------
 # Do not change the teamid, prjid once set.
-teamid                      = "security"
-prjid                       = "demo-ecs"
+teamid                      = "rumse"
+prjid                       = "demo-ecs-test"
 
