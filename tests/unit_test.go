@@ -31,7 +31,7 @@ func TestTerraformAwsEcs(t *testing.T) {
     // ----------------------------------------------------------
 	// remote state variables
 	// ----------------------------------------------------------
-    remoteStateBucketName   := os.Getenv("TF_AWS_BUCKET")
+    remoteStateBucketName   := os.Getenv("TF_NONPROD_AWS_BUCKET")
     remoteStateBucketKey    := "test"
     awsBucketRegion         := "us-west-2"
     // ----------------------------------------------------------
