@@ -37,12 +37,12 @@ container_image          = "nginx"
 port_mappings = [{ hostPort = 0,
   protocol = "tcp",
 containerPort = 80 }]
-container_port = [80]
-lb_port        = [80]
-sercurity_group_ports     = [22,80]
-lb_protocol    = "HTTP"
-essential      = true
-privileged     = true
+container_port        = [80]
+lb_port               = [80]
+sercurity_group_ports = [22, 80]
+lb_protocol           = "HTTP"
+essential             = true
+privileged            = true
 # -----------------------------------------------------------------
 # CONTAINER 2
 # -----------------------------------------------------------------

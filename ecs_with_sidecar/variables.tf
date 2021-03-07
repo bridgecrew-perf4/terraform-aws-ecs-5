@@ -15,6 +15,7 @@ variable "key_name" {
 
 variable "profile_to_use" {
   description = "Getting values from ~/.aws/credentials"
+  default     = "default"
 }
 
 variable "iam_instance_profile_to_use" {
@@ -221,6 +222,7 @@ variable "volumes" {
     name      = string
     host_path = string
   }))
+  default = []
 }
 
 variable "placement_constraints" {
@@ -229,6 +231,7 @@ variable "placement_constraints" {
     type       = string
     expression = string
   }))
+  default = []
 }
 
 variable "environment" {
@@ -401,6 +404,7 @@ variable "port_mappings_sidecar" {
 }
 
 variable "container_port_sidecar" {
+  default = [80]
 }
 
 variable "log_configuration_sidecar" {
@@ -552,7 +556,9 @@ variable "lb_port" {
   default = [80]
 }
 
-variable "lb_port_sidecar" {}
+variable "lb_port_sidecar" {
+  default = [80]
+}
 
 variable "environment_files_sidecar" {
   type = list(object({

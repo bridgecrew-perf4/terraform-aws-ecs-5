@@ -1,6 +1,6 @@
 <p align="center">
-    <a href="https://github.com/tomarv2/terraform-aws-ecs/actions/workflows/unit_test.yml" alt="Unit Tests">
-        <img src="https://github.com/tomarv2/terraform-aws-ecs/actions/workflows/unit_test.yml/badge.svg?branch=main" /></a>
+    <a href="https://github.com/tomarv2/terraform-aws-ecs/actions/workflows/security_scans.yml" alt="Security Scans">
+        <img src="https://github.com/tomarv2/terraform-aws-ecs/actions/workflows/security_scans.yml/badge.svg?branch=main" /></a>
     <a href="https://www.apache.org/licenses/LICENSE-2.0" alt="license">
         <img src="https://img.shields.io/github/license/tomarv2/terraform-aws-ecs" /></a>
     <a href="https://github.com/tomarv2/terraform-aws-ecs/tags" alt="GitHub tag">
@@ -15,8 +15,7 @@
         <img src="https://img.shields.io/twitter/follow/varuntomar2019?style=social&logo=twitter"></a>
 </p>
 
-# terraform-aws-ecs
-Terraform module for [AWS ECS](https://www.terraform.io/docs/providers/aws/r/ecs_cluster.html)
+# Terraform module for [AWS ECS](https://www.terraform.io/docs/providers/aws/r/ecs_cluster.html)
 
 ## ECS cluster requires
 - An existing VPC (getting information from [terraform-global](https://github.com/tomarv2/terraform-global) module)
@@ -63,30 +62,9 @@ pip install tfremote
 export TF_AWS_BUCKET=<remote state bucket name>
 export TF_AWS_PROFILE=default
 export TF_AWS_BUCKET_REGION=us-west-2
-export PATH=$PATH:/usr/local/bin/
 ```  
 
-- Update:
-```
-example/custom/sample.tfvars
-```
-
-- Following entries are required:
-
-```
-- account_id
-- function_name
-- role_arn
-- source_file (relative path to the base directory or provide absolute path)
-- output_file_path
-- teamid
-- prjid
-```
-
-- Change to: 
-```
-example/base
-``` 
+- Updated `examples` directory with required values 
 
 - Run and verify the output before deploying:
 ```
@@ -102,7 +80,112 @@ tf -cloud aws apply -var-file <path to .tfvars file>
 ```
 tf -cloud aws destroy -var-file <path to .tfvars file>
 ```
-Please refer to example directory [link](example)
+
+> ❗️ **Important** - Two variables are required for using `tf` package:
+>
+> - teamid
+> - prjid
+>
+> These variables are required to set backend path in the remote storage.
+> Variables can be defined using:
+>
+> - As `inline variables` e.g.: `-var='teamid=demo-team' -var='prjid=demo-project'`
+> - Inside `.tfvars` file e.g.: `-var-file=<tfvars file location> `
+>
+> For more information refer to [Terraform documentation](https://www.terraform.io/docs/language/values/variables.html)
+
+##### ECS
+
+```
+module "ecs" {
+  source = "../../ecs"
+
+  email                       = "demo@demo.com"
+  key_name                    = "demo-key"
+  iam_instance_profile_to_use = "arn:aws:iam::123456789012:instance-profile/rumse-demo-role-profile"
+  account_id                  = "123456789012"
+
+  environment_files = [{ value = "arn:aws:s3:::test-ecs-demo/test.env", type = "s3" }]
+  container_image   = "nginx"
+  port_mappings = [{ hostPort = 0,
+    protocol = "tcp",
+  containerPort = 80 }]
+  container_port           = [80]
+  sercurity_group_ports    = [22, 80]
+  execution_role_arn       = "arn:aws:iam::123456789012:role/rumse-demo-role"
+  task_role_arn            = "arn:aws:iam::123456789012:role/rumse-demo-role"
+  log_configuration        = { logDriver = "awslogs", options = { awslogs-group = "/ecs/rumse-demo-ecs-test", awslogs-region = "us-west-2", awslogs-stream-prefix = "ecs" } }
+  readonly_root_filesystem = false
+  lb_protocol              = "HTTP"
+  lb_type                  = "application"
+  healthcheck_path         = "/"
+  healthcheck_matcher      = "200"
+  healthcheck_timeout      = "30"
+  healthcheck_interval     = "120"
+  healthy_threshold        = "2"
+  unhealthy_threshold      = "2"
+  user_data_file_path      = "../test_data/userdata.sh"
+  # ---------------------------------------------
+  # Note: Do not change teamid and prjid once set.
+  teamid = var.teamid
+  prjid  = var.prjid
+}
+```
+
+##### ECS with sidecar
+
+```
+module "ecs" {
+  source = "../../ecs_with_sidecar"
+
+  email                       = "demo@demo.com"
+  key_name                    = "demo-key"
+  account_id                  = "123456789012"
+  dns_name                    = "demo.demo.com"
+  iam_instance_profile_to_use = "arn:aws:iam::123456789012:instance-profile/rumse-demo-role-profile"
+  execution_role_arn          = "arn:aws:iam::123456789012:role/rumse-demo-role"
+  task_role_arn               = "arn:aws:iam::123456789012:role/rumse-demo-role"
+  user_data_file_path         = "scripts/userdata.sh"
+  # ---------------------------------------------
+  # CONTAINER 1
+  # ---------------------------------------------
+  container_image = "nginx"
+  port_mappings = [{ hostPort = 0,
+    protocol = "tcp",
+  containerPort = 80 }]
+  lb_protocol          = "HTTP"
+  lb_type              = "application"
+  healthcheck_path     = "/"
+  healthcheck_matcher  = "200"
+  healthcheck_timeout  = "30"
+  healthcheck_interval = "120"
+  healthy_threshold    = "2"
+  unhealthy_threshold  = "2"
+  log_configuration    = { logDriver = "awslogs", options = { awslogs-group = "/ecs/rumse-demo-ecs-test", awslogs-region = "us-west-2", awslogs-stream-prefix = "ecs" } }
+  # ---------------------------------------------
+  # CONTAINER 2
+  # ---------------------------------------------
+  container_image_sidecar = "nginx"
+  port_mappings_sidecar = [{ hostPort = 0,
+    protocol = "tcp",
+  containerPort = 80 }]
+  lb_protocol_sidecar          = "HTTP"
+  lb_type_sidecar              = "application"
+  healthcheck_path_sidecar     = "/"
+  healthcheck_matcher_sidecar  = "200"
+  healthcheck_timeout_sidecar  = "30"
+  healthcheck_interval_sidecar = "3"
+  healthy_threshold_sidecar    = "2"
+  unhealthy_threshold_sidecar  = "3"
+  log_configuration_sidecar    = { logDriver = "awslogs", options = { awslogs-group = "/ecs/rumse-demo-ecs-test", awslogs-region = "us-west-2", awslogs-stream-prefix = "ecs" } }
+  # ---------------------------------------------
+  # Note: Do not change teamid and prjid once set.
+  teamid = var.teamid
+  prjid  = var.prjid
+}
+```
+
+Please refer to examples directory [link](examples)
 
 ## Inputs
 

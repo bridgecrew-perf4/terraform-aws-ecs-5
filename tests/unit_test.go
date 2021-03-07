@@ -24,7 +24,7 @@ func TestTerraformAwsEcs(t *testing.T) {
 	t.Parallel()
     // ----------------------------------------------------------
 	// Path to Terraform code
-	TF_REPO_PATH            := "../example/ecs/base"
+	TF_REPO_PATH            := "../examples/ecs"
 	// ----------------------------------------------------------
 	// Path to test variable file
 	TF_VARS_FILE_PATH       := "../test_data/test.tfvars"
