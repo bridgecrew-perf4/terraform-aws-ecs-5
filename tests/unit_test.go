@@ -25,30 +25,21 @@ func TestTerraformAwsEcs(t *testing.T) {
     // ----------------------------------------------------------
 	// Path to Terraform code
 	TF_REPO_PATH            := "../examples/ecs"
-	// ----------------------------------------------------------
-	// Path to test variable file
-	TF_VARS_FILE_PATH       := "../test_data/test.tfvars"
+	awsRegion               := aws.GetRandomStableRegion(t, nil, nil)
     // ----------------------------------------------------------
 	// remote state variables
-	// ----------------------------------------------------------
     remoteStateBucketName   := "terraform-remotestate-security" //os.Getenv("TF_NONPROD_AWS_BUCKET")
     remoteStateBucketKey    := "delme"
     awsBucketRegion         := "us-west-2"
     // ----------------------------------------------------------
     // expected results
-    // ----------------------------------------------------------
 	expectedTeamName        := fmt.Sprintf("rumse")
 	expectedProjectName     := fmt.Sprintf("demo-ecs-test") //-%s", random.UniqueId())
 	ecsName                 := fmt.Sprintf("rumse-demo-ecs-test")
 	ecsServiceName          := ecsName + "-service"
 	INSTANCE_TYPE           := "EC2" // other option is Fargate
     // ----------------------------------------------------------
-    //
-	// Pick a random AWS region to test in. This helps ensure your code works in all regions.
 	// NOTE: pending update to _base_module
-	//
-	awsRegion := aws.GetRandomStableRegion(t, []string{"us-west-2"}, nil)
-
 	terraformOptions := &terraform.Options{
 		// The path to where our Terraform code is located
 		TerraformDir: TF_REPO_PATH,

@@ -97,9 +97,9 @@ module "securitygroup" {
 
 locals {
   shared_tags = map(
-    "Name", "${var.teamid}-${var.prjid}",
-    "Owner", var.email,
-    "Team", var.teamid,
-    "Project", var.prjid
+    "name", "${var.teamid}-${var.prjid}",
+    "owner", var.email,
+    "team", var.teamid,
+    "project", var.prjid
   )
 }
