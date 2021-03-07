@@ -5,9 +5,9 @@ module "ecs" {
   key_name                    = "demo-key"
   iam_instance_profile_to_use = "arn:aws:iam::123456789012:instance-profile/rumse-demo-role-profile"
   account_id                  = "123456789012"
-  execution_role_arn       = "arn:aws:iam::123456789012:role/rumse-demo-role"
-  task_role_arn            = "arn:aws:iam::123456789012:role/rumse-demo-role"
-    lb_type                  = "application"
+  execution_role_arn          = "arn:aws:iam::123456789012:role/rumse-demo-role"
+  task_role_arn               = "arn:aws:iam::123456789012:role/rumse-demo-role"
+  lb_type                     = "application"
   # ---------------------------------------------
   # CONTAINER
   # ---------------------------------------------
@@ -28,7 +28,7 @@ module "ecs" {
   healthy_threshold        = "2"
   unhealthy_threshold      = "2"
   user_data_file_path      = "scripts/userdata.sh"
-  # ---------------------------------------------
+  # ----------------------------------------------
   # Note: Do not change teamid and prjid once set.
   teamid = var.teamid
   prjid  = var.prjid
