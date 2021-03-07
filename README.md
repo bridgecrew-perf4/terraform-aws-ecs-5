@@ -15,7 +15,7 @@
         <img src="https://img.shields.io/twitter/follow/varuntomar2019?style=social&logo=twitter"></a>
 </p>
 
-# Terraform module for [AWS ECS](https://www.terraform.io/docs/providers/aws/r/ecs_cluster.html)
+# Terraform module for [AWS ECS](https://aws.amazon.com/ecs)
 
 ## ECS cluster requires
 - An existing VPC (getting information from [terraform-global](https://github.com/tomarv2/terraform-global) module)
