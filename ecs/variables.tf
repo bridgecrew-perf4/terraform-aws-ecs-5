@@ -32,7 +32,7 @@ variable "security_groups_to_use" {
 }
 
 variable "security_group_ports" {
-  default     = [80]
+  default = [80]
 }
 
 
@@ -231,6 +231,7 @@ variable "volumes" {
     name      = string
     host_path = string
   }))
+  default = []
 }
 
 variable "placement_constraints" {
@@ -239,6 +240,7 @@ variable "placement_constraints" {
     type       = string
     expression = string
   }))
+  default = []
 }
 
 variable "environment" {
