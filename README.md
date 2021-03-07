@@ -1,9 +1,21 @@
-[![Unit Tests](https://github.com/tomarv2/terraform-aws-ecs/actions/workflows/unit_test.yml/badge.svg?branch=main)](https://github.com/tomarv2/terraform-aws-ecs/actions/workflows/unit_test.yml)
-[![SecurityScans](https://github.com/tomarv2/terraform-aws-ecs/actions/workflows/security_scans.yml/badge.svg?branch=main)](https://github.com/tomarv2/terraform-aws-ecs/actions/workflows/security_scans.yml)
-[![](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
+<p align="center">
+    <a href="https://github.com/tomarv2/terraform-aws-ecs/actions/workflows/security_scans.yml" alt="Security Scans">
+        <img src="https://github.com/tomarv2/terraform-aws-ecs/actions/workflows/security_scans.yml/badge.svg?branch=main" /></a>
+    <a href="https://www.apache.org/licenses/LICENSE-2.0" alt="license">
+        <img src="https://img.shields.io/github/license/tomarv2/terraform-aws-ecs" /></a>
+    <a href="https://github.com/tomarv2/terraform-aws-ecs/tags" alt="GitHub tag">
+        <img src="https://img.shields.io/github/v/tag/tomarv2/terraform-aws-ecs" /></a>
+    <a href="https://github.com/tomarv2/terraform-aws-ecs/pulse" alt="Activity">
+        <img src="https://img.shields.io/github/commit-activity/m/tomarv2/terraform-aws-ecs" /></a>
+    <a href="https://stackoverflow.com/users/6679867/tomarv2" alt="Stack Exchange reputation">
+        <img src="https://img.shields.io/stackexchange/stackoverflow/r/6679867"></a>
+    <a href="https://discord.gg/XH975bzN" alt="chat on Discord">
+        <img src="https://img.shields.io/discord/813961944443912223?logo=discord"></a>
+    <a href="https://twitter.com/intent/follow?screen_name=varuntomar2019" alt="follow on Twitter">
+        <img src="https://img.shields.io/twitter/follow/varuntomar2019?style=social&logo=twitter"></a>
+</p>
 
-# terraform-aws-ecs
-Terraform module for [AWS ECS](https://www.terraform.io/docs/providers/aws/r/ecs_cluster.html)
+# Terraform module for [AWS ECS](https://www.terraform.io/docs/providers/aws/r/ecs_cluster.html)
 
 ## ECS cluster requires
 - An existing VPC (getting information from [terraform-global](https://github.com/tomarv2/terraform-global) module)
@@ -22,7 +34,10 @@ Terraform module for [AWS ECS](https://www.terraform.io/docs/providers/aws/r/ecs
 - Module tested for Terraform 0.14.
 - AWS provider version [3.29.0](https://registry.terraform.io/providers/hashicorp/aws/latest)
 - `main` branch: Provider versions not pinned to keep up with Terraform releases
-- `tags` releases: Tags are pinned with versions (use latest tag in your releases)
+- `tags` releases: Tags are pinned with versions (use latest     
+        <a href="https://github.com/tomarv2/terraform-aws-ecs/tags" alt="GitHub tag">
+        <img src="https://img.shields.io/github/v/tag/tomarv2/terraform-aws-ecs" /></a>
+  in your releases)
 
 **NOTE:** 
 
@@ -47,30 +62,9 @@ pip install tfremote
 export TF_AWS_BUCKET=<remote state bucket name>
 export TF_AWS_PROFILE=default
 export TF_AWS_BUCKET_REGION=us-west-2
-export PATH=$PATH:/usr/local/bin/
 ```  
 
-- Update:
-```
-example/custom/sample.tfvars
-```
-
-- Following entries are required:
-
-```
-- account_id
-- function_name
-- role_arn
-- source_file (relative path to the base directory or provide absolute path)
-- output_file_path
-- teamid
-- prjid
-```
-
-- Change to: 
-```
-example/base
-``` 
+- Updated `examples` directory with required values 
 
 - Run and verify the output before deploying:
 ```
@@ -87,10 +81,101 @@ tf -cloud aws apply -var-file <path to .tfvars file>
 tf -cloud aws destroy -var-file <path to .tfvars file>
 ```
 
-- **ECS:** Please refer to example directory [link](example/ecs/base/README.md)
+> ❗️ **Important** - Two variables are required for using `tf` package:
+>
+> - teamid
+> - prjid
+>
+> These variables are required to set backend path in the remote storage.
+> Variables can be defined using:
+>
+> - As `inline variables` e.g.: `-var='teamid=demo-team' -var='prjid=demo-project'`
+> - Inside `.tfvars` file e.g.: `-var-file=<tfvars file location> `
+>
+> For more information refer to [Terraform documentation](https://www.terraform.io/docs/language/values/variables.html)
 
-- **ECS with Sidecar:** Please refer to example directory [link](example/ecs_with_sidecar/base/README.md)
+##### ECS
 
+```
+module "ecs" {
+  source = "../../ecs"
+
+  email                       = "demo@demo.com"
+  key_name                    = "demo-key"
+  iam_instance_profile_to_use = "arn:aws:iam::123456789012:instance-profile/rumse-demo-role-profile"
+  account_id                  = "123456789012"
+  execution_role_arn          = "arn:aws:iam::123456789012:role/rumse-demo-role"
+  task_role_arn               = "arn:aws:iam::123456789012:role/rumse-demo-role"
+  lb_type                     = "application"
+  # ---------------------------------------------
+  # CONTAINER
+  # ---------------------------------------------
+  environment_files = [{ value = "arn:aws:s3:::test-ecs-demo/test.env", type = "s3" }]
+  container_image   = "nginx"
+  port_mappings = [{ hostPort = 0,
+    protocol = "tcp",
+  containerPort = 80 }]
+  container_port           = [80]
+  security_group_ports     = [22, 80]
+  log_configuration        = { logDriver = "awslogs", options = { awslogs-group = "/ecs/rumse-demo-ecs-test", awslogs-region = "us-west-2", awslogs-stream-prefix = "ecs" } }
+  readonly_root_filesystem = false
+  lb_protocol              = "HTTP"
+  healthcheck_path         = "/"
+  healthcheck_matcher      = "200"
+  healthcheck_timeout      = "30"
+  healthcheck_interval     = "120"
+  healthy_threshold        = "2"
+  unhealthy_threshold      = "2"
+  user_data_file_path      = "scripts/userdata.sh"
+  # ----------------------------------------------
+  # Note: Do not change teamid and prjid once set.
+  teamid = var.teamid
+  prjid  = var.prjid
+}
+
+```
+
+##### ECS with sidecar
+
+```
+module "ecs" {
+  source = "../../ecs"
+
+  email                       = "demo@demo.com"
+  key_name                    = "demo-key"
+  iam_instance_profile_to_use = "arn:aws:iam::123456789012:instance-profile/rumse-demo-role-profile"
+  account_id                  = "123456789012"
+  execution_role_arn          = "arn:aws:iam::123456789012:role/rumse-demo-role"
+  task_role_arn               = "arn:aws:iam::123456789012:role/rumse-demo-role"
+  lb_type                     = "application"
+  # ---------------------------------------------
+  # CONTAINER
+  # ---------------------------------------------
+  environment_files = [{ value = "arn:aws:s3:::test-ecs-demo/test.env", type = "s3" }]
+  container_image   = "nginx"
+  port_mappings = [{ hostPort = 0,
+    protocol = "tcp",
+  containerPort = 80 }]
+  container_port           = [80]
+  security_group_ports     = [22, 80]
+  log_configuration        = { logDriver = "awslogs", options = { awslogs-group = "/ecs/rumse-demo-ecs-test", awslogs-region = "us-west-2", awslogs-stream-prefix = "ecs" } }
+  readonly_root_filesystem = false
+  lb_protocol              = "HTTP"
+  healthcheck_path         = "/"
+  healthcheck_matcher      = "200"
+  healthcheck_timeout      = "30"
+  healthcheck_interval     = "120"
+  healthy_threshold        = "2"
+  unhealthy_threshold      = "2"
+  user_data_file_path      = "scripts/userdata.sh"
+  # ----------------------------------------------
+  # Note: Do not change teamid and prjid once set.
+  teamid = var.teamid
+  prjid  = var.prjid
+}
+```
+
+Please refer to examples directory [link](examples)
 
 ## Inputs
 

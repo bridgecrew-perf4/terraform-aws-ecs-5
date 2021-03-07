@@ -9,7 +9,7 @@ package test
 import (
 	"fmt"
 	"testing"
-	"os"
+// 	"os"
 
 	"github.com/gruntwork-io/terratest/modules/aws"
 // 	"github.com/gruntwork-io/terratest/modules/random"
@@ -24,31 +24,22 @@ func TestTerraformAwsEcs(t *testing.T) {
 	t.Parallel()
     // ----------------------------------------------------------
 	// Path to Terraform code
-	TF_REPO_PATH            := "../example/ecs/base"
-	// ----------------------------------------------------------
-	// Path to test variable file
-	TF_VARS_FILE_PATH       := "../test_data/test.tfvars"
+	TF_REPO_PATH            := "../examples/ecs"
+	awsRegion               := aws.GetRandomStableRegion(t, nil, nil)
     // ----------------------------------------------------------
 	// remote state variables
-	// ----------------------------------------------------------
-    remoteStateBucketName   := os.Getenv("TF_AWS_BUCKET")
-    remoteStateBucketKey    := "test"
+    remoteStateBucketName   := "terraform-remotestate-security" //os.Getenv("TF_NONPROD_AWS_BUCKET")
+    remoteStateBucketKey    := "delme"
     awsBucketRegion         := "us-west-2"
     // ----------------------------------------------------------
     // expected results
-    // ----------------------------------------------------------
 	expectedTeamName        := fmt.Sprintf("rumse")
 	expectedProjectName     := fmt.Sprintf("demo-ecs-test") //-%s", random.UniqueId())
 	ecsName                 := fmt.Sprintf("rumse-demo-ecs-test")
 	ecsServiceName          := ecsName + "-service"
 	INSTANCE_TYPE           := "EC2" // other option is Fargate
     // ----------------------------------------------------------
-    //
-	// Pick a random AWS region to test in. This helps ensure your code works in all regions.
 	// NOTE: pending update to _base_module
-	//
-	awsRegion := aws.GetRandomStableRegion(t, []string{"us-west-2"}, nil)
-
 	terraformOptions := &terraform.Options{
 		// The path to where our Terraform code is located
 		TerraformDir: TF_REPO_PATH,
