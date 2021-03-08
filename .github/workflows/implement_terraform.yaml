@@ -1,15 +1,6 @@
 name: Implement Terraform
 
 on:
-  push:
-    branches:
-      - develop
-      - main
-    paths-ignore:
-      - 'README.md'
-      - 'LICENSE'
-      - '.gitignore'
-      - '**.md'
   pull_request:
     paths-ignore:
       - 'README.md'
