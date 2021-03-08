@@ -420,10 +420,10 @@ variable "scheduling_strategy" {
   default     = "REPLICA"
 }
 
-variable "requires_compatibilities" {
-  description = "A set of launch types required by the task. The valid values are EC2 and FARGATE."
-  default     = ["EC2"]
-}
+//variable "requires_compatibilities" {
+//  description = "A set of launch types required by the task. The valid values are EC2 and FARGATE."
+//  default     = ["EC2"]
+//}
 
 variable "capacity_providers" {
   description = "List of short names of one or more capacity providers to associate with the cluster. Valid values also include FARGATE and FARGATE_SPOT."

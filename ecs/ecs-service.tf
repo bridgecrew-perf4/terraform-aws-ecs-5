@@ -30,11 +30,15 @@ resource "aws_ecs_service" "ecs_service" {
     type = var.deployment_controller_type
   }
 
-  #Note: Network configuration only required for fargate
-  network_configuration {
-    subnets          = module.global.list_of_subnets[var.account_id][var.aws_region]
-    security_groups  = [module.securitygroup.security_group_id]
-    assign_public_ip = var.assign_public_ip
+  # Note: Network configuration only required for fargate
+  # https://www.terraform.io/docs/providers/aws/r/ecs_service.html#network_configuration
+  dynamic "network_configuration" {
+    for_each = var.network_mode == "awsvpc" ? ["true"] : []
+    content {
+      security_groups  = [module.securitygroup.security_group_id]
+      subnets          = module.global.list_of_subnets[var.account_id][var.aws_region]
+      assign_public_ip = var.assign_public_ip
+    }
   }
 
   health_check_grace_period_seconds = module.lb == "" ? null : var.health_check_grace_period_seconds

@@ -572,3 +572,7 @@ variable "environment_files_sidecar" {
 variable "security_group_ports" {
   default = [80]
 }
+
+variable "target_type" {
+  default = "instance"
+}

@@ -64,7 +64,7 @@ module "target_group" {
   healthcheck_timeout  = var.healthcheck_timeout
   unhealthy_threshold  = var.unhealthy_threshold
   healthcheck_interval = var.healthcheck_interval
-  target_type          = var.target_type
+  target_type          = var.launch_type == "FARGATE" ? "ip" : "instance"
 }
 
 module "lb" {

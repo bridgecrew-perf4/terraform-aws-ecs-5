@@ -6,7 +6,7 @@ resource "aws_ecs_cluster" "ecs_cluster" {
     name  = "containerInsights"
     value = "disabled"
   }
-  capacity_providers = []
+  capacity_providers = var.capacity_providers
 }
 
 resource "aws_ecs_task_definition" "ecs_task" {
@@ -22,7 +22,7 @@ resource "aws_ecs_task_definition" "ecs_task" {
   tags                  = merge(local.shared_tags)
   container_definitions = format("%s", local.container_definitions)
 
-  requires_compatibilities = var.requires_compatibilities
+  requires_compatibilities = var.launch_type == "FARGATE" ? ["FARGATE"] : ["EC2"]
 
   dynamic "volume" {
     for_each = var.volumes
@@ -40,6 +40,7 @@ resource "aws_ecs_task_definition" "ecs_task" {
     }
   }
 
-  depends_on = [module.ec2.autoscaling_group_arn]
+  depends_on = [module.lb.lb_listener] # changing to handle fargate
+  #depends_on = [module.ec2.autoscaling_group_arn]
 }
 

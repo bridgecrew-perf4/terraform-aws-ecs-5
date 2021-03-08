@@ -18,7 +18,7 @@ module "ecs" {
   network_mode             = "awsvpc"
   task_cpu                 = "512"
   task_memory              = "1024"
-  target_type              = "ip"
+  //target_type              = "ip"
   assign_public_ip         = true
   # ---------------------------------------------
   # CONTAINER
