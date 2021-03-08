@@ -2,6 +2,10 @@ resource "aws_ecs_cluster" "ecs_cluster" {
   name = "${var.teamid}-${var.prjid}"
   tags = merge(local.shared_tags)
   #checkov:skip=CKV_AWS_65:"Ensure container insights are enabled on ECS cluster"
+  setting {
+    name  = "containerInsights"
+    value = var.container_insights ? "enabled" : "disabled"
+  }
 }
 
 resource "aws_ecs_task_definition" "ecs_task" {
@@ -16,6 +20,8 @@ resource "aws_ecs_task_definition" "ecs_task" {
   execution_role_arn    = var.execution_role_arn == "" ? "" : var.execution_role_arn
   tags                  = merge(local.shared_tags)
   container_definitions = format("%s", local.container_definitions)
+
+  requires_compatibilities = var.launch_type == "FARGATE" ? ["FARGATE"] : ["EC2"]
 
   dynamic "volume" {
     for_each = var.volumes
@@ -33,5 +39,6 @@ resource "aws_ecs_task_definition" "ecs_task" {
     }
   }
 
-  depends_on = [module.ec2.autoscaling_group_arn]
+  depends_on = [module.lb.lb_listener] # changing to handle fargate
+  #depends_on = [module.ec2.autoscaling_group_arn]
 }

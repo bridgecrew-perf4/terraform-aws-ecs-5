@@ -10,7 +10,7 @@ module "ecs" {
   lb_type                     = "application"
   readonly_root_filesystem    = false
   # ---------------------------------------------
-  # REQUIRED FOR FARGATE
+  # NOTE: REQUIRED FOR FARGATE, COMMENT FOR EC2
   # ---------------------------------------------
   launch_type              = "FARGATE"
   capacity_providers       = ["FARGATE"]
@@ -21,9 +21,10 @@ module "ecs" {
   # ---------------------------------------------
   # CONTAINER
   # ---------------------------------------------
-  // Not supported for fargate
+  // NOTE: Not supported for fargate
   // environment_files = [{ value = "arn:aws:s3:::test-ecs-demo/test.env", type = "s3" }]
   container_image = "nginx"
+  // NOTE: Fargate: hostPort and containerPort should match
   port_mappings = [{ hostPort = 80,
     protocol = "tcp",
   containerPort = 80 }]

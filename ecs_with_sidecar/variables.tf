@@ -576,3 +576,41 @@ variable "security_group_ports" {
 variable "target_type" {
   default = "instance"
 }
+
+variable "deploy_ec2" {
+  description = "feature flag, true or false"
+  default     = false
+  type        = bool
+}
+
+variable "container_insights" {
+  description = "Controls if ECS Cluster has container insights enabled"
+  type        = bool
+  default     = false
+}
+
+variable "capacity_providers" {
+  description = "List of short names of one or more capacity providers to associate with the cluster. Valid values also include FARGATE and FARGATE_SPOT."
+  default     = []
+}
+
+variable "assign_public_ip" {
+  default = false
+}
+
+variable "deployment_controller_type" {
+  default = "ECS"
+}
+
+variable "deployment_maximum_percent" {
+  default = "100"
+}
+
+variable "deployment_minimum_healthy_percent" {
+  default = "0"
+}
+
+variable "scheduling_strategy" {
+  description = "Scheduling strategy to use for the service. The valid values are REPLICA and DAEMON."
+  default     = "REPLICA"
+}
