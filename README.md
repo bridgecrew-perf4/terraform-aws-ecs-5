@@ -22,7 +22,7 @@
 - Existing subnets (getting information from [terraform-global](https://github.com/tomarv2/terraform-global) module)
 - Existing IAM role
 
-## The module does the following
+## The module works both EC2 and Fargate
 - Creates an ECS service with AWS load balancer.
 - Stream logs to a CloudWatch log group.
 - Associate multiple target groups with Network Load Balancers (NLB) and Application Load Balancers (ALB).
@@ -34,7 +34,7 @@
 - Module tested for Terraform 0.14.
 - AWS provider version [3.29.0](https://registry.terraform.io/providers/hashicorp/aws/latest)
 - `main` branch: Provider versions not pinned to keep up with Terraform releases
-- `tags` releases: Tags are pinned with versions (use latest     
+- `tags` releases: Tags are pinned with versions (use     
         <a href="https://github.com/tomarv2/terraform-aws-ecs/tags" alt="GitHub tag">
         <img src="https://img.shields.io/github/v/tag/tomarv2/terraform-aws-ecs" /></a>
   in your releases)
