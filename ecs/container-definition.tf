@@ -8,13 +8,13 @@ data "template_file" "container_definition" {
     teamid      = var.teamid
     prjid       = var.prjid
 
-    health_check             = local.health_check == "{}" ? "null" : local.health_check
-    log_configuration        = local.log_configuration == "{}" ? "null" : local.log_configuration
-    memory_reservation       = var.memory_reservation == "" ? "null" : var.memory_reservation
-    command                  = local.command == "[]" ? "null" : local.command
-    entrypoint               = local.entrypoint == "[]" ? "null" : local.entrypoint
-    environment              = local.environment == "[]" ? "null" : local.environment
-    environment_files        = local.environment_files == "" ? "null" : local.environment_files
+    health_check       = local.health_check == "{}" ? "null" : local.health_check
+    log_configuration  = local.log_configuration == "{}" ? "null" : local.log_configuration
+    memory_reservation = var.memory_reservation == "" ? "null" : var.memory_reservation
+    command            = local.command == "[]" ? "null" : local.command
+    entrypoint         = local.entrypoint == "[]" ? "null" : local.entrypoint
+    environment        = local.environment == "[]" ? "null" : local.environment
+    //    environment_files        = local.environment_files == "" ? "null" : local.environment_files
     secrets                  = local.secrets == "[]" ? "null" : local.secrets
     mount_points             = jsonencode(local.mount_points)
     image                    = var.container_image == "" ? "null" : var.container_image

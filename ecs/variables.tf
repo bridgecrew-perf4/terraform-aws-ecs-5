@@ -327,8 +327,8 @@ variable "task_role_arn" {
 }
 
 variable "network_mode" {
-  description = "The Docker networking mode to use for the containers in the task. The valid values are none, bridge, awsvpc, and host."
-  default     = ""
+  description = "The Docker networking mode to use for the containers in the task. The valid values are none, bridge, awsvpc, and host. When networkMode=awsvpc, the host ports and container ports in port mappings must match."
+  default     = "bridge"
 }
 
 variable "pid_mode" {
@@ -413,4 +413,35 @@ variable "user_data_file_path" {
 
 variable "lb_port" {
   default = [80]
+}
+
+variable "scheduling_strategy" {
+  description = "Scheduling strategy to use for the service. The valid values are REPLICA and DAEMON."
+  default     = "REPLICA"
+}
+
+variable "requires_compatibilities" {
+  description = "A set of launch types required by the task. The valid values are EC2 and FARGATE."
+  default     = ["EC2"]
+}
+
+variable "capacity_providers" {
+  description = "List of short names of one or more capacity providers to associate with the cluster. Valid values also include FARGATE and FARGATE_SPOT."
+  default     = []
+}
+
+variable "deployment_controller_type" {
+  default = "ECS"
+}
+
+variable "health_check_grace_period_seconds" {
+  default = 10
+}
+
+variable "assign_public_ip" {
+  default = false
+}
+
+variable "target_type" {
+  default = "instance"
 }

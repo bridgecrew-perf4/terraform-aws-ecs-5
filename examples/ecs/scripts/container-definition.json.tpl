@@ -11,7 +11,6 @@
   "portMappings": ${port_mapping},
   "networkMode": "${networking_mode}",
   "environment": ${environment},
-   "environmentFiles": ${environment_files},
   "secrets": ${secrets},
   "mountPoints": ${mount_points},
   "memoryReservation": ${memory_reservation},
