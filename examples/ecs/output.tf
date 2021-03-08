@@ -13,15 +13,15 @@ output "ecs_service_name" {
   value       = module.ecs.ecs_service_name
 }
 
-//output "autoscaling_group_name" {
-//  description = "The name of the autoscaling group for the ECS container instances."
-//  value       = module.ecs.autoscaling_group_name
-//}
+output "autoscaling_group_name" {
+  description = "The name of the autoscaling group for the ECS container instances."
+  value       = module.ecs.autoscaling_group_name
+}
 
-//output "launch_configuration_name" {
-//  description = "The name of the launch configuration for the ECS container instances."
-//  value       = module.ecs.launch_configuration_name
-//}
+output "launch_configuration_name" {
+  description = "The name of the launch configuration for the ECS container instances."
+  value       = module.ecs.launch_configuration_name
+}
 
 output "security_group_id" {
   description = "The ID of the default security group associated with the ECS container instances."
@@ -33,9 +33,9 @@ output "log_group" {
   value       = module.ecs.log_group
 }
 
-//output "key_used" {
-//  value = module.ecs.key_used
-//}
+output "key_used" {
+  value = module.ecs.key_used
+}
 
 output "target_group_arn" {
   value = module.ecs.target_group_arn

@@ -37,7 +37,7 @@ func TestTerraformAwsEcs(t *testing.T) {
 	expectedProjectName     := fmt.Sprintf("demo-ecs-test") //-%s", random.UniqueId())
 	ecsName                 := fmt.Sprintf("rumse-demo-ecs-test")
 	ecsServiceName          := ecsName + "-service"
-	INSTANCE_TYPE           := "EC2" // other option is Fargate
+	INSTANCE_TYPE           := "EC2" // other option is FARGATE
     // ----------------------------------------------------------
 	// NOTE: pending update to _base_module
 	terraformOptions := &terraform.Options{

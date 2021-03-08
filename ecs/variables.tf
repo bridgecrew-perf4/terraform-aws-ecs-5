@@ -420,11 +420,6 @@ variable "scheduling_strategy" {
   default     = "REPLICA"
 }
 
-//variable "requires_compatibilities" {
-//  description = "A set of launch types required by the task. The valid values are EC2 and FARGATE."
-//  default     = ["EC2"]
-//}
-
 variable "capacity_providers" {
   description = "List of short names of one or more capacity providers to associate with the cluster. Valid values also include FARGATE and FARGATE_SPOT."
   default     = []
@@ -444,4 +439,16 @@ variable "assign_public_ip" {
 
 variable "target_type" {
   default = "instance"
+}
+
+variable "deploy_ec2" {
+  description = "feature flag, true or false"
+  default     = false
+  type        = bool
+}
+
+variable "container_insights" {
+  description = "Controls if ECS Cluster has container insights enabled"
+  type        = bool
+  default     = false
 }

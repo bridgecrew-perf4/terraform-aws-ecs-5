@@ -31,7 +31,9 @@ module "cloudwatch" {
 }
 
 module "ec2" {
-  source = "git::git@github.com:tomarv2/terraform-aws-ec2.git?ref=v0.0.1"
+  source = "git::git@github.com:tomarv2/terraform-aws-ec2.git?ref=v0.0.2"
+
+  deploy_ec2 = var.launch_type == "FARGATE" ? false : true
 
   email                       = var.email
   teamid                      = var.teamid

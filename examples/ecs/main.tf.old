@@ -1,24 +1,22 @@
 module "ecs" {
   source = "../../ecs"
 
-  email                       = "demo@demo.com"
-  key_name                    = "demo-key"
-  iam_instance_profile_to_use = "arn:aws:iam::123456789012:instance-profile/rumse-demo-role-profile"
-  account_id                  = "123456789012"
-  execution_role_arn          = "arn:aws:iam::123456789012:role/rumse-demo-role"
-  task_role_arn               = "arn:aws:iam::123456789012:role/rumse-demo-role"
+  email                       = "varun.tomar@databricks.com"
+  key_name                    = "vtomar"
+  iam_instance_profile_to_use = "arn:aws:iam::755921336062:instance-profile/security-dispatch-ecs-mgmt-role-profile"
+  account_id                  = "755921336062"
+  execution_role_arn          = "arn:aws:iam::755921336062:role/security-dispatch-ecs-mgmt-role"
+  task_role_arn               = "arn:aws:iam::755921336062:role/security-dispatch-ecs-mgmt-role"
   lb_type                     = "application"
   readonly_root_filesystem    = false
   # ---------------------------------------------
   # REQUIRED FOR FARGATE
   # ---------------------------------------------
   launch_type              = "FARGATE"
-  requires_compatibilities = ["FARGATE"]
   capacity_providers       = ["FARGATE"]
   network_mode             = "awsvpc"
   task_cpu                 = "512"
   task_memory              = "1024"
-  //target_type              = "ip"
   assign_public_ip         = true
   # ---------------------------------------------
   # CONTAINER
@@ -31,7 +29,7 @@ module "ecs" {
   containerPort = 80 }]
   container_port       = [80]
   security_group_ports = [22, 80]
-  log_configuration    = { logDriver = "awslogs", options = { awslogs-group = "/ecs/rumse-demo", awslogs-region = "us-west-2", awslogs-stream-prefix = "ecs" } }
+  log_configuration    = { logDriver = "awslogs", options = { awslogs-group = "/ecs/security-demo", awslogs-region = "us-west-2", awslogs-stream-prefix = "ecs" } }
   lb_protocol          = "HTTP"
   healthcheck_path     = "/"
   healthcheck_matcher  = "200"

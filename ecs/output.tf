@@ -13,15 +13,15 @@ output "ecs_service_name" {
   value       = aws_ecs_service.ecs_service.*.name
 }
 
-//output "autoscaling_group_name" {
-//  description = "The name of the autoscaling group for the ECS container instances."
-//  value       = module.ec2.autoscaling_group_name
-//}
-//
-//output "launch_configuration_name" {
-//  description = "The name of the launch configuration for the ECS container instances."
-//  value       = module.ec2.launch_configuration_name
-//}
+output "autoscaling_group_name" {
+  description = "The name of the autoscaling group for the ECS container instances."
+  value       = module.ec2.autoscaling_group_name
+}
+
+output "launch_configuration_name" {
+  description = "The name of the launch configuration for the ECS container instances."
+  value       = module.ec2.launch_configuration_name
+}
 
 output "security_group_id" {
   description = "The ID of the default security group associated with the ECS container instances."
@@ -33,10 +33,10 @@ output "log_group" {
   value       = module.cloudwatch.log_group
 }
 
-//output "key_used" {
-//  value       = module.ec2.key_used
-//  description = "The key used to create the resources"
-//}
+output "key_used" {
+  value       = module.ec2.key_used
+  description = "The key used to create the resources"
+}
 
 output "target_group_arn" {
   value = module.target_group.target_group_arn
