@@ -35,7 +35,7 @@ resource "aws_ecs_service" "ecs_service" {
   dynamic "network_configuration" {
     for_each = var.network_mode == "awsvpc" ? ["true"] : []
     content {
-      security_groups  = [module.securitygroup.security_group_id]
+      security_groups  = [module.security_group.security_group_id]
       subnets          = module.global.list_of_subnets[var.account_id][var.aws_region]
       assign_public_ip = var.assign_public_ip
     }

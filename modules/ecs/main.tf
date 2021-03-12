@@ -1,5 +1,5 @@
 module "global" {
-  source = "git::git@github.com:tomarv2/terraform-global.git//aws?ref=0.0.1"
+  source = "git::git@github.com:tomarv2/terraform-global.git//aws?ref=v0.0.1"
 }
 
 module "route53" {
@@ -31,7 +31,7 @@ module "cloudwatch" {
 }
 
 module "ec2" {
-  source = "git::git@github.com:tomarv2/terraform-aws-ec2.git?ref=v0.0.2"
+  source = "git::git@github.com:tomarv2/terraform-aws-ec2.git?ref=v0.0.1"
 
   deploy_ec2 = var.launch_type == "FARGATE" ? false : true
 
@@ -87,8 +87,10 @@ module "lb" {
   alb_ssl_policy         = var.alb_ssl_policy
 }
 
-module "securitygroup" {
-  source = "git::git@github.com:tomarv2/terraform-aws-securitygroup.git?ref=v0.0.1"
+module "security_group" {
+  source = "git::git@github.com:tomarv2/terraform-aws-security-group.git?ref=v0.0.1"
+
+  deploy_security_group = true
 
   email          = var.email
   teamid         = var.teamid
@@ -96,13 +98,4 @@ module "securitygroup" {
   profile_to_use = var.profile_to_use
   aws_region     = var.aws_region
   service_ports  = var.security_group_ports
-}
-
-locals {
-  shared_tags = map(
-    "name", "${var.teamid}-${var.prjid}",
-    "owner", var.email,
-    "team", var.teamid,
-    "project", var.prjid
-  )
 }

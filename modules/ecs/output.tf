@@ -10,7 +10,7 @@ output "cluster_arn" {
 
 output "ecs_service_name" {
   description = "The name of the created ECS service."
-  value       = aws_ecs_service.ecs_service.name
+  value       = aws_ecs_service.ecs_service.*.name
 }
 
 output "autoscaling_group_name" {
@@ -25,7 +25,7 @@ output "launch_configuration_name" {
 
 output "security_group_id" {
   description = "The ID of the default security group associated with the ECS container instances."
-  value       = module.securitygroup.security_group_id
+  value       = module.security_group.security_group_id
 }
 
 output "log_group" {
@@ -50,8 +50,4 @@ output "task_definition_arn" {
 output "container_definitions" {
   description = "A list of container definitions in JSON format that describe the different containers that make up your task"
   value       = local.container_definitions
-}
-
-output "lb_sidecar" {
-  value = module.lb_sidecar.lb_listener
 }

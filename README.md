@@ -18,6 +18,7 @@
 # Terraform module for [AWS ECS](https://aws.amazon.com/ecs)
 
 ## ECS cluster requires
+
 - An existing VPC (getting information from [terraform-global](https://github.com/tomarv2/terraform-global) module)
 - Existing subnets (getting information from [terraform-global](https://github.com/tomarv2/terraform-global) module)
 - Existing IAM role
@@ -63,19 +64,20 @@ export TF_AWS_BUCKET_REGION=us-west-2
 
 - Updated `examples` directory with required values 
 
+
 - Run and verify the output before deploying:
 ```
-tf -cloud aws plan -var-file <path to .tfvars file>
+tf -cloud aws plan
 ```
 
 - Run below to deploy:
 ```
-tf -cloud aws apply -var-file <path to .tfvars file>
+tf -cloud aws apply
 ```
 
 - Run below to destroy:
 ```
-tf -cloud aws destroy -var-file <path to .tfvars file>
+tf -cloud aws destroy
 ```
 
 > ❗️ **Important** - Two variables are required for using `tf` package:
@@ -93,7 +95,6 @@ tf -cloud aws destroy -var-file <path to .tfvars file>
 
 ##### ECS (EC2 and Fargate)
 ```
-module "ecs" {
 module "ecs" {
   source = "../../ecs"
 

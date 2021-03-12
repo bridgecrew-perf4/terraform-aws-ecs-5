@@ -1,5 +1,5 @@
 module "ecs" {
-  source = "../../ecs"
+  source = "../../modules/ecs"
 
   email                       = "demo@demo.com"
   key_name                    = "demo-key"

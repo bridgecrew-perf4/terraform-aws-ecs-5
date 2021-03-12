@@ -1,7 +1,7 @@
 locals {
   container_definition  = var.register_task_definition ? format("[%s]", data.template_file.container_definition.rendered) : format("%s", data.template_file.container_definition.rendered)
   container_definitions = replace(local.container_definition, "/\"(null)\"/", "$1")
-  security_group        = var.security_groups_to_use != null ? flatten([module.securitygroup.security_group_id, var.security_groups_to_use]) : flatten([module.securitygroup.security_group_id])
+  security_group        = var.security_groups_to_use != null ? flatten([module.security_group.security_group_id, var.security_groups_to_use]) : flatten([module.security_group.security_group_id])
   # -----------------------------------------------------------------
   # CONTAINER 1
   # -----------------------------------------------------------------
@@ -41,4 +41,13 @@ locals {
       readOnly      = tobool(lookup(mount_point, "readOnly", false))
     }
   ] : var.mount_points_sidecar
+}
+
+locals {
+  shared_tags = map(
+    "name", "${var.teamid}-${var.prjid}",
+    "owner", var.email,
+    "team", var.teamid,
+    "project", var.prjid
+  )
 }
