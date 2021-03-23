@@ -1,5 +1,5 @@
 data "template_file" "container_definition" {
-  template = file("scripts/container-definition.json.tpl")
+  template = file("${path.module}/scripts/container-definition.json.tpl")
 
   vars = {
     launch_type = var.launch_type
