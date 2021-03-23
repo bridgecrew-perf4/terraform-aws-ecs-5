@@ -35,7 +35,8 @@
 - Module tested for Terraform 0.14.
 - AWS provider version [3.29.0](https://registry.terraform.io/providers/hashicorp/aws/latest)
 - `main` branch: Provider versions not pinned to keep up with Terraform releases
-- `tags` releases: Tags are pinned with versions (use <a href="https://github.com/tomarv2/terraform-aws-ecs/tags" alt="GitHub tag"><img src="https://img.shields.io/github/v/tag/tomarv2/terraform-aws-ecs" /></a> in your releases)
+- `tags` releases: Tags are pinned with versions (use <a href="https://github.com/tomarv2/terraform-aws-ecs/tags" alt="GitHub tag">
+        <img src="https://img.shields.io/github/v/tag/tomarv2/terraform-aws-ecs" /></a> in your releases)
 
 **NOTE:** 
 
@@ -62,22 +63,22 @@ export TF_AWS_PROFILE=default
 export TF_AWS_BUCKET_REGION=us-west-2
 ```  
 
-- Updated `examples` directory with required values 
+- Updated `examples` directory with required values. 
 
 
 - Run and verify the output before deploying:
 ```
-tf -cloud aws plan
+tf -cloud aws plan -var='teamid=foo' -var='prjid=bar'
 ```
 
 - Run below to deploy:
 ```
-tf -cloud aws apply
+tf -cloud aws apply -var='teamid=foo' -var='prjid=bar'
 ```
 
 - Run below to destroy:
 ```
-tf -cloud aws destroy
+tf -cloud aws destroy -var='teamid=foo' -var='prjid=bar'
 ```
 
 > ❗️ **Important** - Two variables are required for using `tf` package:

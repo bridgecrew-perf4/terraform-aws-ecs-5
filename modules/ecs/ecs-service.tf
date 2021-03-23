@@ -1,7 +1,3 @@
-locals {
-  tg_name = tolist(module.target_group.target_group_arn)
-}
-
 resource "aws_ecs_service" "ecs_service" {
   name    = "${var.teamid}-${var.prjid}-service"
   cluster = aws_ecs_cluster.ecs_cluster.id

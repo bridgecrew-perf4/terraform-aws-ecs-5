@@ -20,13 +20,13 @@ locals {
       readOnly      = tobool(lookup(mount_point, "readOnly", false))
     }
   ] : var.mount_points
-}
 
-locals {
   shared_tags = map(
-    "name", "${var.teamid}-${var.prjid}",
+    "Name", "${var.teamid}-${var.prjid}",
     "owner", var.email,
     "team", var.teamid,
     "project", var.prjid
   )
+
+  tg_name = tolist(module.target_group.target_group_arn)
 }

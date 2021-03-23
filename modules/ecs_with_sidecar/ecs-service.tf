@@ -1,9 +1,3 @@
-locals {
-  tg_name_base    = tolist(module.target_group.target_group_arn)
-  tg_name_sidecar = tolist(module.target_group_sidecar.target_group_arn)
-  //  tg_name = concat(local.tg_name_base, local.tg_name_sidecar)
-}
-
 resource "aws_ecs_service" "ecs_service" {
   name    = "${var.teamid}-${var.prjid}-service"
   cluster = aws_ecs_cluster.ecs_cluster.id
