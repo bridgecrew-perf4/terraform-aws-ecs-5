@@ -408,7 +408,7 @@ variable "propagate_tags" {
 
 variable "user_data_file_path" {
   description = "ec2 user data location"
-  default     = "scripts/userdata.sh"
+  default     = null
 }
 
 variable "lb_port" {

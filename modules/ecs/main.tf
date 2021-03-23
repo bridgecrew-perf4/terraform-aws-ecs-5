@@ -46,7 +46,7 @@ module "ec2" {
   security_groups_to_use      = local.security_group
   image_id                    = module.global.ecs_ami[var.account_id][var.aws_region]
   inst_type                   = var.inst_type
-  user_data_file_path         = var.user_data_file_path
+  user_data_file_path         = var.user_data_file_path != null ? var.user_data_file_path : null
 }
 
 module "target_group" {
