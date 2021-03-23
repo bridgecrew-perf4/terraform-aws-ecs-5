@@ -33,13 +33,11 @@ module "ec2" {
   security_groups_to_use      = local.security_group
   image_id                    = module.global.ecs_ami[var.account_id][var.aws_region]
   inst_type                   = var.inst_type
-  user_data_file_path         = var.user_data_file_path
+  user_data_file_path         = var.user_data_file_path != null ? var.user_data_file_path : null
 }
 
 module "security_group" {
   source = "git::git@github.com:tomarv2/terraform-aws-security-group.git?ref=v0.0.1"
-
-  deploy_security_group = true
 
   email          = var.email
   teamid         = var.teamid
