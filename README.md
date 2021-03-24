@@ -20,14 +20,20 @@
 ## ECS cluster requires
 
 :point_right: An existing VPC (getting information from [terraform-global](https://github.com/tomarv2/terraform-global) module)
+
 :point_right: Existing subnets (getting information from [terraform-global](https://github.com/tomarv2/terraform-global) module)
+
 :point_right: Existing IAM role
 
 ## The module works both EC2 and Fargate
 :point_right: Creates an ECS service with AWS load balancer.
+
 :point_right: Stream logs to a CloudWatch log group.
+
 :point_right: Associate multiple target groups with Network Load Balancers (NLB) and Application Load Balancers (ALB).
+
 :point_right: Supports running ECS tasks on EC2 instances or Fargate.
+
 :point_right: Container deploys nginx container on port 80
 
 ## Versions
