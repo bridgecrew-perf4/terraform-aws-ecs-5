@@ -1,7 +1,6 @@
 module "ecs" {
   source = "../../modules/ecs_with_sidecar"
 
-  email                       = "demo@demo.com"
   key_name                    = "demo-key"
   iam_instance_profile_to_use = "arn:aws:iam::123456789012:instance-profile/demo-role-profile"
   account_id                  = "123456789012"

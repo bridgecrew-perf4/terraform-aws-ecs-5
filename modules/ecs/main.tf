@@ -7,7 +7,6 @@ module "route53" {
 
   deploy_route53 = var.deploy_route53 # FEATURE FLAG
 
-  email                  = var.email
   aws_region             = var.aws_region
   dns_name               = var.dns_name
   type_of_record         = var.type_of_record
@@ -23,7 +22,6 @@ module "cloudwatch" {
   source = "git::git@github.com:tomarv2/terraform-aws-cloudwatch.git?ref=v0.0.1"
 
   cloudwatch_path = var.cloudwatch_path
-  email           = var.email
   teamid          = var.teamid
   prjid           = var.prjid
   aws_region      = var.aws_region
@@ -35,7 +33,6 @@ module "ec2" {
 
   deploy_ec2 = var.launch_type == "FARGATE" ? false : true
 
-  email                       = var.email
   teamid                      = var.teamid
   prjid                       = var.prjid
   key_name                    = var.key_name
@@ -52,7 +49,6 @@ module "ec2" {
 module "target_group" {
   source = "git::git@github.com:tomarv2/terraform-aws-target-group.git?ref=v0.0.1"
 
-  email                = var.email
   teamid               = var.teamid
   prjid                = var.prjid
   account_id           = var.account_id
@@ -72,7 +68,6 @@ module "target_group" {
 module "lb" {
   source = "git::git@github.com:tomarv2/terraform-aws-lb.git?ref=v0.0.1"
 
-  email                  = var.email
   teamid                 = var.teamid
   prjid                  = var.prjid
   account_id             = var.account_id
@@ -90,7 +85,6 @@ module "lb" {
 module "security_group" {
   source = "git::git@github.com:tomarv2/terraform-aws-security-group.git?ref=v0.0.1"
 
-  email          = var.email
   teamid         = var.teamid
   prjid          = var.prjid
   profile_to_use = var.profile_to_use

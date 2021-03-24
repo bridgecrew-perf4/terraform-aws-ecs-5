@@ -19,16 +19,16 @@
 
 ## ECS cluster requires
 
-- An existing VPC (getting information from [terraform-global](https://github.com/tomarv2/terraform-global) module)
-- Existing subnets (getting information from [terraform-global](https://github.com/tomarv2/terraform-global) module)
-- Existing IAM role
+:point_right: An existing VPC (getting information from [terraform-global](https://github.com/tomarv2/terraform-global) module)
+:point_right: Existing subnets (getting information from [terraform-global](https://github.com/tomarv2/terraform-global) module)
+:point_right: Existing IAM role
 
 ## The module works both EC2 and Fargate
-- Creates an ECS service with AWS load balancer.
-- Stream logs to a CloudWatch log group.
-- Associate multiple target groups with Network Load Balancers (NLB) and Application Load Balancers (ALB).
-- Supports running ECS tasks on EC2 instances or Fargate.
-- Container deploys nginx container on port 80
+:point_right: Creates an ECS service with AWS load balancer.
+:point_right: Stream logs to a CloudWatch log group.
+:point_right: Associate multiple target groups with Network Load Balancers (NLB) and Application Load Balancers (ALB).
+:point_right: Supports running ECS tasks on EC2 instances or Fargate.
+:point_right: Container deploys nginx container on port 80
 
 ## Versions
 
@@ -99,7 +99,6 @@ tf -cloud aws destroy -var='teamid=foo' -var='prjid=bar'
 module "ecs" {
   source = "../../ecs"
 
-  email                       = "demo@demo.com"
   key_name                    = "demo-key"
   iam_instance_profile_to_use = "arn:aws:iam::123456789012:instance-profile/rumse-demo-ecs-role-profile"
   account_id                  = "123456789012"
@@ -149,7 +148,6 @@ module "ecs" {
 module "ecs" {
   source = "../../ecs_with_sidecar"
 
-  email                       = "demo@demo.com"
   key_name                    = "demo-key"
   iam_instance_profile_to_use = "arn:aws:iam::123456789012:instance-profile/demo-role-profile"
   account_id                  = "123456789012"
