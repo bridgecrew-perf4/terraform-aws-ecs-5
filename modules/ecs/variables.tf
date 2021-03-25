@@ -28,10 +28,9 @@ variable "security_groups_to_use" {
   default     = null
 }
 
-variable "security_group_ports" {
-  default = [80]
-}
-
+//variable "security_group_ports" {
+//  default = [80]
+//}
 
 variable "aws_region" {
   description = "aws region to create resources"
@@ -448,4 +447,48 @@ variable "container_insights" {
   description = "Controls if ECS Cluster has container insights enabled"
   type        = bool
   default     = false
+}
+
+variable "security_group_ingress" {
+  description = "Can be specified multiple times for each ingress rule. "
+  type = map(object({
+    description = string
+    from_port   = number
+    protocol    = string
+    to_port     = number
+    self        = bool
+    cidr_blocks = list(string)
+  }))
+  default = {
+    default = {
+      description = "HTTP"
+      from_port   = 80
+      protocol    = "tcp"
+      to_port     = 80
+      self        = true
+      cidr_blocks = []
+    }
+  }
+}
+
+variable "security_group_egress" {
+  description = "Can be specified multiple times for each egress rule. "
+  type = map(object({
+    description = string
+    from_port   = number
+    protocol    = string
+    to_port     = number
+    self        = bool
+    cidr_blocks = list(string)
+  }))
+  default = {
+    default = {
+      description = "Allow All Outbound"
+      from_port   = 0
+      protocol    = "-1"
+      to_port     = 0
+      self        = false
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+  }
 }

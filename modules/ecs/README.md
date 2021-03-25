@@ -46,7 +46,6 @@
 | deployment\_minimum\_healthy\_percent | n/a | `string` | `"0"` | no |
 | dns\_name | (Optional) DNS name | `string` | `""` | no |
 | efs\_to\_mount | (Optional) EFS to mount for persistent storage | `string` | `""` | no |
-| email | email address to be used for tagging (suggestion: use group email address) | `any` | n/a | yes |
 | enable\_monitoring | enable monitoring of launch configuration | `string` | `"false"` | no |
 | entrypoint | The entry point that is passed to the container | `list(any)` | `[]` | no |
 | environment | The environment variables to pass to the container. This is a list of maps | `list(map(string))` | `[]` | no |

@@ -82,12 +82,24 @@ module "lb" {
   alb_ssl_policy         = var.alb_ssl_policy
 }
 
-module "security_group" {
-  source = "git::git@github.com:tomarv2/terraform-aws-security-group.git?ref=v0.0.1"
+//module "security_group" {
+//  source = "git::git@github.com:tomarv2/terraform-aws-security-group.git?ref=v0.0.1"
+//
+//  teamid         = var.teamid
+//  prjid          = var.prjid
+//  profile_to_use = var.profile_to_use
+//  aws_region     = var.aws_region
+//  #service_ports  = var.security_group_ports
+//}
 
-  teamid         = var.teamid
-  prjid          = var.prjid
-  profile_to_use = var.profile_to_use
-  aws_region     = var.aws_region
-  service_ports  = var.security_group_ports
+module "security_group" {
+  source = "git::git@github.com:tomarv2/terraform-aws-security-group.git?ref=v0.0.2"
+
+  account_id             = var.account_id
+  security_group_ingress = var.security_group_ingress
+  security_group_egress  = var.security_group_egress
+  #-------------------------------------------
+  # Do not change the teamid, prjid once set.
+  teamid = var.teamid
+  prjid  = var.prjid
 }

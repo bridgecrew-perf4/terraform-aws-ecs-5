@@ -7,7 +7,6 @@ module "route53" {
 
   deploy_route53 = var.deploy_route53 # FEATURE FLAG
 
-  email                  = var.email
   aws_region             = var.aws_region
   dns_name               = var.dns_name
   type_of_record         = var.type_of_record
@@ -23,7 +22,6 @@ module "ec2" {
 
   deploy_ec2 = var.launch_type == "FARGATE" ? false : true
 
-  email                       = var.email
   teamid                      = var.teamid
   prjid                       = var.prjid
   key_name                    = var.key_name
@@ -37,13 +35,15 @@ module "ec2" {
 }
 
 module "security_group" {
-  source = "git::git@github.com:tomarv2/terraform-aws-security-group.git?ref=v0.0.1"
+  source = "git::git@github.com:tomarv2/terraform-aws-security-group.git?ref=v0.0.2"
 
-  email          = var.email
-  teamid         = var.teamid
-  prjid          = var.prjid
-  aws_region     = var.aws_region
-  service_ports  = var.security_group_ports
+  account_id = var.account_id
+  security_group_ingress = var.security_group_ingress
+  security_group_egress = var.security_group_egress
+  #-------------------------------------------
+  # Do not change the teamid, prjid once set.
+  teamid = var.teamid
+  prjid  = var.prjid
 }
 # ---------------------------------------------
 # CONTAINER 1
@@ -52,7 +52,6 @@ module "cloudwatch" {
   source = "git::git@github.com:tomarv2/terraform-aws-cloudwatch.git?ref=v0.0.1"
 
   cloudwatch_path = var.cloudwatch_path
-  email           = var.email
   teamid          = var.teamid
   prjid           = var.prjid
   aws_region      = var.aws_region
@@ -61,7 +60,6 @@ module "cloudwatch" {
 module "target_group" {
   source = "git::git@github.com:tomarv2/terraform-aws-target-group.git?ref=v0.0.1"
 
-  email                = var.email
   teamid               = var.teamid
   prjid                = var.prjid
   account_id           = var.account_id
@@ -80,7 +78,6 @@ module "target_group" {
 module "lb" {
   source = "git::git@github.com:tomarv2/terraform-aws-lb.git?ref=v0.0.1"
 
-  email                  = var.email
   teamid                 = var.teamid
   prjid                  = var.prjid
   account_id             = var.account_id
@@ -100,7 +97,6 @@ module "cloudwatch_sidecar" {
   source = "git::git@github.com:tomarv2/terraform-aws-cloudwatch.git?ref=v0.0.1"
 
   cloudwatch_path             = var.cloudwatch_path
-  email                       = var.email
   teamid                      = var.teamid
   prjid                       = var.prjid
   log_group_name              = "${var.teamid}-${var.prjid}-sidecar"
@@ -110,7 +106,6 @@ module "cloudwatch_sidecar" {
 module "target_group_sidecar" {
   source                      = "git::git@github.com:tomarv2/terraform-aws-target-group.git?ref=v0.0.1"
 
-  email                       = var.email
   teamid                      = var.teamid
   prjid                       = "${var.prjid}-sidecar"
   account_id                  = var.account_id
@@ -129,7 +124,6 @@ module "target_group_sidecar" {
 module "lb_sidecar" {
   source                      = "git::git@github.com:tomarv2/terraform-aws-lb.git?ref=v0.0.1"
 
-  email                       = var.email
   teamid                      = var.teamid
   prjid                       = "${var.prjid}-sidecar"
   account_id                  = var.account_id

@@ -1,6 +1,3 @@
-variable "email" {
-  description = "email address to be used for tagging (suggestion: use group email address)"
-}
 variable "teamid" {
   description = "(Required) Name of the team/group e.g. devops, dataengineering. Should not be changed after running 'tf apply'"
 }
@@ -569,9 +566,9 @@ variable "environment_files_sidecar" {
   default     = null
 }
 
-variable "security_group_ports" {
-  default = [80]
-}
+//variable "security_group_ports" {
+//  default = [80]
+//}
 
 variable "target_type" {
   default = "instance"
@@ -613,4 +610,49 @@ variable "deployment_minimum_healthy_percent" {
 variable "scheduling_strategy" {
   description = "Scheduling strategy to use for the service. The valid values are REPLICA and DAEMON."
   default     = "REPLICA"
+}
+
+
+variable "security_group_ingress" {
+  description = "Can be specified multiple times for each ingress rule. "
+  type = map(object({
+    description = string
+    from_port   = number
+    protocol    = string
+    to_port     = number
+    self        = bool
+    cidr_blocks = list(string)
+  }))
+  default = {
+    default = {
+      description = "HTTP"
+      from_port   = 80
+      protocol    = "tcp"
+      to_port     = 80
+      self        = true
+      cidr_blocks = []
+    }
+  }
+}
+
+variable "security_group_egress" {
+  description = "Can be specified multiple times for each egress rule. "
+  type = map(object({
+    description = string
+    from_port   = number
+    protocol    = string
+    to_port     = number
+    self        = bool
+    cidr_blocks = list(string)
+  }))
+  default = {
+    default = {
+      description = "Allow All Outbound"
+      from_port   = 0
+      protocol    = "-1"
+      to_port     = 0
+      self        = false
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+  }
 }

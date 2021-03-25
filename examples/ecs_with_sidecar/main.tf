@@ -1,3 +1,7 @@
+module "common" {
+  source = "git::git@github.com:tomarv2/terraform-global.git//common?ref=v0.0.1"
+}
+
 module "ecs" {
   source = "../../modules/ecs_with_sidecar"
 
@@ -7,8 +11,41 @@ module "ecs" {
   execution_role_arn          = "arn:aws:iam::123456789012:role/demo-role"
   task_role_arn               = "arn:aws:iam::123456789012:role/demo-role"
   lb_type                     = "application"
-  security_group_ports        = [22, 80, 8080]
   user_data_file_path         = "scripts/userdata.sh"
+    security_group_ingress = {
+    ecs_default = {
+      description = "local traffic"
+      from_port   = 0
+      protocol    = "-1"
+      to_port     = 0
+      self        = true
+      cidr_blocks = []
+    },
+    http = {
+      description = "HTTP"
+      from_port   = 80
+      protocol    = "tcp"
+      to_port     = 80
+      self        = false
+      cidr_blocks = module.common.cidr_for_sec_grp_access
+    }
+    ssh = {
+      description = "ssh"
+      from_port   = 22
+      protocol    = "tcp"
+      to_port     = 22
+      self        = false
+      cidr_blocks = module.common.cidr_for_sec_grp_access
+    }
+    container_specific = {
+      description = "application port"
+      from_port   = 8080
+      protocol    = "tcp"
+      to_port     = 8080
+      self        = false
+      cidr_blocks = module.common.cidr_for_sec_grp_access
+    }
+  }
   # ---------------------------------------------
   # NOTE: REQUIRED FOR FARGATE, COMMENT FOR EC2
   # ---------------------------------------------
