@@ -26,6 +26,7 @@
 :point_right: Existing IAM role
 
 ## The module works both EC2 and Fargate
+
 :point_right: Creates an ECS service with AWS load balancer.
 
 :point_right: Stream logs to a CloudWatch log group.
@@ -100,10 +101,14 @@ tf -cloud aws destroy -var='teamid=foo' -var='prjid=bar'
 >
 > For more information refer to [Terraform documentation](https://www.terraform.io/docs/language/values/variables.html)
 
-##### ECS (EC2 and Fargate)
+#### ECS (EC2 and Fargate)
 ```
+module "common" {
+  source = "git::git@github.com:tomarv2/terraform-global.git//common?ref=v0.0.1"
+}
+
 module "ecs" {
-  source = "../../ecs"
+  source = "../../modules/ecs"
 
   key_name                    = "demo-key"
   iam_instance_profile_to_use = "arn:aws:iam::123456789012:instance-profile/rumse-demo-ecs-role-profile"
@@ -132,7 +137,32 @@ module "ecs" {
     protocol = "tcp",
   containerPort = 80 }]
   container_port       = [80]
-  security_group_ports = [22, 80]
+  security_group_ingress = {
+    ecs_default = {
+      description = "local traffic"
+      from_port   = 0
+      protocol    = "-1"
+      to_port     = 0
+      self        = true
+      cidr_blocks = []
+    },
+    http = {
+      description = "HTTP"
+      from_port   = 80
+      protocol    = "tcp"
+      to_port     = 80
+      self        = false
+      cidr_blocks = module.common.cidr_for_sec_grp_access
+    }
+    ssh = {
+      description = "ssh"
+      from_port   = 22
+      protocol    = "tcp"
+      to_port     = 22
+      self        = false
+      cidr_blocks = module.common.cidr_for_sec_grp_access
+    }
+  }
   log_configuration    = { logDriver = "awslogs", options = { awslogs-group = "/ecs/rumse-demo", awslogs-region = "us-west-2", awslogs-stream-prefix = "ecs" } }
   lb_protocol          = "HTTP"
   healthcheck_path     = "/"
@@ -149,10 +179,14 @@ module "ecs" {
 }
 ```
 
-##### ECS with sidecar(EC2 and Fargate)
+#### ECS with sidecar(EC2 and Fargate)
 ```
+module "common" {
+  source = "git::git@github.com:tomarv2/terraform-global.git//common?ref=v0.0.1"
+}
+
 module "ecs" {
-  source = "../../ecs_with_sidecar"
+  source = "../../modules/ecs_with_sidecar"
 
   key_name                    = "demo-key"
   iam_instance_profile_to_use = "arn:aws:iam::123456789012:instance-profile/demo-role-profile"
@@ -160,8 +194,41 @@ module "ecs" {
   execution_role_arn          = "arn:aws:iam::123456789012:role/demo-role"
   task_role_arn               = "arn:aws:iam::123456789012:role/demo-role"
   lb_type                     = "application"
-  security_group_ports        = [22, 80, 8080]
   user_data_file_path         = "scripts/userdata.sh"
+    security_group_ingress = {
+    ecs_default = {
+      description = "local traffic"
+      from_port   = 0
+      protocol    = "-1"
+      to_port     = 0
+      self        = true
+      cidr_blocks = []
+    },
+    http = {
+      description = "HTTP"
+      from_port   = 80
+      protocol    = "tcp"
+      to_port     = 80
+      self        = false
+      cidr_blocks = module.common.cidr_for_sec_grp_access
+    }
+    ssh = {
+      description = "ssh"
+      from_port   = 22
+      protocol    = "tcp"
+      to_port     = 22
+      self        = false
+      cidr_blocks = module.common.cidr_for_sec_grp_access
+    }
+    container_specific = {
+      description = "application port"
+      from_port   = 8080
+      protocol    = "tcp"
+      to_port     = 8080
+      self        = false
+      cidr_blocks = module.common.cidr_for_sec_grp_access
+    }
+  }
   # ---------------------------------------------
   # NOTE: REQUIRED FOR FARGATE, COMMENT FOR EC2
   # ---------------------------------------------
