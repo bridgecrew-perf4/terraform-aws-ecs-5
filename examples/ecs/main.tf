@@ -5,22 +5,26 @@ module "common" {
 module "ecs" {
   source = "../../modules/ecs"
 
-  key_name                    = "demo-key"
-  iam_instance_profile_to_use = "arn:aws:iam::123456789012:instance-profile/rumse-demo-ecs-role-profile"
   account_id                  = "123456789012"
   execution_role_arn          = "arn:aws:iam::123456789012:role/rumse-demo-ecs-role"
   task_role_arn               = "arn:aws:iam::123456789012:role/rumse-demo-ecs-role"
   lb_type                     = "application"
   readonly_root_filesystem    = false
+  privileged                  = false
+  # ---------------------------------------------
+  # REQUIRED FOR EC2
+  # ---------------------------------------------
+  key_name                    = "vtomar"
+  iam_instance_profile_to_use = "arn:aws:iam::123456789012:instance-profile/rumse-demo-ecs-role-profile"
   # ---------------------------------------------
   # NOTE: REQUIRED FOR FARGATE, COMMENT FOR EC2
   # ---------------------------------------------
-  launch_type              = "FARGATE"
-  capacity_providers       = ["FARGATE"]
-  network_mode             = "awsvpc"
-  task_cpu                 = "512"
-  task_memory              = "1024"
-  assign_public_ip         = true
+  launch_type        = "FARGATE"
+  capacity_providers = ["FARGATE"]
+  network_mode       = "awsvpc"
+  task_cpu           = "512"
+  task_memory        = "1024"
+  assign_public_ip   = true
   # ---------------------------------------------
   # CONTAINER
   # ---------------------------------------------
@@ -31,7 +35,7 @@ module "ecs" {
   port_mappings = [{ hostPort = 80,
     protocol = "tcp",
   containerPort = 80 }]
-  container_port       = [80]
+  container_port = [80]
   security_group_ingress = {
     ecs_default = {
       description = "local traffic"
@@ -67,6 +71,36 @@ module "ecs" {
   healthy_threshold    = "2"
   unhealthy_threshold  = "2"
   user_data_file_path  = "scripts/userdata.sh"
+  volumes = [
+    {
+      name                        = "efs-test"
+      host_path                   = ""
+      docker_volume_configuration = []
+      efs_volume_configuration = [{
+        file_system_id : "fs-19e0b81e",
+        transit_encryption : "DISABLED",
+        root_directory : null,
+        transit_encryption_port : null,
+        authorization_config : [{
+          access_point_id : null,
+          iam : null
+        }]
+      }]
+    }
+  ]
+  mount_points = [
+    {
+      sourceVolume  = "efs-test",
+      containerPath = "/usr/share/nginx/html"
+    }
+  ]
+//  entrypoint = [
+//    "sh",
+//    "-c"
+//  ]
+//  command = [
+//    "df -h && while true; do echo \"RUNNING\"; done"
+//  ]
   # ----------------------------------------------
   # Note: Do not change teamid and prjid once set.
   teamid = var.teamid

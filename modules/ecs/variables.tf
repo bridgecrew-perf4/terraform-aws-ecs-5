@@ -123,11 +123,6 @@ variable "launch_type" {
   description = "(Optional) The launch type on which to run your service. The valid values are EC2 and FARGATE. Defaults to EC2"
 }
 
-variable "efs_to_mount" {
-  description = "(Optional) EFS to mount for persistent storage"
-  default     = ""
-}
-
 variable "dns_name" {
   description = "(Optional) DNS name"
   default     = ""
@@ -222,12 +217,51 @@ variable "log_configuration" {
 }
 
 variable "volumes" {
-  description = "volume to mount to ecs container"
+  description = "A set of volume blocks that containers in your task may use"
   type = list(object({
-    name      = string
     host_path = string
+    name      = string
+    docker_volume_configuration = list(object({
+      autoprovision = bool
+      driver        = string
+      driver_opts   = map(string)
+      labels        = map(string)
+      scope         = string
+    }))
+    efs_volume_configuration = list(object({
+      file_system_id          = string
+      root_directory          = string
+      transit_encryption      = string
+      transit_encryption_port = string
+      authorization_config = list(object({
+        access_point_id = string
+        iam             = string
+      }))
+    }))
   }))
-  default = []
+  default = [
+    //    {
+    //      host_path = null,
+    //      name      = ""
+    //      docker_volume_configuration = [{
+    //        autoprovision = null
+    //        driver        = null
+    //        driver_opts   = null
+    //        labels        = null
+    //        scope         = null
+    //      }]
+    ////      efs_volume_configuration = [{
+    ////        file_system_id          = null
+    ////        root_directory          = null
+    ////        transit_encryption      = null
+    ////        transit_encryption_port = ""
+    ////        authorization_config = [{
+    ////          access_point_id = ""
+    ////          iam             = ""
+    ////        }]
+    ////      }]
+    //    }
+  ]
 }
 
 variable "placement_constraints" {

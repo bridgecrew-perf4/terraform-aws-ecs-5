@@ -12,7 +12,7 @@ module "ecs" {
   task_role_arn               = "arn:aws:iam::123456789012:role/demo-role"
   lb_type                     = "application"
   user_data_file_path         = "scripts/userdata.sh"
-    security_group_ingress = {
+  security_group_ingress = {
     ecs_default = {
       description = "local traffic"
       from_port   = 0
@@ -60,7 +60,7 @@ module "ecs" {
   # ---------------------------------------------
   // NOTE: Not supported for fargate
   // environment_files = [{ value = "arn:aws:s3:::test-ecs-demo/test.env", type = "s3" }]
-  container_image   = "nginx"
+  container_image = "nginx"
   // NOTE: Fargate: hostPort and containerPort should match
   port_mappings = [{ hostPort = 80,
     protocol = "tcp",

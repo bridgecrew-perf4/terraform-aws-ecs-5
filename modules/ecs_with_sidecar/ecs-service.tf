@@ -2,14 +2,14 @@ resource "aws_ecs_service" "ecs_service" {
   name    = "${var.teamid}-${var.prjid}-service"
   cluster = aws_ecs_cluster.ecs_cluster.id
 
-  task_definition = aws_ecs_task_definition.ecs_task.*.arn[0]
-  desired_count   = var.task_instance_count
-  launch_type     = var.launch_type
+  task_definition                    = aws_ecs_task_definition.ecs_task.*.arn[0]
+  desired_count                      = var.task_instance_count
+  launch_type                        = var.launch_type
   deployment_maximum_percent         = var.deployment_maximum_percent
   deployment_minimum_healthy_percent = var.deployment_minimum_healthy_percent
   scheduling_strategy                = var.scheduling_strategy
-  propagate_tags = var.propagate_tags
-  tags           = merge(local.shared_tags)
+  propagate_tags                     = var.propagate_tags
+  tags                               = merge(local.shared_tags)
 
   dynamic "load_balancer" {
     for_each = formatlist("%s", local.tg_name_base)
@@ -29,7 +29,7 @@ resource "aws_ecs_service" "ecs_service" {
     }
   }
 
-    deployment_controller {
+  deployment_controller {
     # The deployment controller type to use. Valid values: CODE_DEPLOY, ECS.
     type = var.deployment_controller_type
   }
