@@ -1,11 +1,12 @@
-//resource "aws_ecs_capacity_provider" "prov" {
-//  name = "prov"
-//
-//  auto_scaling_group_provider {
-//    auto_scaling_group_arn = module.ec2.autoscaling_group_arn #asg.this_autoscaling_group_arn
-//  }
-//}
+/*
+resource "aws_ecs_capacity_provider" "prov" {
+  name = "prov"
 
+  auto_scaling_group_provider {
+    auto_scaling_group_arn = module.ec2.autoscaling_group_arn #asg.this_autoscaling_group_arn
+  }
+}
+*/
 resource "aws_ecs_cluster" "ecs_cluster" {
   name = "${var.teamid}-${var.prjid}"
   tags = merge(local.shared_tags)
@@ -14,14 +15,16 @@ resource "aws_ecs_cluster" "ecs_cluster" {
     name  = "containerInsights"
     value = var.container_insights ? "enabled" : "disabled"
   }
-  #capacity_providers = var.capacity_providers
-  #capacity_providers = ["FARGATE", "FARGATE_SPOT", aws_ecs_capacity_provider.prov.name]
+  /*
+  capacity_providers = var.capacity_providers
+  capacity_providers = ["FARGATE", "FARGATE_SPOT", aws_ecs_capacity_provider.prov.name]
 
-  //  default_capacity_provider_strategy {
-  //    capacity_provider = var.ecs_fargate_spot ? "FARGATE_SPOT" : "FARGATE"
-  //    #capacity_provider = aws_ecs_capacity_provider.prov.name # "FARGATE_SPOT"
-  //    weight            = "1"
-  //  }
+    default_capacity_provider_strategy {
+      capacity_provider = var.ecs_fargate_spot ? "FARGATE_SPOT" : "FARGATE"
+      #capacity_provider = aws_ecs_capacity_provider.prov.name # "FARGATE_SPOT"
+      weight            = "1"
+    }
+    */
 }
 
 resource "aws_ecs_task_definition" "ecs_task" {
@@ -86,4 +89,3 @@ resource "aws_ecs_task_definition" "ecs_task" {
 
   depends_on = [module.lb.lb_listener]
 }
-

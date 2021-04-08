@@ -119,4 +119,3 @@
 | security\_group\_id | The ID of the default security group associated with the ECS container instances. |
 | target\_group\_arn | n/a |
 | task\_definition\_arn | The full Amazon Resource Name (ARN) of the task definition |
-

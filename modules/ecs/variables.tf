@@ -526,3 +526,13 @@ variable "security_group_egress" {
     }
   }
 }
+
+variable "target_group_port" {
+  description = "target group ports"
+  default = []
+}
+
+variable "target_group_protocol" {
+  description = "type of load balancer (e.g. HTTP, TCP, etc)"
+  default     = ""
+}

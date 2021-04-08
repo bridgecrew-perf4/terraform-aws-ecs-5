@@ -5,12 +5,12 @@ module "common" {
 module "ecs" {
   source = "../../modules/ecs"
 
-  account_id                  = "123456789012"
-  execution_role_arn          = "arn:aws:iam::123456789012:role/rumse-demo-ecs-role"
-  task_role_arn               = "arn:aws:iam::123456789012:role/rumse-demo-ecs-role"
-  lb_type                     = "application"
-  readonly_root_filesystem    = false
-  privileged                  = false
+  account_id               = "123456789012"
+  execution_role_arn       = "arn:aws:iam::123456789012:role/rumse-demo-ecs-role"
+  task_role_arn            = "arn:aws:iam::123456789012:role/rumse-demo-ecs-role"
+  lb_type                  = "application"
+  readonly_root_filesystem = false
+  privileged               = false
   # ---------------------------------------------
   # REQUIRED FOR EC2
   # ---------------------------------------------
@@ -28,10 +28,10 @@ module "ecs" {
   # ---------------------------------------------
   # CONTAINER
   # ---------------------------------------------
-  // NOTE: Not supported for fargate
-  // environment_files = [{ value = "arn:aws:s3:::test-ecs-demo/test.env", type = "s3" }]
+  # NOTE: Not supported for fargate
+  # environment_files = [{ value = "arn:aws:s3:::test-ecs-demo/test.env", type = "s3" }]
   container_image = "nginx"
-  // NOTE: Fargate: hostPort and containerPort should match
+  # NOTE: Fargate: hostPort and containerPort should match
   port_mappings = [{ hostPort = 80,
     protocol = "tcp",
   containerPort = 80 }]
@@ -71,6 +71,17 @@ module "ecs" {
   healthy_threshold    = "2"
   unhealthy_threshold  = "2"
   user_data_file_path  = "scripts/userdata.sh"
+  variable "healthcheck" {
+  type = object({
+    command     = list(string)
+    retries     = number
+    timeout     = number
+    interval    = number
+    startPeriod = number
+  })
+  description = "A map containing command (string), timeout, interval (duration in seconds), retries (1-10, number of times to retry before marking container unhealthy), and startPeriod (0-300, optional grace period to wait, in seconds, before failed healthchecks count toward retries)"
+  default     = null
+}
   volumes = [
     {
       name                        = "efs-test"
@@ -94,13 +105,15 @@ module "ecs" {
       containerPath = "/usr/share/nginx/html"
     }
   ]
-//  entrypoint = [
-//    "sh",
-//    "-c"
-//  ]
-//  command = [
-//    "df -h && while true; do echo \"RUNNING\"; done"
-//  ]
+  /*
+    entrypoint = [
+      "sh",
+      "-c"
+    ]
+    command = [
+      "df -h && while true; do echo \"RUNNING\"; done"
+    ]
+  */
   # ----------------------------------------------
   # Note: Do not change teamid and prjid once set.
   teamid = var.teamid

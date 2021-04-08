@@ -64,8 +64,8 @@ module "target_group" {
   prjid                = var.prjid
   account_id           = var.account_id
   aws_region           = var.aws_region
-  lb_protocol          = var.lb_protocol
-  lb_port              = var.lb_port
+  lb_protocol          = var.target_group_protocol != "" ? var.target_group_protocol : var.lb_protocol
+  lb_port              = var.target_group_port != [] ? var.target_group_port : var.lb_port
   healthcheck_path     = var.healthcheck_path
   healthy_threshold    = var.healthy_threshold
   healthcheck_matcher  = var.healthcheck_matcher
@@ -110,8 +110,8 @@ module "target_group_sidecar" {
   prjid                = "${var.prjid}-sidecar"
   account_id           = var.account_id
   aws_region           = var.aws_region
-  lb_protocol          = var.lb_protocol_sidecar
-  lb_port              = var.lb_port_sidecar
+  lb_protocol          = var.target_group_protocol_sidecar != "" ? var.target_group_protocol_sidecar : var.lb_protocol_sidecar
+  lb_port              = var.target_group_port_sidecar != [] ? var.target_group_port_sidecar : var.lb_port_sidecar
   healthcheck_path     = var.healthcheck_path_sidecar
   healthy_threshold    = var.healthy_threshold_sidecar
   healthcheck_matcher  = var.healthcheck_matcher_sidecar

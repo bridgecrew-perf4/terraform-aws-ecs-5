@@ -54,8 +54,8 @@ module "target_group" {
   account_id           = var.account_id
   profile_to_use       = var.profile_to_use
   aws_region           = var.aws_region
-  lb_protocol          = var.lb_protocol
-  lb_port              = var.lb_port
+  lb_protocol          = var.target_group_protocol != "" ? var.target_group_protocol : var.lb_protocol
+  lb_port              = var.target_group_port != [] ? var.target_group_port : var.lb_port
   healthcheck_path     = var.healthcheck_path
   healthy_threshold    = var.healthy_threshold
   healthcheck_matcher  = var.healthcheck_matcher
@@ -81,16 +81,6 @@ module "lb" {
   alb_cert_arn           = var.alb_cert_arn
   alb_ssl_policy         = var.alb_ssl_policy
 }
-
-//module "security_group" {
-//  source = "git::git@github.com:tomarv2/terraform-aws-security-group.git?ref=v0.0.1"
-//
-//  teamid         = var.teamid
-//  prjid          = var.prjid
-//  profile_to_use = var.profile_to_use
-//  aws_region     = var.aws_region
-//  #service_ports  = var.security_group_ports
-//}
 
 module "security_group" {
   source = "git::git@github.com:tomarv2/terraform-aws-security-group.git?ref=v0.0.2"

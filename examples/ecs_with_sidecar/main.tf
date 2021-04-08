@@ -58,10 +58,10 @@ module "ecs" {
   # ---------------------------------------------
   # CONTAINER 1
   # ---------------------------------------------
-  // NOTE: Not supported for fargate
-  // environment_files = [{ value = "arn:aws:s3:::test-ecs-demo/test.env", type = "s3" }]
+  # NOTE: Not supported for fargate
+  # environment_files = [{ value = "arn:aws:s3:::test-ecs-demo/test.env", type = "s3" }]
   container_image = "nginx"
-  // NOTE: Fargate: hostPort and containerPort should match
+  # NOTE: Fargate: hostPort and containerPort should match
   port_mappings = [{ hostPort = 80,
     protocol = "tcp",
   containerPort = 80 }]
@@ -79,7 +79,7 @@ module "ecs" {
   # CONTAINER 2
   # ---------------------------------------------
   container_image_sidecar = "bitnami/apache:latest"
-  // Fargate: hostPort and containerPort should match
+  # Fargate: hostPort and containerPort should match
   port_mappings_sidecar = [{ hostPort = 8080,
     protocol = "tcp",
   containerPort = 8080 }]
