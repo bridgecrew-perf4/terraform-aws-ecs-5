@@ -1,51 +1,62 @@
 variable "teamid" {
   description = "(Required) Name of the team/group e.g. devops, dataengineering. Should not be changed after running 'tf apply'"
+  type        = string
 }
 
 variable "prjid" {
   description = "(Required) Name of the project/stack e.g: mystack, nifieks, demoaci. Should not be changed after running 'tf apply'"
+  type        = string
 }
 
 variable "key_name" {
   description = "The SSH key name (NOTE: key should pre-exist)"
+  type        = string
 }
 
 variable "profile_to_use" {
   description = "Getting values from ~/.aws/credentials"
   default     = "default"
+  type        = string
 }
 
 variable "iam_instance_profile_to_use" {
   description = "IAM instance profile"
+  type        = string
 }
 
 variable "security_groups_to_use" {
   description = "Existing Security groups to use"
   default     = null
+  type        = string
 }
 
 variable "aws_region" {
   description = "The AWS region to create resources"
   default     = "us-west-2"
+  type        = string
 }
-
+/*
 variable "az_count" {
   description = "Number of AZs to cover in a given AWS region"
   default     = "2"
+  type        = string
 }
-
+*/
 variable "container_image" {
   description = "Docker image to run in the ECS cluster"
+  type        = string
 }
 
 variable "container_port" {
   description = "List of container port exposed by the docker image to redirect traffic to"
   default     = [80]
+  type        = list(any)
 }
 
 variable "task_instance_count" {
   description = "The number of instances of the task definition to place and keep running."
   default     = 1
+  type        = any
 }
 
 variable "task_cpu" {
@@ -59,96 +70,115 @@ variable "task_memory" {
   type        = number
   default     = 512
 }
-
+/*
 variable "asg_min" {
   default     = 1
   description = "The minimum number of instances for the autoscaling group"
+  type        = number
 }
 
 variable "asg_desired" {
   default     = 1
   description = "The desired number of instances for the autoscaling group"
+  type        = number
 }
 
 variable "asg_max" {
   default     = 1
   description = "The maximum number of instances for the autoscaling group"
+  type        = number
 }
-
+*/
+/*
 variable "asg_cooldown" {
   default     = "300"
   description = "time between a scaling activity and the succeeding scaling activity"
+  type        = string
 }
-
+*/
+/*
 variable "asg_health_check_type" {
   default     = "EC2"
   description = "can be EC2 or ELB"
+  type        = string
 }
 
 variable "asg_health_grace_period" {
   default     = 600
   description = "How long to wait for instance to come up and start doing health checks"
+  type        = string
 }
-
 variable "root_volume_type" {
   default     = "gp2"
   description = "can be standard or gp2"
+  type        = string
 }
 
 variable "root_volume_size" {
   default     = 30
   description = "In gigabytes, must be at least 8"
+  type        = number
 }
 
-variable "spot-instance-price" {
+variable "spot_instance_price" {
   default     = ""
   description = "Set to blank to use on-demand pricing"
+  type        = string
 }
-
+*/
 variable "inst_type" {
   default     = "t2.medium"
   description = "aws instance type"
+  type        = string
 }
 
 variable "launch_type" {
   default     = "EC2"
   description = "(Optional) The launch type on which to run your service. The valid values are EC2 and FARGATE. Defaults to EC2"
+  type        = string
 }
-
+/*
 variable "efs_to_mount" {
   description = "(Optional) EFS to mount for persistent storage"
   default     = ""
+  type        = string
 }
-
+*/
+/*
 variable "dns_name" {
   description = "(Optional) DNS name"
   default     = ""
+  type        = string
 }
 
 variable "type_of_record" {
   description = "(Optional) type of DNS record"
   default     = "A"
+  type        = string
 }
 
 variable "ttl" {
   description = "(Optional) DNS timeout"
   default     = "300"
+  type        = string
 }
 
 variable "force_delete" {
   description = "forcefully delete asg"
   default     = "true"
+  type        = string
 }
 
 variable "enable_monitoring" {
   description = "enable monitoring of launch configuration"
   default     = "false"
+  type        = string
 }
-
 
 variable "associate_public_ip" {
   description = "associate public ip launch configuration"
   default     = "true"
+  type        = string
 }
 
 variable "create_before_destroy" {
@@ -156,14 +186,6 @@ variable "create_before_destroy" {
   default     = true
   type        = bool
 }
-
-//variable "deployment_maximum_percent" {
-//  default     = "100"
-//}
-//
-//variable "deployment_minimum_healthy_percent" {
-//  default     = "0"
-//}
 
 variable "evaluate_target_health" {
   description = "evaluate route53 health"
@@ -176,10 +198,11 @@ variable "deploy_route53" {
   default     = false
   type        = bool
 }
-
+*/
 variable "cloudwatch_path" {
   description = "name of the log group"
   default     = "ecs"
+  type        = string
 }
 
 variable "entrypoint" {
@@ -237,27 +260,28 @@ variable "volumes" {
     }))
   }))
   default = [
-    //    {
-    //      host_path = null,
-    //      name      = ""
-    //      docker_volume_configuration = [{
-    //        autoprovision = null
-    //        driver        = null
-    //        driver_opts   = null
-    //        labels        = null
-    //        scope         = null
-    //      }]
-    ////      efs_volume_configuration = [{
-    ////        file_system_id          = null
-    ////        root_directory          = null
-    ////        transit_encryption      = null
-    ////        transit_encryption_port = ""
-    ////        authorization_config = [{
-    ////          access_point_id = ""
-    ////          iam             = ""
-    ////        }]
-    ////      }]
-    //    }
+    /*
+        {
+          host_path = null,
+          name      = ""
+          docker_volume_configuration = [{
+            autoprovision = null
+            driver        = null
+            driver_opts   = null
+            labels        = null
+            scope         = null
+          }]
+          efs_volume_configuration = [{
+            file_system_id          = null
+            root_directory          = null
+            transit_encryption      = null
+            transit_encryption_port = ""
+            authorization_config = [{
+              access_point_id = ""
+              iam             = ""
+            }]
+          }]
+        }*/
   ]
 }
 
@@ -294,26 +318,31 @@ variable "mount_points" {
 variable "register_task_definition" {
   default     = true
   description = "Registers a new task definition from the supplied family and containerDefinitions"
+  type        = bool
 }
 
 variable "readonly_root_filesystem" {
   description = "read only root filesystem"
   default     = true
+  type        = bool
 }
 
 variable "memory_reservation" {
   description = "The soft limit (in MiB) of memory to reserve for the container. When system memory is under contention, Docker attempts to keep the container memory to this soft limit"
   default     = ""
+  type        = string
 }
 
 variable "container_memory" {
   description = "Fargate instance memory to provision (in MiB)"
   default     = ""
+  type        = string
 }
 
 variable "container_cpu" {
   description = "Fargate instance CPU units to provision (1 vCPU = 1024 CPU units)"
   default     = ""
+  type        = string
 }
 
 variable "repository_credentials" {
@@ -331,63 +360,81 @@ variable "secrets" {
 variable "alb_ssl_policy" {
   description = "alb ssl policy"
   default     = ""
+  type        = string
 }
 
 variable "alb_cert_arn" {
   description = "alb cert arn"
   default     = ""
+  type        = string
 }
 
 variable "family" {
   description = "(Required) A unique name for your task definition"
   default     = ""
+  type        = string
 }
 
 variable "execution_role_arn" {
   description = "The Amazon Resource Name (ARN) of the task execution role that the Amazon ECS container agent and the Docker daemon can assume."
   default     = ""
+  type        = string
 }
 
 variable "task_role_arn" {
   default     = ""
   description = "The short name or full Amazon Resource Name (ARN) of the IAM role that containers in this task can assume"
+  type        = string
 }
 
 variable "network_mode" {
   description = "The Docker networking mode to use for the containers in the task. The valid values are none, bridge, awsvpc, and host."
   default     = ""
+  type        = string
 }
 
 variable "pid_mode" {
   description = "The process namespace to use for the containers in the task. The valid values are host and task"
   default     = ""
+  type        = string
 }
-
+/*
 variable "alb_type" {
-  default = "application"
+  description = "Load balancer type"
+  default     = "application"
+  type        = string
 }
 
 variable "alb_protocol" {
-  default = "HTTP"
+  description = "Load balancer protocol"
+  default     = "HTTP"
+  type        = string
 }
 
 variable "alb_action_type" {
-  default = "forward"
+  description = "Load balancer action type"
+  default     = "forward"
+  type        = string
 }
-
+*/
 variable "port_mappings" {
   description = "host to container port mapping"
   type        = list(any)
   default     = []
 }
 
+/*
 variable "container_networking_mode" {
   description = "The Docker networking mode to use for the containers in the task. The valid values are none, bridge, awsvpc, and host"
   default     = "awsvpc"
+  type        = string
 }
+*/
 
 variable "essential" {
-  default = "true"
+  description = "Essential"
+  default     = "true"
+  type        = string
 }
 
 # container 2 config
@@ -440,12 +487,15 @@ variable "port_mappings_sidecar" {
 }
 
 variable "container_port_sidecar" {
-  default = [80]
+  description = "Container port sidecar"
+  default     = [80]
+  type        = list(any)
 }
 
 variable "log_configuration_sidecar" {
-  default = {}
-  type    = any
+  description = "Log configuration sidecar"
+  default     = {}
+  type        = any
 }
 
 variable "mount_points_sidecar" {
@@ -457,33 +507,42 @@ variable "mount_points_sidecar" {
 variable "memory_reservation_sidecar" {
   description = "The soft limit (in MiB) of memory to reserve for the container. When system memory is under contention, Docker attempts to keep the container memory to this soft limit"
   default     = ""
+  type        = string
 }
 
 variable "container_memory_sidecar" {
   description = "Fargate instance memory to provision (in MiB)"
   default     = ""
+  type        = string
 }
 
 variable "container_cpu_sidecar" {
   description = "Fargate instance CPU units to provision (1 vCPU = 1024 CPU units)"
   default     = ""
+  type        = string
 }
 
 variable "readonly_root_filesystem_sidecar" {
-  default = true
+  description = "Read only root filesystem sidecar"
+  default     = true
+  type        = bool
 }
 
 variable "container_image_sidecar" {
   description = "Docker image to run in the ECS cluster"
+  type        = string
 }
 
 variable "network_mode_sidecar" {
   description = "The Docker networking mode to use for the containers in the task. The valid values are none, bridge, awsvpc, and host."
   default     = ""
+  type        = string
 }
-
+/*
 variable "task_memory_sidecar" {
-  default = 0
+  description = "Task memory sidecar"
+  default     = 0
+  type        = number
 }
 
 variable "task_cpu_sidecar" {
@@ -491,109 +550,148 @@ variable "task_cpu_sidecar" {
   default     = 256
   type        = string
 }
-
+*/
 variable "essential_sidecar" {
-  default = "true"
+  description = "Essential sidecar"
+  default     = "true"
+  type        = string
 }
 
 variable "healthcheck_path" {
   description = "target group healthcheck path"
   default     = ""
+  type        = string
 }
 
 variable "healthy_threshold" {
   description = "target group healthcheck threshold"
   default     = ""
+  type        = string
 }
 
 variable "healthcheck_matcher" {
   description = "healthcheck matcher (e.g. 200)"
   default     = ""
+  type        = string
 }
 
 variable "healthcheck_timeout" {
   description = "target group healthcheck timeout"
   default     = ""
+  type        = string
 }
-
+/*
 variable "healthcheck_interval" {
   description = "target group healthcheck interval"
   default     = ""
 }
-
+*/
 variable "unhealthy_threshold" {
   description = "target group unheathy healthcheck threshold"
   default     = ""
+  type        = string
 }
 
+/*
 variable "is_public" {
   description = "is the resource public"
   default     = "false"
+  type        = string
 }
-
+*/
 variable "lb_type" {
   description = "load balancer type (network or application"
   default     = ""
+  type        = string
 }
 
 variable "lb_protocol" {
   description = "type of load balancer (e.g. HTTP, TCP, etc"
   default     = ""
+  type        = string
 }
-
+/*
 variable "lb_action_type" {
   description = "load balancer action type"
   default     = "forward"
+  type        = string
 }
-
+*/
 variable "account_id" {
   description = "(Required) AWS account id (used to pull values from shared base module like vpc info, subnet ids)"
+  type        = string
 }
 
 variable "propagate_tags" {
   default     = "SERVICE"
   description = " (Optional) Specifies whether to propagate the tags from the task definition or the service to the tasks. The valid values are SERVICE and TASK_DEFINITION."
+  type        = string
 }
 
 variable "user_data_file_path" {
   description = "ec2 user data location"
   default     = null
+  type        = string
 }
 
-variable "healthcheck_path_sidecar" {}
+variable "healthcheck_path_sidecar" {
+  description = "Healthcheck path sidecar"
+  type        = string
+}
 
-variable "healthcheck_matcher_sidecar" {}
+variable "healthcheck_matcher_sidecar" {
+  description = "Healthcheck matcher sidecar"
+  type        = string
+}
 
-variable "healthcheck_timeout_sidecar" {}
+variable "healthcheck_timeout_sidecar" {
+  description = "Healthcheck timeout sidecar"
+  type        = string
+}
 
-variable "healthcheck_interval_sidecar" {}
+variable "healthcheck_interval_sidecar" {
+  description = "Healthcheck internal sidecar"
+  type        = string
+}
 
 variable "healthy_threshold_sidecar" {
   description = "target group healthcheck threshold"
+  type        = string
 }
 
 variable "unhealthy_threshold_sidecar" {
   description = "target group unheathy healthcheck threshold"
+  type        = string
 }
 
 variable "alb_ssl_policy_sidecar" {
-  default = ""
+  description = "Load balancer policy sidecar"
+  default     = ""
+  type        = string
 }
 
 variable "alb_cert_arn_sidecar" {
-  default = ""
+  description = "Load balancer cert arn"
+  default     = ""
+  type        = string
 }
 
 variable "lb_protocol_sidecar" {
-  default = "HTTP"
+  description = "Load balancer protocol"
+  default     = "HTTP"
+  type        = string
 }
 
 variable "lb_port" {
-  default = [80]
+  description = "Load balancer port"
+  default     = [80]
+  type        = list(any)
 }
 
 variable "lb_port_sidecar" {
-  default = [80]
+  description = "Load balancer port sidecarr"
+  default     = [80]
+  type        = list(any)
 }
 
 variable "environment_files_sidecar" {
@@ -604,51 +702,60 @@ variable "environment_files_sidecar" {
   description = "One or more files containing the environment variables to pass to the container. This maps to the --env-file option to docker run. The file must be hosted in Amazon S3. This option is only available to tasks using the EC2 launch type. This is a list of maps"
   default     = null
 }
-
-//variable "security_group_ports" {
-//  default = [80]
-//}
-
+/*
 variable "target_type" {
-  default = "instance"
+  description = "Target type"
+  default     = "instance"
+  type        = string
 }
+
 
 variable "deploy_ec2" {
   description = "feature flag, true or false"
   default     = false
   type        = bool
 }
-
+*/
 variable "container_insights" {
   description = "Controls if ECS Cluster has container insights enabled"
   type        = bool
   default     = false
 }
-
+/*
 variable "capacity_providers" {
   description = "List of short names of one or more capacity providers to associate with the cluster. Valid values also include FARGATE and FARGATE_SPOT."
   default     = []
+  type        = list(string)
 }
-
+*/
 variable "assign_public_ip" {
-  default = false
+  description = "Assign public IP"
+  default     = false
+  type        = bool
 }
 
 variable "deployment_controller_type" {
-  default = "ECS"
+  description = "Controller type"
+  default     = "ECS"
+  type        = string
 }
 
 variable "deployment_maximum_percent" {
-  default = "100"
+  description = "Deployment maximum percent"
+  default     = "100"
+  type        = string
 }
 
 variable "deployment_minimum_healthy_percent" {
-  default = "0"
+  description = "Deployment minimum healthy percent"
+  default     = "0"
+  type        = string
 }
 
 variable "scheduling_strategy" {
   description = "Scheduling strategy to use for the service. The valid values are REPLICA and DAEMON."
   default     = "REPLICA"
+  type        = string
 }
 
 
@@ -658,6 +765,7 @@ variable "security_group_ingress" {
     description = string
     from_port   = number
     protocol    = string
+    type        = string
     to_port     = number
     self        = bool
     cidr_blocks = list(string)
@@ -667,6 +775,7 @@ variable "security_group_ingress" {
       description = "HTTP"
       from_port   = 80
       protocol    = "tcp"
+      type        = "ingress"
       to_port     = 80
       self        = true
       cidr_blocks = []
@@ -680,6 +789,7 @@ variable "security_group_egress" {
     description = string
     from_port   = number
     protocol    = string
+    type        = string
     to_port     = number
     self        = bool
     cidr_blocks = list(string)
@@ -689,6 +799,7 @@ variable "security_group_egress" {
       description = "Allow All Outbound"
       from_port   = 0
       protocol    = "-1"
+      type        = "egress"
       to_port     = 0
       self        = false
       cidr_blocks = ["0.0.0.0/0"]
@@ -698,20 +809,30 @@ variable "security_group_egress" {
 
 variable "target_group_port" {
   description = "target group ports"
-  default = []
+  default     = null
+  type        = list(any)
 }
 
 variable "target_group_protocol" {
   description = "type of load balancer (e.g. HTTP, TCP, etc)"
-  default     = ""
+  default     = null
+  type        = string
 }
 
 variable "target_group_port_sidecar" {
   description = "target group ports"
-  default = []
+  default     = null
+  type        = list(any)
 }
 
 variable "target_group_protocol_sidecar" {
   description = "type of load balancer (e.g. HTTP, TCP, etc)"
+  default     = null
+  type        = string
+}
+
+variable "healthcheck_interval" {
+  description = "target group healthcheck interval"
   default     = ""
+  type        = string
 }

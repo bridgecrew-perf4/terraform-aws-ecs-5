@@ -39,7 +39,8 @@ output "key_used" {
 }
 
 output "target_group_arn" {
-  value = module.target_group.target_group_arn
+  description = "Target group ARN"
+  value       = module.target_group.target_group_arn
 }
 
 output "task_definition_arn" {

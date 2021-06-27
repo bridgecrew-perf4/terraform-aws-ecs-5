@@ -3,10 +3,10 @@ locals {
   container_definitions = replace(local.container_definition, "/\"(null)\"/", "$1")
   security_group        = var.security_groups_to_use != null ? flatten([module.security_group.security_group_id, var.security_groups_to_use]) : flatten([module.security_group.security_group_id])
 
-  command                = jsonencode(var.command)
-  entrypoint             = jsonencode(var.entrypoint)
-  environment            = jsonencode(var.environment)
-  environment_files      = jsonencode(var.environment_files)
+  command     = jsonencode(var.command)
+  entrypoint  = jsonencode(var.entrypoint)
+  environment = jsonencode(var.environment)
+  #environment_files      = jsonencode(var.environment_files)
   secrets                = jsonencode(var.secrets)
   port_mappings          = jsonencode(var.port_mappings)
   repository_credentials = jsonencode(var.repository_credentials)
@@ -21,11 +21,15 @@ locals {
     }
   ] : var.mount_points
 
-  shared_tags = map(
-    "Name", "${var.teamid}-${var.prjid}",
-    "team", var.teamid,
-    "project", var.prjid
-  )
-
   tg_name = tolist(module.target_group.target_group_arn)
+}
+
+locals {
+  shared_tags = tomap(
+    {
+      "Name"    = "${var.teamid}-${var.prjid}",
+      "team"    = var.teamid,
+      "project" = var.prjid
+    }
+  )
 }

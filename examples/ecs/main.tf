@@ -71,17 +71,7 @@ module "ecs" {
   healthy_threshold    = "2"
   unhealthy_threshold  = "2"
   user_data_file_path  = "scripts/userdata.sh"
-  variable "healthcheck" {
-  type = object({
-    command     = list(string)
-    retries     = number
-    timeout     = number
-    interval    = number
-    startPeriod = number
-  })
-  description = "A map containing command (string), timeout, interval (duration in seconds), retries (1-10, number of times to retry before marking container unhealthy), and startPeriod (0-300, optional grace period to wait, in seconds, before failed healthchecks count toward retries)"
-  default     = null
-}
+  /*
   volumes = [
     {
       name                        = "efs-test"
@@ -105,7 +95,6 @@ module "ecs" {
       containerPath = "/usr/share/nginx/html"
     }
   ]
-  /*
     entrypoint = [
       "sh",
       "-c"

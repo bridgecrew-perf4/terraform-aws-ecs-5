@@ -14,7 +14,7 @@ data "template_file" "container_definition" {
     command            = local.command == "[]" ? "null" : local.command
     entrypoint         = local.entrypoint == "[]" ? "null" : local.entrypoint
     environment        = local.environment == "[]" ? "null" : local.environment
-    //    environment_files        = local.environment_files == "" ? "null" : local.environment_files
+    #environment_files        = local.environment_files == "" ? "null" : local.environment_files
     secrets                  = local.secrets == "[]" ? "null" : local.secrets
     mount_points             = jsonencode(local.mount_points)
     image                    = var.container_image == "" ? "null" : var.container_image

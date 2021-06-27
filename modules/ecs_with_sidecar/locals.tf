@@ -42,12 +42,17 @@ locals {
     }
   ] : var.mount_points_sidecar
 
-  shared_tags = map(
-    "Name", "${var.teamid}-${var.prjid}",
-    "team", var.teamid,
-    "project", var.prjid
-  )
-
   tg_name_base    = tolist(module.target_group.target_group_arn)
   tg_name_sidecar = tolist(module.target_group_sidecar.target_group_arn)
+}
+
+
+locals {
+  shared_tags = tomap(
+    {
+      "Name"    = "${var.teamid}-${var.prjid}",
+      "team"    = var.teamid,
+      "project" = var.prjid
+    }
+  )
 }

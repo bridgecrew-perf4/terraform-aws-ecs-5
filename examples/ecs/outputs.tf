@@ -34,13 +34,16 @@ output "log_group" {
 }
 
 output "key_used" {
-  value = module.ecs.key_used
+  description = "The SSH key name (NOTE: key should pre-exist)"
+  value       = module.ecs.key_used
 }
 
 output "target_group_arn" {
-  value = module.ecs.target_group_arn
+  description = "Target group ARN"
+  value       = module.ecs.target_group_arn
 }
 
 output "task_definition_arn" {
-  value = module.ecs.task_definition_arn
+  description = "ECS task definition ARN"
+  value       = module.ecs.task_definition_arn
 }
