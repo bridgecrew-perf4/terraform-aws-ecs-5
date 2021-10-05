@@ -61,7 +61,7 @@ terraform destroy -var='teamid=tryme' -var='prjid=project1'
 
 #### Recommended method (stores remote state in S3 using `prjid` and `teamid` to create directory structure):
 
-- Create python 3.6+ virtual environment
+- Create python 3.8+ virtual environment
 ```
 python3 -m venv <venv name>
 ```
