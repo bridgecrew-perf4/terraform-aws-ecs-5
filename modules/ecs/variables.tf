@@ -548,11 +548,6 @@ variable "health_check_grace_period_seconds" {
   type        = number
 }
 /*
-variable "assign_public_ip" {
-  default = false
-  type    = bool
-}
-
 variable "target_type" {
   default = "instance"
   type    = string
@@ -629,4 +624,10 @@ variable "target_group_protocol" {
   description = "type of load balancer (e.g. HTTP, TCP, etc)"
   default     = null
   type        = string
+}
+
+variable "assign_public_ip" {
+  description = "Assign public IP"
+  default     = false
+  type        = bool
 }

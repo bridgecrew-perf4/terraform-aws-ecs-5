@@ -298,3 +298,30 @@ module "ecs" {
 ```
 
 Please refer to examples directory [link](examples)
+
+
+#### **Terraform list resources**
+
+```
+terraform state list
+
+module.ecs.data.template_file.container_definition
+module.ecs.aws_ecs_cluster.ecs_cluster
+module.ecs.aws_ecs_service.ecs_service
+module.ecs.aws_ecs_task_definition.ecs_task[0]
+module.ecs.module.cloudwatch.aws_cloudwatch_log_group.cloudwatch
+module.ecs.module.ec2_alb.data.template_cloudinit_config.cloudinit
+module.ecs.module.ec2_alb.data.template_file.shell-script
+module.ecs.module.ec2_alb.aws_alb.alb
+module.ecs.module.ec2_alb.aws_alb_listener.listener
+module.ecs.module.ec2_alb.aws_autoscaling_group.asg
+module.ecs.module.ec2_alb.aws_launch_configuration.launchcfg
+module.ecs.module.ec2_alb.aws_lb_target_group.alb_target_group
+module.ecs.module.ec2_alb.module.securitygroup.aws_security_group.default
+```
+
+##### **Destroy one resource**
+
+```
+tf destroy -target module.ecs.module.ec2_alb.aws_launch_configuration.launchcfg -var='teamid=demo' -var='prjid=demo' -cloud aws
+```
