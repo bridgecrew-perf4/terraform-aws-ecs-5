@@ -14,7 +14,7 @@ module "route53" {
   types_of_records = var.types_of_records
   names            = var.names
   ttls             = var.ttls
-  values           = var.values
+  values           = [module.lb.lb_dns_name]
   teamid           = var.teamid
   prjid            = var.prjid
 }
