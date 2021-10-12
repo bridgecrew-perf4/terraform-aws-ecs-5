@@ -44,6 +44,7 @@ module "ecs" {
       to_port     = 0
       self        = true
       cidr_blocks = []
+      type        = "ingress"
     },
     http = {
       description = "HTTP"
@@ -52,6 +53,7 @@ module "ecs" {
       to_port     = 80
       self        = false
       cidr_blocks = module.common.cidr_for_sec_grp_access
+      type        = "ingress"
     }
     ssh = {
       description = "ssh"
@@ -60,9 +62,10 @@ module "ecs" {
       to_port     = 22
       self        = false
       cidr_blocks = module.common.cidr_for_sec_grp_access
+      type        = "ingress"
     }
   }
-  log_configuration    = { logDriver = "awslogs", options = { awslogs-group = "/ecs/rumse-demo", awslogs-region = "us-west-2", awslogs-stream-prefix = "ecs" } }
+  log_configuration    = { logDriver = "awslogs", options = { awslogs-group = "/ecs/${var.teamid}-${var.prjid}", awslogs-region = var.aws_region, awslogs-stream-prefix = "ecs" } }
   lb_protocol          = "HTTP"
   healthcheck_path     = "/"
   healthcheck_matcher  = "200"
@@ -95,14 +98,22 @@ module "ecs" {
       containerPath = "/usr/share/nginx/html"
     }
   ]
-    entrypoint = [
+  entrypoint = [
       "sh",
       "-c"
     ]
-    command = [
+  command = [
       "df -h && while true; do echo \"RUNNING\"; done"
     ]
   */
+  # ---------------------------------------------
+  # DNS
+  # ---------------------------------------------
+  deploy_route53   = true
+  domain_name      = "dev.demo.com"
+  names            = ["${var.teamid}-${var.prjid}"]
+  types_of_records = ["CNAME"]
+  # ----------------------------------------------
   # ----------------------------------------------
   # Note: Do not change teamid and prjid once set.
   teamid = var.teamid

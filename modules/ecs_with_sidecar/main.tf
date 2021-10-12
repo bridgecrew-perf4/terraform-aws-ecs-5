@@ -2,22 +2,23 @@ module "global" {
   source = "git::git@github.com:tomarv2/terraform-global.git//aws?ref=v0.0.1"
 }
 
-/*
+
 module "route53" {
-  source = "git::git@github.com:tomarv2/terraform-aws-route53.git?ref=v0.0.1"
+  source = "git::git@github.com:tomarv2/terraform-aws-route53.git?ref=v0.0.3"
 
-  deploy_route53 = var.deploy_route53 # FEATURE FLAG
+  deploy_route53 = var.deploy_route53
 
-  aws_region             = var.aws_region
-  dns_name               = var.dns_name
-  type_of_record         = var.type_of_record
-  account_id             = var.account_id
-  evaluate_target_health = var.evaluate_target_health
-  teamid                 = var.teamid
-  prjid                  = var.prjid
-  lb_zoneid              = module.lb.lb_zoneid
+  aws_region       = var.aws_region
+  account_id       = var.account_id
+  domain_name      = var.domain_name
+  types_of_records = var.types_of_records
+  names            = var.names
+  ttls             = var.ttls
+  values           = var.values
+  teamid           = var.teamid
+  prjid            = var.prjid
 }
-*/
+
 module "ec2" {
   source = "git::git@github.com:tomarv2/terraform-aws-ec2.git?ref=v0.0.3"
 
@@ -77,7 +78,7 @@ module "target_group" {
 }
 
 module "lb" {
-  source = "git::git@github.com:tomarv2/terraform-aws-lb.git?ref=v0.0.2"
+  source = "git::git@github.com:tomarv2/terraform-aws-lb.git?ref=v0.0.3"
 
   teamid                 = var.teamid
   prjid                  = var.prjid
@@ -123,7 +124,7 @@ module "target_group_sidecar" {
 }
 
 module "lb_sidecar" {
-  source = "git::git@github.com:tomarv2/terraform-aws-lb.git?ref=v0.0.2"
+  source = "git::git@github.com:tomarv2/terraform-aws-lb.git?ref=v0.0.3"
 
   teamid                 = var.teamid
   prjid                  = "${var.prjid}-sidecar"

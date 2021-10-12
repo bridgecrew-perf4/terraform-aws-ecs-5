@@ -5,22 +5,22 @@ module "global" {
 module "common" {
   source = "git::git@github.com:tomarv2/terraform-global.git//common?ref=v0.0.1"
 }
-/*
-module "route53" {
-  #source = "git::git@github.com:tomarv2/terraform-aws-route53.git?ref=v0.0.1"
-  source = "../../../terraform-aws-route53"
-  deploy_route53 = var.deploy_route53 # FEATURE FLAG
 
-  aws_region             = var.aws_region
-  domain_name               = var.dns_name
-  types         = var.type_of_record
-  account_id             = var.account_id
-  evaluate_target_health = var.evaluate_target_health
-  teamid                 = var.teamid
-  prjid                  = var.prjid
-  lb_zoneid              = module.lb.lb_zoneid
+module "route53" {
+  source = "git::git@github.com:tomarv2/terraform-aws-route53.git?ref=v0.0.3"
+
+  deploy_route53 = var.deploy_route53
+
+  aws_region       = var.aws_region
+  account_id       = var.account_id
+  domain_name      = var.domain_name
+  types_of_records = var.types_of_records
+  names            = var.names
+  values           = [module.lb.lb_dns_name]
+  ttls             = var.ttls
+  teamid           = var.teamid
+  prjid            = var.prjid
 }
-*/
 
 module "cloudwatch" {
   source = "git::git@github.com:tomarv2/terraform-aws-cloudwatch.git?ref=v0.0.2"
@@ -66,10 +66,8 @@ module "target_group" {
   target_type          = var.launch_type == "FARGATE" ? "ip" : "instance"
 }
 
-
-
 module "lb" {
-  source = "git::git@github.com:tomarv2/terraform-aws-lb.git?ref=v0.0.2"
+  source = "git::git@github.com:tomarv2/terraform-aws-lb.git?ref=v0.0.3"
 
   teamid                 = var.teamid
   prjid                  = var.prjid

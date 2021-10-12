@@ -22,11 +22,13 @@ variable "profile_to_use" {
 variable "key_name" {
   description = "The SSH key name (NOTE: key should pre-exist)"
   type        = string
+  default     = null
 }
 
 variable "iam_instance_profile_to_use" {
   description = "IAM instance profile"
   type        = string
+  default     = null
 }
 
 variable "security_groups_to_use" {
@@ -75,6 +77,7 @@ variable "task_memory" {
   type        = number
   default     = 512
 }
+
 /*
 variable "asg_min" {
   default     = 1
@@ -144,25 +147,37 @@ variable "launch_type" {
   description = "(Optional) The launch type on which to run your service. The valid values are EC2 and FARGATE. Defaults to EC2"
   type        = string
 }
-/*
-variable "dns_name" {
+
+variable "deploy_route53" {
+  description = "feature flag, true or false"
+  default     = false
+  type        = bool
+}
+
+variable "domain_name" {
   description = "(Optional) DNS name"
   default     = ""
   type        = string
 }
 
-variable "type_of_record" {
-  description = "(Optional) type of DNS record"
-  default     = "A"
-  type        = string
+variable "ttls" {
+  type        = list(any)
+  default     = ["3600"]
+  description = "(Required for non-alias records) The TTL of the record."
 }
 
-variable "ttl" {
-  description = "(Optional) DNS timeout"
-  default     = "300"
-  type        = string
+variable "names" {
+  type        = list(any)
+  default     = []
+  description = "The name of the record."
 }
-*/
+
+variable "types_of_records" {
+  type        = list(any)
+  default     = []
+  description = "The record type. Valid values are A, AAAA, CAA, CNAME, MX, NAPTR, NS, PTR, SOA, SPF, SRV and TXT. "
+}
+
 /*
 variable "force_delete" {
   description = "forcefully delete asg"
@@ -202,19 +217,7 @@ variable "deployment_minimum_healthy_percent" {
   default     = "0"
   type        = string
 }
-/*
-variable "evaluate_target_health" {
-  description = "evaluate route53 health"
-  default     = true
-  type        = bool
-}
 
-variable "deploy_route53" {
-  description = "feature flag, true or false"
-  default     = false
-  type        = bool
-}
-*/
 variable "cloudwatch_path" {
   description = "name of the log group"
   default     = "ecs"

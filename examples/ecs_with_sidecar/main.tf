@@ -20,6 +20,7 @@ module "ecs" {
       to_port     = 0
       self        = true
       cidr_blocks = []
+      type        = "ingress"
     },
     http = {
       description = "HTTP"
@@ -28,6 +29,7 @@ module "ecs" {
       to_port     = 80
       self        = false
       cidr_blocks = module.common.cidr_for_sec_grp_access
+      type        = "ingress"
     }
     ssh = {
       description = "ssh"
@@ -36,6 +38,7 @@ module "ecs" {
       to_port     = 22
       self        = false
       cidr_blocks = module.common.cidr_for_sec_grp_access
+      type        = "ingress"
     }
     container_specific = {
       description = "application port"
@@ -44,6 +47,7 @@ module "ecs" {
       to_port     = 8080
       self        = false
       cidr_blocks = module.common.cidr_for_sec_grp_access
+      type        = "ingress"
     }
   }
   # ---------------------------------------------

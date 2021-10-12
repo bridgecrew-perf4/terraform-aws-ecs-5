@@ -11,6 +11,7 @@ variable "prjid" {
 variable "key_name" {
   description = "The SSH key name (NOTE: key should pre-exist)"
   type        = string
+  default     = null
 }
 
 variable "profile_to_use" {
@@ -22,6 +23,7 @@ variable "profile_to_use" {
 variable "iam_instance_profile_to_use" {
   description = "IAM instance profile"
   type        = string
+  default     = null
 }
 
 variable "security_groups_to_use" {
@@ -145,24 +147,6 @@ variable "efs_to_mount" {
 }
 */
 /*
-variable "dns_name" {
-  description = "(Optional) DNS name"
-  default     = ""
-  type        = string
-}
-
-variable "type_of_record" {
-  description = "(Optional) type of DNS record"
-  default     = "A"
-  type        = string
-}
-
-variable "ttl" {
-  description = "(Optional) DNS timeout"
-  default     = "300"
-  type        = string
-}
-
 variable "force_delete" {
   description = "forcefully delete asg"
   default     = "true"
@@ -186,19 +170,38 @@ variable "create_before_destroy" {
   default     = true
   type        = bool
 }
-
-variable "evaluate_target_health" {
-  description = "evaluate route53 health"
-  default     = true
-  type        = bool
-}
+*/
 
 variable "deploy_route53" {
   description = "feature flag, true or false"
   default     = false
   type        = bool
 }
-*/
+
+variable "domain_name" {
+  description = "(Optional) DNS name"
+  default     = ""
+  type        = string
+}
+
+variable "ttls" {
+  type        = list(any)
+  default     = []
+  description = "(Required for non-alias records) The TTL of the record."
+}
+
+variable "names" {
+  type        = list(any)
+  default     = []
+  description = "The name of the record."
+}
+
+variable "types_of_records" {
+  type        = list(any)
+  default     = []
+  description = "The record type. Valid values are A, AAAA, CAA, CNAME, MX, NAPTR, NS, PTR, SOA, SPF, SRV and TXT. "
+}
+
 variable "cloudwatch_path" {
   description = "name of the log group"
   default     = "ecs"
