@@ -1,6 +1,7 @@
 resource "aws_ecs_service" "ecs_service" {
+  count   = var.deploy_ecs ? 1 : 0
   name    = "${var.teamid}-${var.prjid}-service"
-  cluster = aws_ecs_cluster.ecs_cluster.id
+  cluster = join("", aws_ecs_cluster.ecs_cluster.*.id)
 
   task_definition                    = aws_ecs_task_definition.ecs_task.*.arn[0]
   desired_count                      = var.task_instance_count

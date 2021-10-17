@@ -1,11 +1,11 @@
 output "cluster_name" {
   description = "The name of the created ECS cluster."
-  value       = aws_ecs_cluster.ecs_cluster.name
+  value       = aws_ecs_cluster.ecs_cluster.*.name
 }
 
 output "cluster_arn" {
   description = "The ARN of the created ECS cluster."
-  value       = aws_ecs_cluster.ecs_cluster.arn
+  value       = aws_ecs_cluster.ecs_cluster.*.arn
 }
 
 output "ecs_service_name" {
@@ -28,9 +28,9 @@ output "security_group_id" {
   value       = module.security_group.security_group_id
 }
 
-output "log_group" {
-  description = "The name of the default log group for the cluster."
-  value       = module.cloudwatch.log_group
+output "log_group_arn" {
+  description = "The arn of the cloudwatch log group.."
+  value       = module.cloudwatch.log_group_arn
 }
 
 output "key_used" {
@@ -51,4 +51,9 @@ output "task_definition_arn" {
 output "container_definitions" {
   description = "A list of container definitions in JSON format that describe the different containers that make up your task"
   value       = local.container_definitions
+}
+
+output "load_balancer_dns_name" {
+  description = "Load balancer dns name"
+  value       = module.lb.lb_dns_name
 }

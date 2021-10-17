@@ -839,3 +839,40 @@ variable "healthcheck_interval" {
   default     = ""
   type        = string
 }
+
+
+variable "deploy_ec2" {
+  description = "feature flag, true or false"
+  default     = false
+  type        = bool
+}
+
+variable "deploy_cloudwatch" {
+  description = "feature flag, true or false"
+  default     = true
+  type        = bool
+}
+
+variable "deploy_lb" {
+  description = "feature flag, true or false"
+  default     = true
+  type        = bool
+}
+
+variable "deploy_security_group" {
+  description = "feature flag, true or false"
+  default     = true
+  type        = bool
+}
+
+variable "deploy_target_group" {
+  description = "feature flag, true or false"
+  default     = true
+  type        = bool
+}
+
+variable "deploy_ecs" {
+  description = "feature flag, true or false"
+  default     = true
+  type        = bool
+}

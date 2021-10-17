@@ -8,6 +8,8 @@ resource "aws_ecs_capacity_provider" "prov" {
 }
 */
 resource "aws_ecs_cluster" "ecs_cluster" {
+  count = var.deploy_ecs ? 1 : 0
+
   name = "${var.teamid}-${var.prjid}"
   tags = merge(local.shared_tags)
   #checkov:skip=CKV_AWS_65:"Ensure container insights are enabled on ECS cluster"
@@ -28,7 +30,8 @@ resource "aws_ecs_cluster" "ecs_cluster" {
 }
 
 resource "aws_ecs_task_definition" "ecs_task" {
-  count = var.register_task_definition ? 1 : 0
+  count = var.deploy_ecs && var.register_task_definition ? 1 : 0
+
 
   memory                = var.task_memory
   cpu                   = var.task_cpu

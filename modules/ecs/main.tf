@@ -7,7 +7,7 @@ module "common" {
 }
 
 module "route53" {
-  source = "git::git@github.com:tomarv2/terraform-aws-route53.git?ref=v0.0.3"
+  source = "git::git@github.com:tomarv2/terraform-aws-route53.git?ref=v0.0.4"
 
   deploy_route53 = var.deploy_route53
 
@@ -23,7 +23,9 @@ module "route53" {
 }
 
 module "cloudwatch" {
-  source = "git::git@github.com:tomarv2/terraform-aws-cloudwatch.git?ref=v0.0.2"
+  source = "git::git@github.com:tomarv2/terraform-aws-cloudwatch.git?ref=v0.0.5"
+
+  deploy_cloudwatch = var.deploy_cloudwatch
 
   cloudwatch_path = var.cloudwatch_path
   teamid          = var.teamid
@@ -33,7 +35,7 @@ module "cloudwatch" {
 module "ec2" {
   source = "git::git@github.com:tomarv2/terraform-aws-ec2.git?ref=v0.0.3"
 
-  deploy_ec2 = var.launch_type == "FARGATE" ? false : true
+  deploy_ec2 = var.deploy_ec2 == true && var.launch_type != "FARGATE" ? true : false
 
   teamid                      = var.teamid
   prjid                       = var.prjid
@@ -49,7 +51,9 @@ module "ec2" {
 }
 
 module "target_group" {
-  source = "git::git@github.com:tomarv2/terraform-aws-target-group.git?ref=v0.0.2"
+  source = "git::git@github.com:tomarv2/terraform-aws-target-group.git?ref=v0.0.3"
+
+  deploy_target_group = var.deploy_target_group
 
   teamid               = var.teamid
   prjid                = var.prjid
@@ -67,7 +71,9 @@ module "target_group" {
 }
 
 module "lb" {
-  source = "git::git@github.com:tomarv2/terraform-aws-lb.git?ref=v0.0.3"
+  source = "git::git@github.com:tomarv2/terraform-aws-lb.git?ref=v0.0.4"
+
+  deploy_lb = var.deploy_lb
 
   teamid                 = var.teamid
   prjid                  = var.prjid
@@ -84,7 +90,9 @@ module "lb" {
 }
 
 module "security_group" {
-  source = "git::git@github.com:tomarv2/terraform-aws-security-group.git?ref=v0.0.3"
+  source = "git::git@github.com:tomarv2/terraform-aws-security-group.git?ref=v0.0.4"
+
+  deploy_security_group = var.deploy_security_group
 
   account_id             = var.account_id
   aws_region             = var.aws_region

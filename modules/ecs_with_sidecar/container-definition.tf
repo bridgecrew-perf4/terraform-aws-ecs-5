@@ -1,4 +1,6 @@
 data "template_file" "container_definition" {
+  count = var.deploy_ecs ? 1 : 0
+
   template = file("${path.module}/scripts/container-definition.json.tpl")
 
   vars = {

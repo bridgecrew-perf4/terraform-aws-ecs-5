@@ -19,12 +19,11 @@ module "ecs" {
   # ---------------------------------------------
   # NOTE: REQUIRED FOR FARGATE, COMMENT FOR EC2
   # ---------------------------------------------
-  launch_type        = "FARGATE"
-  capacity_providers = ["FARGATE"]
-  network_mode       = "awsvpc"
-  task_cpu           = "512"
-  task_memory        = "1024"
-  assign_public_ip   = true
+  launch_type      = "FARGATE"
+  network_mode     = "awsvpc"
+  task_cpu         = "512"
+  task_memory      = "1024"
+  assign_public_ip = true
   # ---------------------------------------------
   # CONTAINER
   # ---------------------------------------------
