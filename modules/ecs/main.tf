@@ -7,7 +7,7 @@ module "common" {
 }
 
 module "route53" {
-  source = "git::git@github.com:tomarv2/terraform-aws-route53.git?ref=v0.0.5"
+  source = "git::git@github.com:tomarv2/terraform-aws-route53.git?ref=v0.0.6"
 
   deploy_route53 = var.deploy_route53
 
@@ -43,9 +43,8 @@ module "ec2" {
   account_id                  = local.account_info
   aws_region                  = local.override_aws_region
   iam_instance_profile_to_use = var.iam_instance_profile_to_use
-  profile_to_use              = var.profile_to_use
   security_groups_to_use      = local.security_group
-  image_id                    = module.global.ecs_ami[var.account_id][var.aws_region]
+  image_id                    = module.global.ecs_ami[local.account_info][local.override_aws_region]
   inst_type                   = var.inst_type
   user_data_file_path         = var.user_data_file_path != null ? var.user_data_file_path : null
 }
@@ -79,7 +78,6 @@ module "lb" {
   prjid                  = var.prjid
   account_id             = local.account_info
   aws_region             = local.override_aws_region
-  profile_to_use         = var.profile_to_use
   lb_port                = var.lb_port
   target_group_arn       = module.target_group.target_group_arn
   security_groups_to_use = local.security_group

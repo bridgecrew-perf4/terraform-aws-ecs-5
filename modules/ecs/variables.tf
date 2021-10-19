@@ -11,12 +11,7 @@ variable "prjid" {
 variable "account_id" {
   description = "AWS account id (used to pull values from shared base module like vpc info, subnet ids)"
   type        = string
-}
-
-variable "profile_to_use" {
-  description = "Getting values from ~/.aws/credentials"
-  default     = "default"
-  type        = string
+  default     = null
 }
 
 variable "key_name" {
@@ -39,7 +34,7 @@ variable "security_groups_to_use" {
 
 variable "aws_region" {
   description = "aws region to create resources"
-  default     = "us-west-2"
+  default     = null
   type        = string
 }
 

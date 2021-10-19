@@ -28,7 +28,7 @@ variable "security_groups_to_use" {
 
 variable "aws_region" {
   description = "The AWS region to create resources"
-  default     = "us-west-2"
+  default     = null
   type        = string
 }
 
@@ -468,6 +468,7 @@ variable "lb_protocol" {
 variable "account_id" {
   description = "(Required) AWS account id (used to pull values from shared base module like vpc info, subnet ids)"
   type        = string
+  default     = null
 }
 
 variable "propagate_tags" {

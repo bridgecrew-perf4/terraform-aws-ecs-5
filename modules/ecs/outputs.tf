@@ -29,7 +29,7 @@ output "security_group_id" {
 }
 
 output "log_group_arn" {
-  description = "The arn of the cloudwatch log group.."
+  description = "The arn of the cloudwatch log group."
   value       = module.cloudwatch.log_group_arn
 }
 

@@ -30,7 +30,7 @@ output "security_group_id" {
 
 output "log_group" {
   description = "The name of the default log group for the cluster."
-  value       = module.ecs.log_group
+  value       = module.ecs.log_group_arn
 }
 
 output "key_used" {

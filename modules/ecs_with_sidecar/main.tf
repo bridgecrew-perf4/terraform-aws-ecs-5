@@ -4,7 +4,7 @@ module "global" {
 
 
 module "route53" {
-  source = "git::git@github.com:tomarv2/terraform-aws-route53.git?ref=v0.0.5"
+  source = "git::git@github.com:tomarv2/terraform-aws-route53.git?ref=v0.0.6"
 
   deploy_route53 = var.deploy_route53
 

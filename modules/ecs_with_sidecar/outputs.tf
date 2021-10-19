@@ -28,9 +28,9 @@ output "security_group_id" {
   value       = module.security_group.security_group_id
 }
 
-output "log_group" {
-  description = "The name of the default log group for the cluster."
-  value       = module.cloudwatch.log_group
+output "log_group_arn" {
+  description = "The arn of the log group for the cluster."
+  value       = module.cloudwatch.log_group_arn
 }
 
 output "key_used" {
