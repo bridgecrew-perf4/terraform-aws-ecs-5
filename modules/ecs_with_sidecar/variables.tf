@@ -14,12 +14,6 @@ variable "key_name" {
   default     = null
 }
 
-variable "profile_to_use" {
-  description = "Getting values from ~/.aws/credentials"
-  default     = "default"
-  type        = string
-}
-
 variable "iam_instance_profile_to_use" {
   description = "IAM instance profile"
   type        = string
@@ -37,13 +31,7 @@ variable "aws_region" {
   default     = "us-west-2"
   type        = string
 }
-/*
-variable "az_count" {
-  description = "Number of AZs to cover in a given AWS region"
-  default     = "2"
-  type        = string
-}
-*/
+
 variable "container_image" {
   description = "Docker image to run in the ECS cluster"
   type        = string
@@ -72,62 +60,7 @@ variable "task_memory" {
   type        = number
   default     = 512
 }
-/*
-variable "asg_min" {
-  default     = 1
-  description = "The minimum number of instances for the autoscaling group"
-  type        = number
-}
 
-variable "asg_desired" {
-  default     = 1
-  description = "The desired number of instances for the autoscaling group"
-  type        = number
-}
-
-variable "asg_max" {
-  default     = 1
-  description = "The maximum number of instances for the autoscaling group"
-  type        = number
-}
-*/
-/*
-variable "asg_cooldown" {
-  default     = "300"
-  description = "time between a scaling activity and the succeeding scaling activity"
-  type        = string
-}
-*/
-/*
-variable "asg_health_check_type" {
-  default     = "EC2"
-  description = "can be EC2 or ELB"
-  type        = string
-}
-
-variable "asg_health_grace_period" {
-  default     = 600
-  description = "How long to wait for instance to come up and start doing health checks"
-  type        = string
-}
-variable "root_volume_type" {
-  default     = "gp2"
-  description = "can be standard or gp2"
-  type        = string
-}
-
-variable "root_volume_size" {
-  default     = 30
-  description = "In gigabytes, must be at least 8"
-  type        = number
-}
-
-variable "spot_instance_price" {
-  default     = ""
-  description = "Set to blank to use on-demand pricing"
-  type        = string
-}
-*/
 variable "inst_type" {
   default     = "t2.medium"
   description = "aws instance type"
@@ -139,38 +72,6 @@ variable "launch_type" {
   description = "(Optional) The launch type on which to run your service. The valid values are EC2 and FARGATE. Defaults to EC2"
   type        = string
 }
-/*
-variable "efs_to_mount" {
-  description = "(Optional) EFS to mount for persistent storage"
-  default     = ""
-  type        = string
-}
-*/
-/*
-variable "force_delete" {
-  description = "forcefully delete asg"
-  default     = "true"
-  type        = string
-}
-
-variable "enable_monitoring" {
-  description = "enable monitoring of launch configuration"
-  default     = "false"
-  type        = string
-}
-
-variable "associate_public_ip" {
-  description = "associate public ip launch configuration"
-  default     = "true"
-  type        = string
-}
-
-variable "create_before_destroy" {
-  description = "lifecycle for asg"
-  default     = true
-  type        = bool
-}
-*/
 
 variable "deploy_route53" {
   description = "feature flag, true or false"
@@ -401,38 +302,12 @@ variable "pid_mode" {
   default     = ""
   type        = string
 }
-/*
-variable "alb_type" {
-  description = "Load balancer type"
-  default     = "application"
-  type        = string
-}
 
-variable "alb_protocol" {
-  description = "Load balancer protocol"
-  default     = "HTTP"
-  type        = string
-}
-
-variable "alb_action_type" {
-  description = "Load balancer action type"
-  default     = "forward"
-  type        = string
-}
-*/
 variable "port_mappings" {
   description = "host to container port mapping"
   type        = list(any)
   default     = []
 }
-
-/*
-variable "container_networking_mode" {
-  description = "The Docker networking mode to use for the containers in the task. The valid values are none, bridge, awsvpc, and host"
-  default     = "awsvpc"
-  type        = string
-}
-*/
 
 variable "essential" {
   description = "Essential"
@@ -541,19 +416,7 @@ variable "network_mode_sidecar" {
   default     = ""
   type        = string
 }
-/*
-variable "task_memory_sidecar" {
-  description = "Task memory sidecar"
-  default     = 0
-  type        = number
-}
 
-variable "task_cpu_sidecar" {
-  description = "Fargate instance CPU units to provision (1 vCPU = 1024 CPU units)"
-  default     = 256
-  type        = string
-}
-*/
 variable "essential_sidecar" {
   description = "Essential sidecar"
   default     = "true"
@@ -583,25 +446,13 @@ variable "healthcheck_timeout" {
   default     = ""
   type        = string
 }
-/*
-variable "healthcheck_interval" {
-  description = "target group healthcheck interval"
-  default     = ""
-}
-*/
+
 variable "unhealthy_threshold" {
   description = "target group unheathy healthcheck threshold"
   default     = ""
   type        = string
 }
 
-/*
-variable "is_public" {
-  description = "is the resource public"
-  default     = "false"
-  type        = string
-}
-*/
 variable "lb_type" {
   description = "load balancer type (network or application"
   default     = ""
@@ -613,13 +464,7 @@ variable "lb_protocol" {
   default     = ""
   type        = string
 }
-/*
-variable "lb_action_type" {
-  description = "load balancer action type"
-  default     = "forward"
-  type        = string
-}
-*/
+
 variable "account_id" {
   description = "(Required) AWS account id (used to pull values from shared base module like vpc info, subnet ids)"
   type        = string
@@ -705,32 +550,13 @@ variable "environment_files_sidecar" {
   description = "One or more files containing the environment variables to pass to the container. This maps to the --env-file option to docker run. The file must be hosted in Amazon S3. This option is only available to tasks using the EC2 launch type. This is a list of maps"
   default     = null
 }
-/*
-variable "target_type" {
-  description = "Target type"
-  default     = "instance"
-  type        = string
-}
 
-
-variable "deploy_ec2" {
-  description = "feature flag, true or false"
-  default     = false
-  type        = bool
-}
-*/
 variable "container_insights" {
   description = "Controls if ECS Cluster has container insights enabled"
   type        = bool
   default     = false
 }
-/*
-variable "capacity_providers" {
-  description = "List of short names of one or more capacity providers to associate with the cluster. Valid values also include FARGATE and FARGATE_SPOT."
-  default     = []
-  type        = list(string)
-}
-*/
+
 variable "assign_public_ip" {
   description = "Assign public IP"
   default     = false

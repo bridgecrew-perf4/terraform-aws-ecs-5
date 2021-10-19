@@ -44,10 +44,7 @@ locals {
 
   tg_name_base    = tolist(module.target_group.target_group_arn)
   tg_name_sidecar = tolist(module.target_group_sidecar.target_group_arn)
-}
 
-
-locals {
   shared_tags = tomap(
     {
       "Name"    = "${var.teamid}-${var.prjid}",
@@ -55,4 +52,11 @@ locals {
       "project" = var.prjid
     }
   )
+
+  account_info        = var.account_id != null ? var.account_id : data.aws_caller_identity.current.account_id
+  override_aws_region = var.aws_region != null ? var.aws_region : data.aws_region.current.name
 }
+
+data "aws_region" "current" {}
+
+data "aws_caller_identity" "current" {}

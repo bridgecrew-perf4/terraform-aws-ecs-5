@@ -4,12 +4,12 @@ module "global" {
 
 
 module "route53" {
-  source = "git::git@github.com:tomarv2/terraform-aws-route53.git?ref=v0.0.4"
+  source = "git::git@github.com:tomarv2/terraform-aws-route53.git?ref=v0.0.5"
 
   deploy_route53 = var.deploy_route53
 
-  aws_region       = var.aws_region
-  account_id       = var.account_id
+  account_id       = local.account_info
+  aws_region       = local.override_aws_region
   domain_name      = var.domain_name
   types_of_records = var.types_of_records
   names            = var.names
@@ -20,28 +20,28 @@ module "route53" {
 }
 
 module "ec2" {
-  source = "git::git@github.com:tomarv2/terraform-aws-ec2.git?ref=v0.0.3"
+  source = "git::git@github.com:tomarv2/terraform-aws-ec2.git?ref=v0.0.4"
 
   deploy_ec2 = var.deploy_ec2 == true && var.launch_type != "FARGATE" ? true : false
 
   teamid                      = var.teamid
   prjid                       = var.prjid
   key_name                    = var.key_name
-  aws_region                  = var.aws_region
-  account_id                  = var.account_id
+  account_id                  = local.account_info
+  aws_region                  = local.override_aws_region
   iam_instance_profile_to_use = var.iam_instance_profile_to_use
   security_groups_to_use      = local.security_group
-  image_id                    = module.global.ecs_ami[var.account_id][var.aws_region]
+  image_id                    = module.global.ecs_ami[local.account_info][local.override_aws_region]
   inst_type                   = var.inst_type
   user_data_file_path         = var.user_data_file_path != null ? var.user_data_file_path : null
 }
 
 module "security_group" {
-  source                = "git::git@github.com:tomarv2/terraform-aws-security-group.git?ref=v0.0.4"
+  source                = "git::git@github.com:tomarv2/terraform-aws-security-group.git?ref=v0.0.5"
   deploy_security_group = var.deploy_security_group
 
-  account_id             = var.account_id
-  aws_region             = var.aws_region
+  account_id             = local.account_info
+  aws_region             = local.override_aws_region
   security_group_ingress = var.security_group_ingress
   security_group_egress  = var.security_group_egress
   #-------------------------------------------
@@ -53,7 +53,7 @@ module "security_group" {
 # CONTAINER 1
 # ---------------------------------------------
 module "cloudwatch" {
-  source = "git::git@github.com:tomarv2/terraform-aws-cloudwatch.git?ref=v0.0.5"
+  source = "git::git@github.com:tomarv2/terraform-aws-cloudwatch.git?ref=v0.0.6"
 
   deploy_cloudwatch = var.deploy_cloudwatch
   teamid            = var.teamid
@@ -61,13 +61,13 @@ module "cloudwatch" {
 }
 
 module "target_group" {
-  source              = "git::git@github.com:tomarv2/terraform-aws-target-group.git?ref=v0.0.3"
+  source              = "git::git@github.com:tomarv2/terraform-aws-target-group.git?ref=v0.0.4"
   deploy_target_group = var.deploy_target_group
 
   teamid               = var.teamid
   prjid                = var.prjid
-  account_id           = var.account_id
-  aws_region           = var.aws_region
+  account_id           = local.account_info
+  aws_region           = local.override_aws_region
   lb_protocol          = var.target_group_protocol != null ? var.target_group_protocol : var.lb_protocol
   lb_port              = var.target_group_port != null ? var.target_group_port : var.lb_port
   healthcheck_path     = var.healthcheck_path
@@ -80,14 +80,13 @@ module "target_group" {
 }
 
 module "lb" {
-  source    = "git::git@github.com:tomarv2/terraform-aws-lb.git?ref=v0.0.4"
+  source    = "git::git@github.com:tomarv2/terraform-aws-lb.git?ref=v0.0.5"
   deploy_lb = var.deploy_lb
 
   teamid                 = var.teamid
   prjid                  = var.prjid
-  account_id             = var.account_id
-  profile_to_use         = var.profile_to_use
-  aws_region             = var.aws_region
+  account_id             = local.account_info
+  aws_region             = local.override_aws_region
   lb_port                = var.lb_port
   target_group_arn       = module.target_group.target_group_arn
   security_groups_to_use = local.security_group
@@ -100,7 +99,7 @@ module "lb" {
 # CONTAINER 2
 # ---------------------------------------------
 module "cloudwatch_sidecar" {
-  source            = "git::git@github.com:tomarv2/terraform-aws-cloudwatch.git?ref=v0.0.5"
+  source            = "git::git@github.com:tomarv2/terraform-aws-cloudwatch.git?ref=v0.0.6"
   deploy_cloudwatch = var.deploy_cloudwatch
 
   cloudwatch_path = var.cloudwatch_path
@@ -110,13 +109,13 @@ module "cloudwatch_sidecar" {
 }
 
 module "target_group_sidecar" {
-  source              = "git::git@github.com:tomarv2/terraform-aws-target-group.git?ref=v0.0.3"
+  source              = "git::git@github.com:tomarv2/terraform-aws-target-group.git?ref=v0.0.4"
   deploy_target_group = var.deploy_target_group
 
   teamid               = var.teamid
   prjid                = "${var.prjid}-sidecar"
-  account_id           = var.account_id
-  aws_region           = var.aws_region
+  account_id           = local.account_info
+  aws_region           = local.override_aws_region
   lb_protocol          = var.target_group_protocol_sidecar != null ? var.target_group_protocol_sidecar : var.lb_protocol_sidecar
   lb_port              = var.target_group_port_sidecar != null ? var.target_group_port_sidecar : var.lb_port_sidecar
   healthcheck_path     = var.healthcheck_path_sidecar
@@ -129,13 +128,13 @@ module "target_group_sidecar" {
 }
 
 module "lb_sidecar" {
-  source    = "git::git@github.com:tomarv2/terraform-aws-lb.git?ref=v0.0.4"
+  source    = "git::git@github.com:tomarv2/terraform-aws-lb.git?ref=v0.0.5"
   deploy_lb = var.deploy_lb
 
   teamid                 = var.teamid
   prjid                  = "${var.prjid}-sidecar"
-  account_id             = var.account_id
-  aws_region             = var.aws_region
+  account_id             = local.account_info
+  aws_region             = local.override_aws_region
   lb_port                = var.lb_port_sidecar
   target_group_arn       = module.target_group_sidecar.target_group_arn
   security_groups_to_use = local.security_group

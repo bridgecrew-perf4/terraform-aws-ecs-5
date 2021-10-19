@@ -9,7 +9,7 @@ variable "prjid" {
 }
 
 variable "account_id" {
-  description = "(Required) AWS account id (used to pull values from shared base module like vpc info, subnet ids)"
+  description = "AWS account id (used to pull values from shared base module like vpc info, subnet ids)"
   type        = string
 }
 
@@ -42,13 +42,7 @@ variable "aws_region" {
   default     = "us-west-2"
   type        = string
 }
-/*
-variable "az_count" {
-  description = "Number of AZs to cover in a given aws region"
-  default     = "2"
-  type        = string
-}
-*/
+
 variable "container_image" {
   description = "Docker image to run in the ecs cluster"
   type        = string
@@ -78,64 +72,6 @@ variable "task_memory" {
   default     = 512
 }
 
-/*
-variable "asg_min" {
-  default     = 1
-  description = "minimum number of instances for the autoscaling group"
-  type        = number
-}
-
-variable "asg_desired" {
-  default     = 1
-  description = "desired number of instances for the autoscaling group"
-  type        = number
-}
-
-variable "asg_max" {
-  default     = 1
-  description = "maximum number of instances for the autoscaling group"
-  type        = number
-}
-
-variable "asg_cooldown" {
-  default     = "300"
-  description = "time between a scaling activity and the succeeding scaling activity"
-  type        = string
-}
-
-variable "asg_health_check_type" {
-  default     = "EC2"
-  description = "can be EC2 or ELB"
-  type        = string
-}
-
-variable "asg_health_grace_period" {
-  default     = 600
-  description = "How long to wait for instance to come up and start doing health checks"
-  type        = number
-}
-*/
-/*
-variable "root_volume_type" {
-  default     = "gp2"
-  description = "can be standard or gp2"
-  type        = string
-}
-*/
-/*
-variable "root_volume_size" {
-  default     = 30
-  description = "In gigabytes, must be at least 8"
-  type        = number
-}
-*/
-/*
-variable "spot-instance-price" {
-  default     = ""
-  description = "Set to blank to use on-demand pricing"
-  type        = string
-}
-*/
 variable "inst_type" {
   default     = "t2.medium"
   description = "aws instance type"
@@ -178,34 +114,6 @@ variable "types_of_records" {
   description = "The record type. Valid values are A, AAAA, CAA, CNAME, MX, NAPTR, NS, PTR, SOA, SPF, SRV and TXT. "
 }
 
-/*
-variable "force_delete" {
-  description = "forcefully delete asg"
-  default     = "true"
-  type        = string
-}
-*/
-/*
-variable "enable_monitoring" {
-  description = "enable monitoring of launch configuration"
-  default     = "false"
-  type        = string
-}
-*/
-/*
-variable "associate_public_ip" {
-  description = "associate public ip launch configuration"
-  default     = "true"
-  type        = string
-}
-*/
-/*
-variable "create_before_destroy" {
-  description = "lifecycle for asg"
-  default     = true
-  type        = bool
-}
-*/
 variable "deployment_maximum_percent" {
   description = "Deployment maximum percent"
   default     = "100"
@@ -484,25 +392,13 @@ variable "lb_protocol" {
   default     = ""
   type        = string
 }
-/*
-variable "lb_action_type" {
-  description = "load balancer action type"
-  default     = "forward"
-  type        = string
-}
-*/
+
 variable "port_mappings" {
   description = "host to container port mapping"
   type        = list(any)
   default     = []
 }
-/*
-variable "container_networking_mode" {
-  description = "The Docker networking mode to use for the containers in the task. The valid values are none, bridge, awsvpc, and host"
-  default     = "awsvpc"
-  type        = string
-}
-*/
+
 variable "essential" {
   description = "Essential"
   default     = "true"
@@ -550,19 +446,7 @@ variable "health_check_grace_period_seconds" {
   default     = 10
   type        = number
 }
-/*
-variable "target_type" {
-  default = "instance"
-  type    = string
-}
-*/
-/*
-variable "deploy_ec2" {
-  description = "feature flag, true or false"
-  default     = false
-  type        = bool
-}
-*/
+
 variable "container_insights" {
   description = "Controls if ECS Cluster has container insights enabled"
   type        = bool
