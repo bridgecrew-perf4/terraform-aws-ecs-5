@@ -368,3 +368,4 @@ module.ecs.module.ec2_alb.module.securitygroup.aws_security_group.default
 ```
 tf destroy -target module.ecs.module.ec2_alb.aws_launch_configuration.launchcfg -var='teamid=demo' -var='prjid=demo' -cloud aws
 ```
+
