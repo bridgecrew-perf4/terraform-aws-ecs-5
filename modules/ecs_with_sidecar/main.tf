@@ -22,7 +22,7 @@ module "route53" {
 module "ec2" {
   source = "git::git@github.com:tomarv2/terraform-aws-ec2.git?ref=v0.0.4"
 
-  deploy_ec2 = var.deploy_ec2 == true && var.launch_type != "FARGATE" ? true : false
+  deploy_ec2 = var.key_name != null && var.launch_type != "FARGATE" ? true : false
 
   teamid                      = var.teamid
   prjid                       = var.prjid
@@ -56,6 +56,7 @@ module "cloudwatch" {
   source = "git::git@github.com:tomarv2/terraform-aws-cloudwatch.git?ref=v0.0.6"
 
   deploy_cloudwatch = var.deploy_cloudwatch
+  cloudwatch_path   = var.cloudwatch_path
   teamid            = var.teamid
   prjid             = var.prjid
 }

@@ -112,6 +112,23 @@ tf -c=aws destroy -var='teamid=foo' -var='prjid=bar'
 
 #### ECS (EC2 and Fargate)
 ```
+provider "aws" {
+  region = var.aws_region
+}
+
+terraform {
+  required_version = ">= 1.0.1"
+  required_providers {
+    aws = {
+      version = ">= 3.63"
+    }
+    template = {
+      version = ">= 2.2.0"
+    }
+  }
+}
+
+
 module "common" {
   source = "git::git@github.com:tomarv2/terraform-global.git//common?ref=v0.0.1"
 }
@@ -119,37 +136,36 @@ module "common" {
 module "ecs" {
   source = "../../modules/ecs"
 
-  account_id                  = "123456789012"
-  execution_role_arn          = "arn:aws:iam::123456789012:role/rumse-demo-ecs-role"
-  task_role_arn               = "arn:aws:iam::123456789012:role/rumse-demo-ecs-role"
-  lb_type                     = "application"
-  readonly_root_filesystem    = false
-  privileged                  = false
+  account_id               = "123456789012"
+  execution_role_arn       = "arn:aws:iam::123456789012:role/rumse-demo-ecs-role"
+  task_role_arn            = "arn:aws:iam::123456789012:role/rumse-demo-ecs-role"
+  lb_type                  = "application"
+  readonly_root_filesystem = false
+  privileged               = false
   # ---------------------------------------------
   # REQUIRED FOR EC2
   # ---------------------------------------------
-  #key_name                    = "demo-key"
-  #iam_instance_profile_to_use = "arn:aws:iam::123456789012:instance-profile/rumse-demo-ecs-role-profile"
+  key_name                    = "vtomar"
+  iam_instance_profile_to_use = "arn:aws:iam::123456789012:instance-profile/rumse-demo-ecs-role-profile"
   # ---------------------------------------------
   # NOTE: REQUIRED FOR FARGATE, COMMENT FOR EC2
   # ---------------------------------------------
-  launch_type              = "FARGATE"
-  capacity_providers       = ["FARGATE"]
-  network_mode             = "awsvpc"
-  task_cpu                 = "512"
-  task_memory              = "1024"
-  assign_public_ip         = true
+  launch_type      = "FARGATE"
+  network_mode     = "awsvpc"
+  task_cpu         = "512"
+  task_memory      = "1024"
+  assign_public_ip = true
   # ---------------------------------------------
   # CONTAINER
   # ---------------------------------------------
-  // NOTE: Not supported for fargate
-  // environment_files = [{ value = "arn:aws:s3:::test-ecs-demo/test.env", type = "s3" }]
+  # NOTE: Not supported for fargate
+  # environment_files = [{ value = "arn:aws:s3:::test-ecs-demo/test.env", type = "s3" }]
   container_image = "nginx"
-  // NOTE: Fargate: hostPort and containerPort should match
+  # NOTE: Fargate: hostPort and containerPort should match
   port_mappings = [{ hostPort = 80,
     protocol = "tcp",
   containerPort = 80 }]
-  container_port       = [80]
+  container_port = [80]
   security_group_ingress = {
     ecs_default = {
       description = "local traffic"
@@ -158,6 +174,7 @@ module "ecs" {
       to_port     = 0
       self        = true
       cidr_blocks = []
+      type        = "ingress"
     },
     http = {
       description = "HTTP"
@@ -166,6 +183,7 @@ module "ecs" {
       to_port     = 80
       self        = false
       cidr_blocks = module.common.cidr_for_sec_grp_access
+      type        = "ingress"
     }
     ssh = {
       description = "ssh"
@@ -174,9 +192,10 @@ module "ecs" {
       to_port     = 22
       self        = false
       cidr_blocks = module.common.cidr_for_sec_grp_access
+      type        = "ingress"
     }
   }
-  log_configuration    = { logDriver = "awslogs", options = { awslogs-group = "/ecs/rumse-demo", awslogs-region = "us-west-2", awslogs-stream-prefix = "ecs" } }
+  log_configuration    = { logDriver = "awslogs", options = { awslogs-group = "/ecs/${var.teamid}-${var.prjid}", awslogs-region = var.aws_region, awslogs-stream-prefix = "ecs" } }
   lb_protocol          = "HTTP"
   healthcheck_path     = "/"
   healthcheck_matcher  = "200"
@@ -185,6 +204,13 @@ module "ecs" {
   healthy_threshold    = "2"
   unhealthy_threshold  = "2"
   user_data_file_path  = "scripts/userdata.sh"
+  # ---------------------------------------------
+  # DNS
+  # ---------------------------------------------
+  deploy_route53   = true
+  domain_name      = "dev.demo.com"
+  names            = ["${var.teamid}-${var.prjid}"]
+  types_of_records = ["CNAME"]
   # ----------------------------------------------
   # Note: Do not change teamid and prjid once set.
   teamid = var.teamid
@@ -194,6 +220,22 @@ module "ecs" {
 
 #### ECS with sidecar(EC2 and Fargate)
 ```
+provider "aws" {
+  region = var.aws_region
+}
+
+terraform {
+  required_version = ">= 1.0.1"
+  required_providers {
+    aws = {
+      version = ">= 3.63"
+    }
+    template = {
+      version = ">= 2.2.0"
+    }
+  }
+}
+
 module "common" {
   source = "git::git@github.com:tomarv2/terraform-global.git//common?ref=v0.0.1"
 }
@@ -216,6 +258,7 @@ module "ecs" {
       to_port     = 0
       self        = true
       cidr_blocks = []
+      type        = "ingress"
     },
     http = {
       description = "HTTP"
@@ -224,6 +267,7 @@ module "ecs" {
       to_port     = 80
       self        = false
       cidr_blocks = module.common.cidr_for_sec_grp_access
+      type        = "ingress"
     }
     ssh = {
       description = "ssh"
@@ -232,6 +276,7 @@ module "ecs" {
       to_port     = 22
       self        = false
       cidr_blocks = module.common.cidr_for_sec_grp_access
+      type        = "ingress"
     }
     container_specific = {
       description = "application port"
@@ -240,6 +285,7 @@ module "ecs" {
       to_port     = 8080
       self        = false
       cidr_blocks = module.common.cidr_for_sec_grp_access
+      type        = "ingress"
     }
   }
   # ---------------------------------------------
@@ -254,15 +300,15 @@ module "ecs" {
   # ---------------------------------------------
   # CONTAINER 1
   # ---------------------------------------------
-  // NOTE: Not supported for fargate
-  // environment_files = [{ value = "arn:aws:s3:::test-ecs-demo/test.env", type = "s3" }]
-  container_image   = "nginx"
-  // NOTE: Fargate: hostPort and containerPort should match
+  # NOTE: Not supported for fargate
+  # environment_files = [{ value = "arn:aws:s3:::test-ecs-demo/test.env", type = "s3" }]
+  container_image = "nginx"
+  # NOTE: Fargate: hostPort and containerPort should match
   port_mappings = [{ hostPort = 80,
     protocol = "tcp",
   containerPort = 80 }]
   container_port           = [80]
-  log_configuration        = { logDriver = "awslogs", options = { awslogs-group = "/ecs/rumse-demo", awslogs-region = "us-west-2", awslogs-stream-prefix = "ecs" } }
+  log_configuration        = { logDriver = "awslogs", options = { awslogs-group = "/ecs/${var.teamid}-${var.prjid}", awslogs-region = var.aws_region, awslogs-stream-prefix = "ecs" } }
   readonly_root_filesystem = false
   lb_protocol              = "HTTP"
   healthcheck_path         = "/"
@@ -275,13 +321,13 @@ module "ecs" {
   # CONTAINER 2
   # ---------------------------------------------
   container_image_sidecar = "bitnami/apache:latest"
-  // Fargate: hostPort and containerPort should match
+  # Fargate: hostPort and containerPort should match
   port_mappings_sidecar = [{ hostPort = 8080,
     protocol = "tcp",
   containerPort = 8080 }]
   container_port_sidecar           = [8080]
   lb_port_sidecar                  = [8080]
-  log_configuration_sidecar        = { logDriver = "awslogs", options = { awslogs-group = "/ecs/rumse-demo-sidecar", awslogs-region = "us-west-2", awslogs-stream-prefix = "ecs" } }
+  log_configuration_sidecar        = { logDriver = "awslogs", options = { awslogs-group = "/ecs/${var.teamid}-${var.prjid}-sidecar", awslogs-region = var.aws_region, awslogs-stream-prefix = "ecs" } }
   readonly_root_filesystem_sidecar = false
   lb_protocol_sidecar              = "HTTP"
   healthcheck_path_sidecar         = "/"

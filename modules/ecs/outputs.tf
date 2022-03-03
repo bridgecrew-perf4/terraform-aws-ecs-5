@@ -1,35 +1,35 @@
 output "cluster_name" {
-  description = "The name of the created ECS cluster."
+  description = "The name of the created ECS cluster"
   value       = aws_ecs_cluster.ecs_cluster.*.name
 }
 
 output "cluster_arn" {
-  description = "The ARN of the created ECS cluster."
+  description = "The ARN of the created ECS cluster"
   value       = aws_ecs_cluster.ecs_cluster.*.arn
 }
 
 output "ecs_service_name" {
-  description = "The name of the created ECS service."
+  description = "The name of the created ECS service"
   value       = aws_ecs_service.ecs_service.*.name
 }
 
 output "autoscaling_group_name" {
-  description = "The name of the autoscaling group for the ECS container instances."
+  description = "The name of the autoscaling group for the ECS container instances"
   value       = module.ec2.autoscaling_group_name
 }
 
 output "launch_configuration_name" {
-  description = "The name of the launch configuration for the ECS container instances."
+  description = "The name of the launch configuration for the ECS container instances"
   value       = module.ec2.launch_configuration_name
 }
 
 output "security_group_id" {
-  description = "The ID of the default security group associated with the ECS container instances."
+  description = "The ID of the default security group associated with the ECS container instances"
   value       = module.security_group.security_group_id
 }
 
 output "log_group_arn" {
-  description = "The arn of the cloudwatch log group."
+  description = "The arn of the cloudwatch log group"
   value       = module.cloudwatch.log_group_arn
 }
 

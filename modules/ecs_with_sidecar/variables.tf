@@ -1,10 +1,10 @@
 variable "teamid" {
-  description = "(Required) Name of the team/group e.g. devops, dataengineering. Should not be changed after running 'tf apply'"
+  description = "Name of the team/group e.g. devops, dataengineering. Should not be changed after running 'tf apply'"
   type        = string
 }
 
 variable "prjid" {
-  description = "(Required) Name of the project/stack e.g: mystack, nifieks, demoaci. Should not be changed after running 'tf apply'"
+  description = "Name of the project/stack e.g: mystack, nifieks, demoaci. Should not be changed after running 'tf apply'"
   type        = string
 }
 
@@ -105,7 +105,7 @@ variable "types_of_records" {
 
 variable "cloudwatch_path" {
   description = "name of the log group"
-  default     = "ecs"
+  default     = "/ecs"
   type        = string
 }
 
@@ -538,7 +538,7 @@ variable "lb_port" {
 }
 
 variable "lb_port_sidecar" {
-  description = "Load balancer port sidecarr"
+  description = "Load balancer port sidecar"
   default     = [80]
   type        = list(any)
 }
@@ -665,13 +665,6 @@ variable "healthcheck_interval" {
   description = "target group healthcheck interval"
   default     = ""
   type        = string
-}
-
-
-variable "deploy_ec2" {
-  description = "feature flag, true or false"
-  default     = false
-  type        = bool
 }
 
 variable "deploy_cloudwatch" {

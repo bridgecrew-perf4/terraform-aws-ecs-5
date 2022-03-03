@@ -2,10 +2,6 @@ module "global" {
   source = "git::git@github.com:tomarv2/terraform-global.git//aws?ref=v0.0.1"
 }
 
-module "common" {
-  source = "git::git@github.com:tomarv2/terraform-global.git//common?ref=v0.0.1"
-}
-
 module "route53" {
   source = "git::git@github.com:tomarv2/terraform-aws-route53.git?ref=v0.0.6"
 
@@ -35,7 +31,7 @@ module "cloudwatch" {
 module "ec2" {
   source = "git::git@github.com:tomarv2/terraform-aws-ec2.git?ref=v0.0.4"
 
-  deploy_ec2 = var.deploy_ec2 == true && var.launch_type != "FARGATE" ? true : false
+  deploy_ec2 = var.key_name != null && var.launch_type != "FARGATE" ? true : false
 
   teamid                      = var.teamid
   prjid                       = var.prjid

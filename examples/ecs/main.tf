@@ -130,7 +130,6 @@ module "ecs" {
   names            = ["${var.teamid}-${var.prjid}"]
   types_of_records = ["CNAME"]
   # ----------------------------------------------
-  # ----------------------------------------------
   # Note: Do not change teamid and prjid once set.
   teamid = var.teamid
   prjid  = var.prjid
