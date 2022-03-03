@@ -363,7 +363,6 @@ module.ecs.module.ec2_alb.aws_launch_configuration.launchcfg
 module.ecs.module.ec2_alb.aws_lb_target_group.alb_target_group
 module.ecs.module.ec2_alb.module.securitygroup.aws_security_group.default
 ```
-
 ##### **Destroy one resource**
 
 ```
