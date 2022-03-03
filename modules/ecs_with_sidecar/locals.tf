@@ -1,7 +1,7 @@
 locals {
   container_definition  = var.register_task_definition ? format("[%s]", join("", data.template_file.container_definition.*.rendered)) : format("%s", join("", data.template_file.container_definition.*.rendered))
   container_definitions = replace(local.container_definition, "/\"(null)\"/", "$1")
-  security_group        = var.security_groups != null ? flatten([module.security_group.security_group_id, var.security_groups]) : flatten([module.security_group.security_group_id])
+  security_groups       = var.security_groups != null ? flatten([module.security_group.security_group_id, var.security_groups]) : flatten([module.security_group.security_group_id])
   # -----------------------------------------------------------------
   # CONTAINER 1
   # -----------------------------------------------------------------
