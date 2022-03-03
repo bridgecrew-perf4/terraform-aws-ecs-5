@@ -134,17 +134,16 @@ module "common" {
 module "ecs" {
   source = "../../modules/ecs"
 
-  account_id               = "123456789012"
-  execution_role_arn       = "arn:aws:iam::123456789012:role/rumse-demo-ecs-role"
-  task_role_arn            = "arn:aws:iam::123456789012:role/rumse-demo-ecs-role"
+  execution_role_arn       = "arn:aws:iam::123456789012:role/demo-role"
+  task_role_arn            = "arn:aws:iam::123456789012:role/demo-role"
   lb_type                  = "application"
   readonly_root_filesystem = false
   privileged               = false
   # ---------------------------------------------
   # REQUIRED FOR EC2
   # ---------------------------------------------
-  key_name                    = "vtomar"
-  iam_instance_profile = "arn:aws:iam::123456789012:instance-profile/rumse-demo-ecs-role-profile"
+  key_name             = "demo-key"
+  iam_instance_profile = "arn:aws:iam::123456789012:instance-profile/demo-role-profile"
   # ---------------------------------------------
   # NOTE: REQUIRED FOR FARGATE, COMMENT FOR EC2
   # ---------------------------------------------
@@ -242,8 +241,7 @@ module "ecs" {
   source = "../../modules/ecs_with_sidecar"
 
   key_name                    = "demo-key"
-  iam_instance_profile = "arn:aws:iam::123456789012:instance-profile/demo-role-profile"
-  account_id                  = "123456789012"
+  iam_instance_profile        = "arn:aws:iam::123456789012:instance-profile/demo-role-profile"
   execution_role_arn          = "arn:aws:iam::123456789012:role/demo-role"
   task_role_arn               = "arn:aws:iam::123456789012:role/demo-role"
   lb_type                     = "application"
@@ -290,7 +288,6 @@ module "ecs" {
   # NOTE: REQUIRED FOR FARGATE, COMMENT FOR EC2
   # ---------------------------------------------
   launch_type        = "FARGATE"
-  capacity_providers = ["FARGATE"]
   network_mode       = "awsvpc"
   task_cpu           = "512"
   task_memory        = "1024"
