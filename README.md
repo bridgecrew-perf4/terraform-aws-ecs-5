@@ -144,7 +144,7 @@ module "ecs" {
   # REQUIRED FOR EC2
   # ---------------------------------------------
   key_name                    = "vtomar"
-  iam_instance_profile_to_use = "arn:aws:iam::123456789012:instance-profile/rumse-demo-ecs-role-profile"
+  iam_instance_profile = "arn:aws:iam::123456789012:instance-profile/rumse-demo-ecs-role-profile"
   # ---------------------------------------------
   # NOTE: REQUIRED FOR FARGATE, COMMENT FOR EC2
   # ---------------------------------------------
@@ -242,7 +242,7 @@ module "ecs" {
   source = "../../modules/ecs_with_sidecar"
 
   key_name                    = "demo-key"
-  iam_instance_profile_to_use = "arn:aws:iam::123456789012:instance-profile/demo-role-profile"
+  iam_instance_profile = "arn:aws:iam::123456789012:instance-profile/demo-role-profile"
   account_id                  = "123456789012"
   execution_role_arn          = "arn:aws:iam::123456789012:role/demo-role"
   task_role_arn               = "arn:aws:iam::123456789012:role/demo-role"
@@ -363,8 +363,8 @@ module.ecs.module.ec2_alb.aws_launch_configuration.launchcfg
 module.ecs.module.ec2_alb.aws_lb_target_group.alb_target_group
 module.ecs.module.ec2_alb.module.securitygroup.aws_security_group.default
 ```
-##### **Destroy one resource**
 
+##### **Destroy one resource**
 ```
 tf destroy -target module.ecs.module.ec2_alb.aws_launch_configuration.launchcfg -var='teamid=demo' -var='prjid=demo' -cloud aws
 ```

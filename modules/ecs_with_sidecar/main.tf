@@ -4,7 +4,7 @@ module "global" {
 
 
 module "route53" {
-  source = "git::git@github.com:tomarv2/terraform-aws-route53.git?ref=v0.0.6"
+  source = "git::git@github.com:tomarv2/terraform-aws-route53.git?ref=v0.0.7"
 
   deploy_route53 = var.deploy_route53
 
@@ -20,24 +20,24 @@ module "route53" {
 }
 
 module "ec2" {
-  source = "git::git@github.com:tomarv2/terraform-aws-ec2.git?ref=v0.0.4"
+  source = "git::git@github.com:tomarv2/terraform-aws-ec2.git?ref=v0.0.5"
 
   deploy_ec2 = var.key_name != null && var.launch_type != "FARGATE" ? true : false
 
-  teamid                      = var.teamid
-  prjid                       = var.prjid
-  key_name                    = var.key_name
-  account_id                  = local.account_info
-  aws_region                  = local.override_aws_region
-  iam_instance_profile_to_use = var.iam_instance_profile_to_use
-  security_groups_to_use      = local.security_group
-  image_id                    = module.global.ecs_ami[local.account_info][local.override_aws_region]
-  inst_type                   = var.inst_type
-  user_data_file_path         = var.user_data_file_path != null ? var.user_data_file_path : null
+  teamid               = var.teamid
+  prjid                = var.prjid
+  key_name             = var.key_name
+  account_id           = local.account_info
+  aws_region           = local.override_aws_region
+  iam_instance_profile = var.iam_instance_profile
+  security_groups      = local.security_groups
+  image_id             = module.global.ecs_ami[local.account_info][local.override_aws_region]
+  inst_type            = var.inst_type
+  user_data_file_path  = var.user_data_file_path != null ? var.user_data_file_path : null
 }
 
 module "security_group" {
-  source                = "git::git@github.com:tomarv2/terraform-aws-security-group.git?ref=v0.0.5"
+  source                = "git::git@github.com:tomarv2/terraform-aws-security-group.git?ref=v0.0.6"
   deploy_security_group = var.deploy_security_group
 
   account_id             = local.account_info
@@ -53,7 +53,7 @@ module "security_group" {
 # CONTAINER 1
 # ---------------------------------------------
 module "cloudwatch" {
-  source = "git::git@github.com:tomarv2/terraform-aws-cloudwatch.git?ref=v0.0.6"
+  source = "git::git@github.com:tomarv2/terraform-aws-cloudwatch.git?ref=v0.0.7"
 
   deploy_cloudwatch = var.deploy_cloudwatch
   cloudwatch_path   = var.cloudwatch_path
@@ -62,7 +62,7 @@ module "cloudwatch" {
 }
 
 module "target_group" {
-  source              = "git::git@github.com:tomarv2/terraform-aws-target-group.git?ref=v0.0.4"
+  source              = "git::git@github.com:tomarv2/terraform-aws-target-group.git?ref=v0.0.5"
   deploy_target_group = var.deploy_target_group
 
   teamid               = var.teamid
@@ -81,26 +81,26 @@ module "target_group" {
 }
 
 module "lb" {
-  source    = "git::git@github.com:tomarv2/terraform-aws-lb.git?ref=v0.0.5"
+  source    = "git::git@github.com:tomarv2/terraform-aws-lb.git?ref=v0.0.6"
   deploy_lb = var.deploy_lb
 
-  teamid                 = var.teamid
-  prjid                  = var.prjid
-  account_id             = local.account_info
-  aws_region             = local.override_aws_region
-  lb_port                = var.lb_port
-  target_group_arn       = module.target_group.target_group_arn
-  security_groups_to_use = local.security_group
-  lb_type                = var.lb_type
-  lb_protocol            = var.lb_protocol
-  alb_cert_arn           = var.alb_cert_arn
-  alb_ssl_policy         = var.alb_ssl_policy
+  teamid           = var.teamid
+  prjid            = var.prjid
+  account_id       = local.account_info
+  aws_region       = local.override_aws_region
+  lb_port          = var.lb_port
+  target_group_arn = module.target_group.target_group_arn
+  security_groups  = local.security_groups
+  lb_type          = var.lb_type
+  lb_protocol      = var.lb_protocol
+  alb_cert_arn     = var.alb_cert_arn
+  alb_ssl_policy   = var.alb_ssl_policy
 }
 # ---------------------------------------------
 # CONTAINER 2
 # ---------------------------------------------
 module "cloudwatch_sidecar" {
-  source            = "git::git@github.com:tomarv2/terraform-aws-cloudwatch.git?ref=v0.0.6"
+  source            = "git::git@github.com:tomarv2/terraform-aws-cloudwatch.git?ref=v0.0.7"
   deploy_cloudwatch = var.deploy_cloudwatch
 
   cloudwatch_path = var.cloudwatch_path
@@ -110,7 +110,7 @@ module "cloudwatch_sidecar" {
 }
 
 module "target_group_sidecar" {
-  source              = "git::git@github.com:tomarv2/terraform-aws-target-group.git?ref=v0.0.4"
+  source              = "git::git@github.com:tomarv2/terraform-aws-target-group.git?ref=v0.0.5"
   deploy_target_group = var.deploy_target_group
 
   teamid               = var.teamid
@@ -129,18 +129,18 @@ module "target_group_sidecar" {
 }
 
 module "lb_sidecar" {
-  source    = "git::git@github.com:tomarv2/terraform-aws-lb.git?ref=v0.0.5"
+  source    = "git::git@github.com:tomarv2/terraform-aws-lb.git?ref=v0.0.6"
   deploy_lb = var.deploy_lb
 
-  teamid                 = var.teamid
-  prjid                  = "${var.prjid}-sidecar"
-  account_id             = local.account_info
-  aws_region             = local.override_aws_region
-  lb_port                = var.lb_port_sidecar
-  target_group_arn       = module.target_group_sidecar.target_group_arn
-  security_groups_to_use = local.security_group
-  lb_type                = var.lb_type
-  lb_protocol            = var.lb_protocol_sidecar
-  alb_cert_arn           = var.alb_cert_arn_sidecar
-  alb_ssl_policy         = var.alb_ssl_policy_sidecar
+  teamid           = var.teamid
+  prjid            = "${var.prjid}-sidecar"
+  account_id       = local.account_info
+  aws_region       = local.override_aws_region
+  lb_port          = var.lb_port_sidecar
+  target_group_arn = module.target_group_sidecar.target_group_arn
+  security_groups  = local.security_groups
+  lb_type          = var.lb_type
+  lb_protocol      = var.lb_protocol_sidecar
+  alb_cert_arn     = var.alb_cert_arn_sidecar
+  alb_ssl_policy   = var.alb_ssl_policy_sidecar
 }
