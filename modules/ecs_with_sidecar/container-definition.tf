@@ -5,7 +5,7 @@ data "template_file" "container_definition" {
 
   vars = {
     launch_type = var.launch_type
-    region      = var.aws_region
+    region      = var.region
     account_id  = var.account_id
     teamid      = var.teamid
     prjid       = var.prjid

@@ -1,2 +1,2 @@
-teamid = "sec"
+teamid = "rumse"
 prjid  = "demo"

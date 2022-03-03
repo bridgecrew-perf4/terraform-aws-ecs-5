@@ -111,17 +111,17 @@ tf -c=aws destroy -var='teamid=foo' -var='prjid=bar'
 #### ECS (EC2 and Fargate)
 ```
 provider "aws" {
-  region = var.aws_region
+  region = var.region
 }
 
 terraform {
   required_version = ">= 1.0.1"
   required_providers {
     aws = {
-      version = ">= 3.63"
+      version = "~> 3.63"
     }
     template = {
-      version = ">= 2.2.0"
+      version = "~> 2.2.0"
     }
   }
 }
@@ -193,7 +193,7 @@ module "ecs" {
       type        = "ingress"
     }
   }
-  log_configuration    = { logDriver = "awslogs", options = { awslogs-group = "/ecs/${var.teamid}-${var.prjid}", awslogs-region = var.aws_region, awslogs-stream-prefix = "ecs" } }
+  log_configuration    = { logDriver = "awslogs", options = { awslogs-group = "/ecs/${var.teamid}-${var.prjid}", awslogs-region = var.region, awslogs-stream-prefix = "ecs" } }
   lb_protocol          = "HTTP"
   healthcheck_path     = "/"
   healthcheck_matcher  = "200"
@@ -219,17 +219,17 @@ module "ecs" {
 #### ECS with sidecar(EC2 and Fargate)
 ```
 provider "aws" {
-  region = var.aws_region
+  region = var.region
 }
 
 terraform {
   required_version = ">= 1.0.1"
   required_providers {
     aws = {
-      version = ">= 3.63"
+      version = "~> 3.63"
     }
     template = {
-      version = ">= 2.2.0"
+      version = "~> 2.2.0"
     }
   }
 }
@@ -306,7 +306,7 @@ module "ecs" {
     protocol = "tcp",
   containerPort = 80 }]
   container_port           = [80]
-  log_configuration        = { logDriver = "awslogs", options = { awslogs-group = "/ecs/${var.teamid}-${var.prjid}", awslogs-region = var.aws_region, awslogs-stream-prefix = "ecs" } }
+  log_configuration        = { logDriver = "awslogs", options = { awslogs-group = "/ecs/${var.teamid}-${var.prjid}", awslogs-region = var.region, awslogs-stream-prefix = "ecs" } }
   readonly_root_filesystem = false
   lb_protocol              = "HTTP"
   healthcheck_path         = "/"
@@ -325,7 +325,7 @@ module "ecs" {
   containerPort = 8080 }]
   container_port_sidecar           = [8080]
   lb_port_sidecar                  = [8080]
-  log_configuration_sidecar        = { logDriver = "awslogs", options = { awslogs-group = "/ecs/${var.teamid}-${var.prjid}-sidecar", awslogs-region = var.aws_region, awslogs-stream-prefix = "ecs" } }
+  log_configuration_sidecar        = { logDriver = "awslogs", options = { awslogs-group = "/ecs/${var.teamid}-${var.prjid}-sidecar", awslogs-region = var.region, awslogs-stream-prefix = "ecs" } }
   readonly_root_filesystem_sidecar = false
   lb_protocol_sidecar              = "HTTP"
   healthcheck_path_sidecar         = "/"

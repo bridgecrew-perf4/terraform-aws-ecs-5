@@ -1,17 +1,17 @@
-provider "aws" {
-  region = var.aws_region
-}
-
 terraform {
   required_version = ">= 1.0.1"
   required_providers {
     aws = {
-      version = ">= 3.63"
+      version = "~> 3.63"
     }
     template = {
-      version = ">= 2.2.0"
+      version = "~> 2.2.0"
     }
   }
+}
+
+provider "aws" {
+  region = var.region
 }
 
 module "common" {
@@ -21,13 +21,12 @@ module "common" {
 module "ecs" {
   source = "../../modules/ecs_with_sidecar"
 
-  key_name             = "demo-key"
+  key_name             = "vtomar"
   iam_instance_profile = "arn:aws:iam::123456789012:instance-profile/demo-role-profile"
-  account_id           = "123456789012"
   execution_role_arn   = "arn:aws:iam::123456789012:role/demo-role"
   task_role_arn        = "arn:aws:iam::123456789012:role/demo-role"
   lb_type              = "application"
-  user_data_file_path  = "scripts/userdata.sh"
+  //user_data_file_path  = "scripts/userdata.sh"
   security_group_ingress = {
     ecs_default = {
       description = "local traffic"
@@ -69,12 +68,11 @@ module "ecs" {
   # ---------------------------------------------
   # NOTE: REQUIRED FOR FARGATE, COMMENT FOR EC2
   # ---------------------------------------------
-  launch_type        = "FARGATE"
-  capacity_providers = ["FARGATE"]
-  network_mode       = "awsvpc"
-  task_cpu           = "512"
-  task_memory        = "1024"
-  assign_public_ip   = true
+  launch_type      = "FARGATE"
+  network_mode     = "awsvpc"
+  task_cpu         = "512"
+  task_memory      = "1024"
+  assign_public_ip = true
   # ---------------------------------------------
   # CONTAINER 1
   # ---------------------------------------------
@@ -86,7 +84,7 @@ module "ecs" {
     protocol = "tcp",
   containerPort = 80 }]
   container_port           = [80]
-  log_configuration        = { logDriver = "awslogs", options = { awslogs-group = "/ecs/${var.teamid}-${var.prjid}", awslogs-region = var.aws_region, awslogs-stream-prefix = "ecs" } }
+  log_configuration        = { logDriver = "awslogs", options = { awslogs-group = "/ecs/${var.teamid}-${var.prjid}", awslogs-region = var.region, awslogs-stream-prefix = "ecs" } }
   readonly_root_filesystem = false
   lb_protocol              = "HTTP"
   healthcheck_path         = "/"
@@ -105,7 +103,7 @@ module "ecs" {
   containerPort = 8080 }]
   container_port_sidecar           = [8080]
   lb_port_sidecar                  = [8080]
-  log_configuration_sidecar        = { logDriver = "awslogs", options = { awslogs-group = "/ecs/${var.teamid}-${var.prjid}-sidecar", awslogs-region = var.aws_region, awslogs-stream-prefix = "ecs" } }
+  log_configuration_sidecar        = { logDriver = "awslogs", options = { awslogs-group = "/ecs/${var.teamid}-${var.prjid}-sidecar", awslogs-region = var.region, awslogs-stream-prefix = "ecs" } }
   readonly_root_filesystem_sidecar = false
   lb_protocol_sidecar              = "HTTP"
   healthcheck_path_sidecar         = "/"
