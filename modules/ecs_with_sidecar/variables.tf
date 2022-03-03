@@ -26,7 +26,7 @@ variable "security_groups" {
   type        = string
 }
 
-variable "aws_region" {
+variable "region" {
   description = "The AWS region to create resources"
   default     = null
   type        = string

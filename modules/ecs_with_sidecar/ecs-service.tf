@@ -41,7 +41,7 @@ resource "aws_ecs_service" "ecs_service" {
     for_each = var.network_mode == "awsvpc" ? ["true"] : []
     content {
       security_groups  = [module.security_group.security_group_id]
-      subnets          = module.global.list_of_subnets[local.account_info][local.override_aws_region]
+      subnets          = module.global.list_of_subnets[local.account_id][local.region]
       assign_public_ip = var.assign_public_ip
     }
   }

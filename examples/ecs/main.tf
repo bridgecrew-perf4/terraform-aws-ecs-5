@@ -2,36 +2,35 @@ terraform {
   required_version = ">= 1.0.1"
   required_providers {
     aws = {
-      version = ">= 3.63"
+      version = "~> 3.63"
     }
     template = {
-      version = ">= 2.2.0"
+      version = "~> 2.2.0"
     }
   }
 }
 
 provider "aws" {
-  region = var.aws_region
+  region = var.region
 }
 
 module "common" {
   source = "git::git@github.com:tomarv2/terraform-global.git//common?ref=v0.0.1"
 }
 
-module "ecs_ec2" {
+module "ecs" {
   source = "../../modules/ecs"
 
-  account_id               = "123456789012"
-  execution_role_arn       = "arn:aws:iam::123456789012:role/rumse-demo-ecs-role"
-  task_role_arn            = "arn:aws:iam::123456789012:role/rumse-demo-ecs-role"
+  execution_role_arn       = "arn:aws:iam::123456789012:role/demo-role"
+  task_role_arn            = "arn:aws:iam::123456789012:role/demo-role"
   lb_type                  = "application"
   readonly_root_filesystem = false
   privileged               = false
   # ---------------------------------------------
   # REQUIRED FOR EC2
   # ---------------------------------------------
-  key_name             = "vtomar"
-  iam_instance_profile = "arn:aws:iam::123456789012:instance-profile/rumse-demo-ecs-role-profile"
+  key_name             = "demo-key"
+  iam_instance_profile = "arn:aws:iam::123456789012:instance-profile/demo-role-profile"
   # ---------------------------------------------
   # CONTAINER
   # ---------------------------------------------
@@ -71,7 +70,7 @@ module "ecs_ec2" {
       type        = "ingress"
     }
   }
-  log_configuration    = { logDriver = "awslogs", options = { awslogs-group = "/ecs/${var.teamid}-${var.prjid}", awslogs-region = var.aws_region, awslogs-stream-prefix = "ecs" } }
+  log_configuration    = { logDriver = "awslogs", options = { awslogs-group = "/ecs/${var.teamid}-${var.prjid}", awslogs-region = var.region, awslogs-stream-prefix = "ecs" } }
   lb_protocol          = "HTTP"
   healthcheck_path     = "/"
   healthcheck_matcher  = "200"
@@ -79,7 +78,7 @@ module "ecs_ec2" {
   healthcheck_interval = "120"
   healthy_threshold    = "2"
   unhealthy_threshold  = "2"
-  user_data_file_path  = "scripts/userdata.sh"
+  //user_data_file_path  = "scripts/userdata.sh"
   /*
   volumes = [
     {

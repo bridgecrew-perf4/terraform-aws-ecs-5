@@ -2,28 +2,27 @@ terraform {
   required_version = ">= 1.0.1"
   required_providers {
     aws = {
-      version = ">= 3.63"
+      version = "~> 3.63"
     }
     template = {
-      version = ">= 2.2.0"
+      version = "~> 2.2.0"
     }
   }
 }
 
 provider "aws" {
-  region = var.aws_region
+  region = var.region
 }
 
 module "common" {
   source = "git::git@github.com:tomarv2/terraform-global.git//common?ref=v0.0.1"
 }
 
-module "ecs_fargate" {
+module "ecs" {
   source = "../../modules/ecs"
 
-  account_id               = "123456789012"
-  execution_role_arn       = "arn:aws:iam::123456789012:role/rumse-demo-ecs-role"
-  task_role_arn            = "arn:aws:iam::123456789012:role/rumse-demo-ecs-role"
+  execution_role_arn       = "arn:aws:iam::123456789012:role/demo-role"
+  task_role_arn            = "arn:aws:iam::123456789012:role/demo-role"
   lb_type                  = "application"
   readonly_root_filesystem = false
   privileged               = false
@@ -73,7 +72,7 @@ module "ecs_fargate" {
       cidr_blocks = module.common.cidr_for_sec_grp_access
     }
   }
-  log_configuration    = { logDriver = "awslogs", options = { awslogs-group = "/ecs/${var.teamid}-${var.prjid}", awslogs-region = var.aws_region, awslogs-stream-prefix = "ecs" } }
+  log_configuration    = { logDriver = "awslogs", options = { awslogs-group = "/ecs/${var.teamid}-${var.prjid}", awslogs-region = var.region, awslogs-stream-prefix = "ecs" } }
   lb_protocol          = "HTTP"
   healthcheck_path     = "/"
   healthcheck_matcher  = "200"
