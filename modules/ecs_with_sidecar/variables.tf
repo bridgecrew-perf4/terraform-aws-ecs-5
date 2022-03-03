@@ -14,13 +14,13 @@ variable "key_name" {
   default     = null
 }
 
-variable "iam_instance_profile_to_use" {
+variable "iam_instance_profile" {
   description = "IAM instance profile"
   type        = string
   default     = null
 }
 
-variable "security_groups_to_use" {
+variable "security_groups" {
   description = "Existing Security groups to use"
   default     = null
   type        = string
@@ -44,7 +44,7 @@ variable "container_port" {
 }
 
 variable "task_instance_count" {
-  description = "The number of instances of the task definition to place and keep running."
+  description = "The number of instances of the task definition to place and keep running"
   default     = 1
   type        = any
 }
@@ -274,7 +274,7 @@ variable "alb_cert_arn" {
 }
 
 variable "family" {
-  description = "(Required) A unique name for your task definition"
+  description = "A unique name for your task definition"
   default     = ""
   type        = string
 }
@@ -466,7 +466,7 @@ variable "lb_protocol" {
 }
 
 variable "account_id" {
-  description = "(Required) AWS account id (used to pull values from shared base module like vpc info, subnet ids)"
+  description = "AWS account id (used to pull values from shared base module like vpc info, subnet ids)"
   type        = string
   default     = null
 }

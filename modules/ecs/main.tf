@@ -38,8 +38,8 @@ module "ec2" {
   key_name                    = var.key_name
   account_id                  = local.account_info
   aws_region                  = local.override_aws_region
-  iam_instance_profile_to_use = var.iam_instance_profile_to_use
-  security_groups_to_use      = local.security_group
+  iam_instance_profile = var.iam_instance_profile
+  security_groups      = local.security_group
   image_id                    = module.global.ecs_ami[local.account_info][local.override_aws_region]
   inst_type                   = var.inst_type
   user_data_file_path         = var.user_data_file_path != null ? var.user_data_file_path : null
@@ -76,7 +76,7 @@ module "lb" {
   aws_region             = local.override_aws_region
   lb_port                = var.lb_port
   target_group_arn       = module.target_group.target_group_arn
-  security_groups_to_use = local.security_group
+  security_groups        = local.security_groups
   lb_type                = var.lb_type
   lb_protocol            = var.lb_protocol
   alb_cert_arn           = var.alb_cert_arn
@@ -84,7 +84,7 @@ module "lb" {
 }
 
 module "security_group" {
-  source = "git::git@github.com:tomarv2/terraform-aws-security-group.git?ref=v0.0.5"
+  source = "git::git@github.com:tomarv2/terraform-aws-security-group.git"
 
   deploy_security_group = var.deploy_security_group
 
