@@ -20,13 +20,13 @@ variable "key_name" {
   default     = null
 }
 
-variable "iam_instance_profile_to_use" {
+variable "iam_instance_profile" {
   description = "IAM instance profile"
   type        = string
   default     = null
 }
 
-variable "security_groups_to_use" {
+variable "security_groups" {
   description = "existing security groups to use"
   default     = null
   type        = string
@@ -305,7 +305,7 @@ variable "alb_cert_arn" {
 }
 
 variable "family" {
-  description = "(Required) A unique name for your task definition"
+  description = "A unique name for your task definition"
   default     = ""
   type        = string
 }
