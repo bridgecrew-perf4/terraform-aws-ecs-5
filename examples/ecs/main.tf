@@ -78,7 +78,7 @@ module "ecs" {
   healthcheck_interval = "120"
   healthy_threshold    = "2"
   unhealthy_threshold  = "2"
-  //user_data_file_path  = "scripts/userdata.sh"
+  # user_data_file_path  = "scripts/userdata.sh"
   /*
   volumes = [
     {
