@@ -35,4 +35,4 @@ repos:
     hooks:
     - id: checkov
       verbose: true
-      args: [-d, '.', --framework,'terraform', --skip-check, 'CKV_AWS_158,CKV_AWS_79,CKV_AWS_8,CKV_AWS_150,CKV_AWS_91,CKV_AWS_131,CKV_AWS_2,CKV_AWS_65,CKV_AWS_97,CKV2_AWS_28,CKV2_AWS_20,CKV2_AWS_5,CKV_AWS_103', --download-external-modules, 'True']
+      args: [-d, '.', --framework,'terraform', --skip-check, 'CKV_AWS_158,CKV_AWS_79,CKV_AWS_8,CKV_AWS_150,CKV_AWS_91,CKV_AWS_131,CKV_AWS_2,CKV_AWS_65,CKV_AWS_97,CKV2_AWS_28,CKV2_AWS_20,CKV2_AWS_5,CKV_AWS_103']
