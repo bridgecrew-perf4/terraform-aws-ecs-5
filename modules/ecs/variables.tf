@@ -80,7 +80,7 @@ variable "launch_type" {
 }
 
 variable "deploy_route53" {
-  description = "feature flag, true or false"
+  description = "Feature flag, true or false"
   default     = false
   type        = bool
 }
@@ -515,31 +515,31 @@ variable "assign_public_ip" {
 }
 
 variable "deploy_cloudwatch" {
-  description = "feature flag, true or false"
+  description = "Feature flag, true or false"
   default     = true
   type        = bool
 }
 
 variable "deploy_lb" {
-  description = "feature flag, true or false"
+  description = "Feature flag, true or false"
   default     = true
   type        = bool
 }
 
 variable "deploy_security_group" {
-  description = "feature flag, true or false"
+  description = "Feature flag, true or false"
   default     = true
   type        = bool
 }
 
 variable "deploy_target_group" {
-  description = "feature flag, true or false"
+  description = "Feature flag, true or false"
   default     = true
   type        = bool
 }
 
 variable "deploy_ecs" {
-  description = "feature flag, true or false"
+  description = "Feature flag, true or false"
   default     = true
   type        = bool
 }
