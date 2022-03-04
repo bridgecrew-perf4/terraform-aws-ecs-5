@@ -26,7 +26,7 @@ module "ecs" {
   execution_role_arn   = "arn:aws:iam::123456789012:role/demo-role"
   task_role_arn        = "arn:aws:iam::123456789012:role/demo-role"
   lb_type              = "application"
-  //user_data_file_path  = "scripts/userdata.sh"
+  # user_data_file_path  = "scripts/userdata.sh"
   security_group_ingress = {
     ecs_default = {
       description = "local traffic"
