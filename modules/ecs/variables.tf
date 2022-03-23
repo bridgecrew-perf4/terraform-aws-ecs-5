@@ -75,7 +75,7 @@ variable "inst_type" {
 
 variable "launch_type" {
   default     = "EC2"
-  description = "(Optional) The launch type on which to run your service. The valid values are EC2 and FARGATE. Defaults to EC2"
+  description = " The launch type on which to run your service. The valid values are EC2 and FARGATE. Defaults to EC2"
   type        = string
 }
 
@@ -86,7 +86,7 @@ variable "deploy_route53" {
 }
 
 variable "domain_name" {
-  description = "(Optional) DNS name"
+  description = " DNS name"
   default     = ""
   type        = string
 }
@@ -221,7 +221,7 @@ variable "volumes" {
 }
 
 variable "placement_constraints" {
-  description = "(Optional) A set of placement constraints rules that are taken into consideration during task placement. Maximum number of placement_constraints is 10."
+  description = " A set of placement constraints rules that are taken into consideration during task placement. Maximum number of placement_constraints is 10."
   type = list(object({
     type       = string
     expression = string
@@ -542,4 +542,10 @@ variable "deploy_ecs" {
   description = "Feature flag, true or false"
   default     = true
   type        = bool
+}
+
+variable "extra_tags" {
+  description = "Additional tags to associate"
+  type        = map(string)
+  default     = {}
 }

@@ -20,6 +20,8 @@
   "readonlyRootFilesystem": ${readonly_root_filesystem},
   "healthCheck": ${health_check},
   "logConfiguration": ${log_configuration}
+  "dependsOn": ${container_depends_on},
+  "links": ${links}
 },
 {
   "name": "${teamid}-${prjid}-sidecar",

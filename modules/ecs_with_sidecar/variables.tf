@@ -69,7 +69,7 @@ variable "inst_type" {
 
 variable "launch_type" {
   default     = "EC2"
-  description = "(Optional) The launch type on which to run your service. The valid values are EC2 and FARGATE. Defaults to EC2"
+  description = " The launch type on which to run your service. The valid values are EC2 and FARGATE. Defaults to EC2"
   type        = string
 }
 
@@ -80,7 +80,7 @@ variable "deploy_route53" {
 }
 
 variable "domain_name" {
-  description = "(Optional) DNS name"
+  description = "DNS name"
   default     = ""
   type        = string
 }
@@ -190,7 +190,7 @@ variable "volumes" {
 }
 
 variable "placement_constraints" {
-  description = "(Optional) A set of placement constraints rules that are taken into consideration during task placement. Maximum number of placement_constraints is 10."
+  description = " A set of placement constraints rules that are taken into consideration during task placement. Maximum number of placement_constraints is 10."
   type = list(object({
     type       = string
     expression = string
@@ -214,7 +214,11 @@ variable "environment_files" {
 }
 
 variable "mount_points" {
-  type        = list(any)
+  type = list(object({
+    containerPath = string
+    sourceVolume  = string
+    readOnly      = bool
+  }))
   description = "Container mount points. This is a list of maps, where each map should contain a `containerPath` and `sourceVolume`. The `readOnly` key is optional."
   default     = []
 }
@@ -486,31 +490,37 @@ variable "user_data_file_path" {
 variable "healthcheck_path_sidecar" {
   description = "Healthcheck path sidecar"
   type        = string
+  default     = ""
 }
 
 variable "healthcheck_matcher_sidecar" {
   description = "Healthcheck matcher sidecar"
   type        = string
+  default     = ""
 }
 
 variable "healthcheck_timeout_sidecar" {
   description = "Healthcheck timeout sidecar"
   type        = string
+  default     = ""
 }
 
 variable "healthcheck_interval_sidecar" {
   description = "Healthcheck internal sidecar"
   type        = string
+  default     = ""
 }
 
 variable "healthy_threshold_sidecar" {
   description = "target group healthcheck threshold"
   type        = string
+  default     = ""
 }
 
 variable "unhealthy_threshold_sidecar" {
   description = "target group unheathy healthcheck threshold"
   type        = string
+  default     = ""
 }
 
 variable "alb_ssl_policy_sidecar" {
@@ -695,4 +705,25 @@ variable "deploy_ecs" {
   description = "Feature flag, true or false"
   default     = true
   type        = bool
+}
+
+variable "container_depends_on" {
+  type = list(object({
+    containerName = string
+    condition     = string
+  }))
+  description = "The dependencies defined for container startup and shutdown. A container can contain multiple dependencies. When a dependency is defined for container startup, for container shutdown it is reversed. The condition can be one of START, COMPLETE, SUCCESS or HEALTHY"
+  default     = null
+}
+
+variable "links" {
+  type        = list(string)
+  description = "List of container names this container can communicate with without port mappings"
+  default     = null
+}
+
+variable "extra_tags" {
+  description = "Additional tags to associate"
+  type        = map(string)
+  default     = {}
 }
