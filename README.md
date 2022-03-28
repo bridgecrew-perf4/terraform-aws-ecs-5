@@ -363,3 +363,29 @@ module.ecs.module.ec2_alb.module.securitygroup.aws_security_group.default
 ```
 tf destroy -target module.ecs.module.ec2_alb.aws_launch_configuration.launchcfg -var='teamid=demo' -var='prjid=demo' -cloud aws
 ```
+
+<!-- BEGIN_TF_DOCS -->
+## Requirements
+
+No requirements.
+
+## Providers
+
+No providers.
+
+## Modules
+
+No modules.
+
+## Resources
+
+No resources.
+
+## Inputs
+
+No inputs.
+
+## Outputs
+
+No outputs.
+<!-- END_TF_DOCS -->
