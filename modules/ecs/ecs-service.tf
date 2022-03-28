@@ -12,7 +12,7 @@ resource "aws_ecs_service" "ecs_service" {
   scheduling_strategy                = var.scheduling_strategy
 
   propagate_tags = var.propagate_tags
-  tags           = merge(local.shared_tags)
+  tags           = merge(local.shared_tags, var.extra_tags)
 
   dynamic "load_balancer" {
     for_each = formatlist("%s", local.tg_name)
@@ -33,7 +33,7 @@ resource "aws_ecs_service" "ecs_service" {
   dynamic "network_configuration" {
     for_each = var.network_mode == "awsvpc" ? ["true"] : []
     content {
-      security_groups  = [module.security_group.security_group_id]
+      security_groups  = local.security_groups
       subnets          = module.global.list_of_subnets[local.account_id][local.region]
       assign_public_ip = var.assign_public_ip
     }

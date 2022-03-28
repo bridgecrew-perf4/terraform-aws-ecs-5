@@ -1,10 +1,11 @@
 locals {
   container_definition  = var.register_task_definition ? format("[%s]", join("", data.template_file.container_definition.*.rendered)) : format("%s", join("", data.template_file.container_definition.*.rendered))
   container_definitions = replace(local.container_definition, "/\"(null)\"/", "$1")
-  security_groups       = var.security_groups != null ? flatten([module.security_group.security_group_id, var.security_groups]) : flatten([module.security_group.security_group_id])
+  security_groups       = var.security_groups != null ? compact(flatten([module.security_group.security_group_id, var.security_groups])) : compact(flatten([module.security_group.security_group_id]))
   # -----------------------------------------------------------------
   # CONTAINER 1
   # -----------------------------------------------------------------
+
   command                = jsonencode(var.command)
   entrypoint             = jsonencode(var.entrypoint)
   environment            = jsonencode(var.environment)
@@ -18,10 +19,12 @@ locals {
     for mount_point in var.mount_points : {
       containerPath = lookup(mount_point, "containerPath")
       sourceVolume  = lookup(mount_point, "sourceVolume")
-      readOnly      = tobool(lookup(mount_point, "readOnly", false))
+      readOnly      = lookup(mount_point, "readOnly", false)
     }
   ] : var.mount_points
 
+  container_depends_on = jsonencode(var.container_depends_on)
+  links                = jsonencode(var.links)
   # -----------------------------------------------------------------
   # CONTAINER 2
   # -----------------------------------------------------------------
@@ -44,14 +47,6 @@ locals {
 
   tg_name_base    = tolist(module.target_group.target_group_arn)
   tg_name_sidecar = tolist(module.target_group_sidecar.target_group_arn)
-
-  shared_tags = tomap(
-    {
-      "Name"    = "${var.teamid}-${var.prjid}",
-      "team"    = var.teamid,
-      "project" = var.prjid
-    }
-  )
 
   account_id = data.aws_caller_identity.current.account_id
   region     = data.aws_region.current.name

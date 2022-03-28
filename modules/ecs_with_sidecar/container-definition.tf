@@ -30,6 +30,8 @@ data "template_file" "container_definition" {
     container_memory         = var.container_memory == "" ? "null" : var.container_memory
     container_cpu            = var.container_cpu == "" ? "null" : var.container_cpu
     essential                = var.essential == "" ? "true" : var.essential
+    container_depends_on     = local.container_depends_on == "[]" ? "null" : local.container_depends_on
+    links                    = local.links == "[]" ? "null" : local.links
     # -----------------------------------------------------------------
     # CONTAINER 2
     # -----------------------------------------------------------------
