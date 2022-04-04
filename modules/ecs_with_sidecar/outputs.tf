@@ -57,3 +57,13 @@ output "lb_sidecar" {
   description = "Load balancer sidecar"
   value       = module.lb_sidecar.lb_listener
 }
+
+output "lb_sidecar_arn" {
+  description = "ARN of the sidecar load balancer"
+  value = module.lb_sidecar.lb_arn
+}
+
+output "lb_arn" {
+  description = "ARN of the load balancer"
+  value = module.lb.lb_arn
+}
