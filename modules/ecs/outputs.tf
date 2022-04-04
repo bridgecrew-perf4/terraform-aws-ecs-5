@@ -57,3 +57,8 @@ output "load_balancer_dns_name" {
   description = "Load balancer dns name"
   value       = module.lb.lb_dns_name
 }
+
+output "lb_arn" {
+  description = "ARN of the load balancer"
+  value = module.lb.lb_arn
+}
